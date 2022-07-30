@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "start-open": "ng serve --open", //added this because you can do npm start and then F5 to run the app that way, allowing you to use VS Code's native break point feature
+    "start-open": "ng serve --open",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
