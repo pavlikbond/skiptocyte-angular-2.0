@@ -19,7 +19,6 @@ export class ContactComponent implements OnInit {
   }
 
   onSubmit() {
-    debugger;
     if (this.feedback.length < 1 || this.feedback == '')
     {
       alert('cannot have an empty string');
