@@ -33,49 +33,19 @@
 </head>
 <body>
 
-    <!-- <nav class="nav">
-        <div class="nav-container">
-            <div class="logo-container">
-                <a href="/index.html"><img class="logo-img" src="../../assets/logo.svg" alt="logo" /></a>
-                <span class="navTrigger">
-                    <i></i>
-                    <i></i>
-                    <i></i>
-                </span>
-            </div>
-
-            <div id="main-list-div" class="main-list-container">
-                <ul class="nav-links">
-                    <li><a href="/index.html">Home</a></li>
-                    <li><a href="/Diltuion Conversion/dilution.html">Dilution</a></li>
-                    <li><a href="/differential.html">Counter</a></li>
-                    <li><a href="/contact.html">Contact</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav> -->
-
     <form class="contact-form" action="https://formsubmit.co/bf8ccb78dcfa78bcf9219843dd68e957" method="POST">
         <h2>Contact the developer!</h2>
         <p>If you found some error or bug please let me know about it. I would also love to hear about any suggestions you might have for improvement, or any features you want added.</p>
         <textarea name="text" class="feedback-input" placeholder="Comment" [(ngModel)]="feedback"></textarea>
         <input type="hidden" name="_next" value="https://skiptocyte.com">
         <input type="hidden" name="_captcha" value="true">
-        <button type="submit">Submit</button>
-        <p>{{feedback}}</p>
+        <button type="submit" (click)="onSubmit()">Submit</button>
     </form>
       <script
             src="https://code.jquery.com/jquery-3.5.1.js"
             integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
             crossorigin="anonymous"
         ></script>
-      <script>
-        $(".navTrigger").click(function () {
-            $(this).toggleClass("active");
 
-            $(".main-list-container").slideToggle(300);
-            // $(".main-list-container").toggleClass("visible");
-        });
-    </script>
 </body>
 </html>
