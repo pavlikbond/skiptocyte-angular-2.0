@@ -1,15 +1,15 @@
+import { HomePageComponent } from './home-page/home-page.component';
 import { DilutionComponent } from './dilution/dilution.component';
 import { ContactComponent } from './contact/contact.component';
 import { DifferentialComponent } from './differential/differential.component';
 import { BrowserModule } from '@angular/platform-browser';
-import { AppComponent } from './app.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
     path: '',
-    component: AppComponent
+    component: HomePageComponent
   },
   {
     path:'differential',
