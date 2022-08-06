@@ -38,15 +38,11 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    debugger;
-    this.router.getCurrentNavigation();
-    this.activeLink = this.routes[0];
   }
 
 
 
   switchRoute(route: string, activeTab:any) {
-    debugger;
       this.router.navigate(['/'+ route]);
       this.activeLink = activeTab;
   }
