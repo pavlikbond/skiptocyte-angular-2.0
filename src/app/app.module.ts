@@ -8,19 +8,21 @@ import { DilutionComponent } from './dilution/dilution.component';
 import { ContactComponent } from './contact/contact.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatTabsModule} from '@angular/material/tabs';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
     DifferentialComponent,
     DilutionComponent,
-    ContactComponent
+    ContactComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MatTabsModule
+    MatTabsModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,1 +1,81 @@
-<p>contact works!</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-6LKPRJ3DN7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-6LKPRJ3DN7'); -->
+<!-- </script> -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+     <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="styles/diff2style.css" media="screen"> -->
+    <link rel="shortcut icon"
+      type="image/svg"
+      href="assets/favicon.svg">
+      <meta name="description" content="Contact page: skiptocyte.com contact the developer of the site">
+    <title>Skiptocyte Contact Page</title>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6LKPRJ3DN7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-6LKPRJ3DN7');
+</script>
+</head>
+<body>
+
+    <!-- <nav class="nav">
+        <div class="nav-container">
+            <div class="logo-container">
+                <a href="/index.html"><img class="logo-img" src="../../assets/logo.svg" alt="logo" /></a>
+                <span class="navTrigger">
+                    <i></i>
+                    <i></i>
+                    <i></i>
+                </span>
+            </div>
+
+            <div id="main-list-div" class="main-list-container">
+                <ul class="nav-links">
+                    <li><a href="/index.html">Home</a></li>
+                    <li><a href="/Diltuion Conversion/dilution.html">Dilution</a></li>
+                    <li><a href="/differential.html">Counter</a></li>
+                    <li><a href="/contact.html">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav> -->
+
+    <form class="contact-form" action="https://formsubmit.co/bf8ccb78dcfa78bcf9219843dd68e957" method="POST">
+        <h2>Contact the developer!</h2>
+        <p>If you found some error or bug please let me know about it. I would also love to hear about any suggestions you might have for improvement, or any features you want added.</p>
+        <textarea name="text" class="feedback-input" placeholder="Comment" [(ngModel)]="feedback"></textarea>
+        <input type="hidden" name="_next" value="https://skiptocyte.com">
+        <input type="hidden" name="_captcha" value="true">
+        <button type="submit">Submit</button>
+        <p>{{feedback}}</p>
+    </form>
+      <script
+            src="https://code.jquery.com/jquery-3.5.1.js"
+            integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+            crossorigin="anonymous"
+        ></script>
+      <script>
+        $(".navTrigger").click(function () {
+            $(this).toggleClass("active");
+
+            $(".main-list-container").slideToggle(300);
+            // $(".main-list-container").toggleClass("visible");
+        });
+    </script>
+</body>
+</html>
