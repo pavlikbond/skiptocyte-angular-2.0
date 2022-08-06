@@ -5,8 +5,8 @@
 </div> -->
 
 <h1>testing material tabs</h1>
-<nav mat-tab-nav-bar [backgroundColor]="background" [tabPanel]="tabPanel">
-  <a mat-tab-link *ngFor="let route of routes"
+<nav class="main-list-container" mat-tab-nav-bar [tabPanel]="tabPanel">
+  <a class="nav-links" mat-tab-link *ngFor="let route of routes"
      (click)="switchRoute(route.route)"
      (click)="activeLink = route"
      [active]="activeLink == route"> {{route.name}} </a>

@@ -2,3 +2,20 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+body {
+  background: #303a5e;
+}
+
+.main-list-container {
+  display: none;
+  z-index: 10;
+  position: absolute;
+  width: 100%;
+  background-color: #242d43;
+}
+
+.mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar{
+  background: rgb(65, 65, 232);
+  height: 3px;
+}
