@@ -1,0 +1,62 @@
+<div class="controls-container">
+  <div class="max-print-container flex">
+    <div class="max-wbc-ratio">4/{{ maxWbc }}</div>
+    <button class="print-btn">
+      <mat-icon>print</mat-icon><span>Print</span>
+    </button>
+  </div>
+  <div class="wbc-inputs my-3">
+    <label for="max-wbc">Max WBC</label>
+    <label for="WBC Count">WBC</label>
+    <div></div>
+
+    <input
+      type="number"
+      value="100"
+      name="max-wbc"
+      [(ngModel)]="maxWbc"
+      (keypress)="keyPressNumbers($event)"
+    />
+    <input
+      type="number"
+      step="0.01"
+      value="0"
+      name="WBC Count"
+      (keypress)="keyPressNumbersWithDecimal($event)"
+    />
+
+    <mat-form-field appearance="fill">
+      <mat-label>Units</mat-label>
+      <mat-select value="1" panelClass="unit-dropdown">
+        <mat-option value="1">10^9/L</mat-option>
+        <mat-option value="2">10^6/mL</mat-option>
+        <mat-option value="3">10^3/uL</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="numpad-container numpad-grid">
+    <button class="numpad-item"><span>Num Lock</span></button>
+    <button class="numpad-item"><span>/</span></button>
+    <button class="numpad-item"><span>*</span></button>
+    <button class="numpad-item invis-mobile"><span>-</span></button>
+    <button class="numpad-item"><span>7</span></button>
+    <button class="numpad-item"><span>8</span></button>
+    <button class="numpad-item"><span>9</span></button>
+    <button class="numpad-item plus invis-mobile"><span>+</span></button>
+    <button class="numpad-item"><span>4</span></button>
+    <button class="numpad-item"><span>5</span></button>
+    <button class="numpad-item"><span>6</span></button>
+    <button class="numpad-item"><span>1</span></button>
+    <button class="numpad-item"><span>2</span></button>
+    <button class="numpad-item"><span>3</span></button>
+    <button class="numpad-item enter invis-mobile"><span>Enter</span></button>
+    <button class="numpad-item zero invis-mobile"><span>0</span></button>
+    <button class="numpad-item invis-mobile"><span>.</span></button>
+  </div>
+  <div class="numpad-grid mt-4">
+    <button class="ctrl-btns clear">Clear</button>
+    <button class="ctrl-btns increase">+</button>
+    <button class="ctrl-btns decrease">-</button>
+  </div>
+</div>

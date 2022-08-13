@@ -12,6 +12,10 @@ import { FormsModule } from '@angular/forms';
 import { HomePageComponent } from './home-page/home-page.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NavbarComponent } from './navbar/navbar.component';
+import { NumpadComponent } from './differential/numpad/numpad.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -21,6 +25,7 @@ import { NavbarComponent } from './navbar/navbar.component';
     ContactComponent,
     HomePageComponent,
     NavbarComponent,
+    NumpadComponent,
   ],
   imports: [
     BrowserModule,
@@ -29,6 +34,10 @@ import { NavbarComponent } from './navbar/navbar.component';
     MatTabsModule,
     FormsModule,
     HttpClientModule,
+    MatTabsModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatIconModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
