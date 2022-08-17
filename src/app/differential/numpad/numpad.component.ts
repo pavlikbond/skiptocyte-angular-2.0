@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { CloseScrollStrategy } from '@angular/cdk/overlay';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-numpad',
@@ -6,7 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./numpad.component.scss'],
 })
 export class NumpadComponent implements OnInit {
-  maxWbc: number = 100;
+  maxWbc: string = '100';
+  currentCount: number = 10;
 
   constructor() {}
 
@@ -16,6 +18,7 @@ export class NumpadComponent implements OnInit {
     var charCode = event.which ? event.which : event.keyCode;
     // Only Numbers 0-9
     if (event.target.value.length > 5) {
+      event.preventDefault();
       return false;
     }
     if (charCode < 48 || charCode > 57) {
@@ -32,6 +35,11 @@ export class NumpadComponent implements OnInit {
       event.preventDefault();
       return false;
     }
-    return true;
+    if (event.keyCode) return true;
+    return;
+  }
+
+  clearBtnHandler(event: any) {
+    this.currentCount = 0;
   }
 }
