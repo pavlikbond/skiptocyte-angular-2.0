@@ -1,6 +1,6 @@
 <div class="controls-container">
   <div class="max-print-container flex">
-    <div class="max-wbc-ratio">4/{{ maxWbc }}</div>
+    <div class="max-wbc-ratio">{{ currentCount }}/{{ maxWbc }}</div>
     <button class="print-btn">
       <mat-icon>print</mat-icon><span>Print</span>
     </button>
@@ -55,7 +55,9 @@
     <button class="numpad-item invis-mobile"><span>.</span></button>
   </div>
   <div class="numpad-grid mt-4">
-    <button class="ctrl-btns clear">Clear</button>
+    <button class="ctrl-btns clear" (click)="clearBtnHandler($event)">
+      Clear
+    </button>
     <button class="ctrl-btns increase">+</button>
     <button class="ctrl-btns decrease">-</button>
   </div>
