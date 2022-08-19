@@ -1,7 +1,16 @@
 .container {
   display: flex;
+  max-width: 1920px;
+  padding: 1%;
+  flex-wrap: wrap;
+  gap: 2%;
 }
 
 .table {
-  width: 80%;
+  flex-basis: calc(98% - 400px);
+  flex: 1;
+}
+
+.numpad {
+  flex-basis: 400px;
 }

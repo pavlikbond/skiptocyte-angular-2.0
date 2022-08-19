@@ -1,0 +1,78 @@
+<div class="table-container rounded-md">
+  <div class="top-level-controls">
+    <button class="add-btn button" (click)="addRow()">
+      <mat-icon>add</mat-icon><span class="hide">Add Row</span>
+    </button>
+    <button class="clear-btn button" (click)="clearAll()">
+      <mat-icon>delete_outline</mat-icon><span class="hide">Clear All</span>
+    </button>
+    <mat-form-field appearance="fill">
+      <mat-label>Presets</mat-label>
+      <mat-select
+        value="0"
+        panelClass="unit-dropdown"
+        (selectionChange)="changeClient($event.value)"
+      >
+        <mat-option
+          value="{{ i }}"
+          *ngFor="let preset of presets.presets; let i = index"
+          >{{ preset.name }}</mat-option
+        >
+      </mat-select>
+    </mat-form-field>
+    <button
+      class="update-preset button"
+      (click)="updatePreset()"
+      [disabled]="isLoading"
+    >
+      <span class="loader" *ngIf="isLoading"></span>
+      <span *ngIf="isLoading" class="ml-2">Updating...</span>
+      <span *ngIf="!isLoading">Update Preset</span>
+    </button>
+  </div>
+  <div class="table-header-container">
+    <span class="table-header-item">Ignore</span>
+    <span class="table-header-item">Key</span>
+    <span class="table-header-item">Cell</span>
+    <span class="table-header-item">Count</span>
+    <span class="table-header-item">Relative</span>
+    <span class="table-header-item">Absolute</span>
+  </div>
+  <div class="table-rows-container">
+    <div
+      cdkDropList
+      class="drag-drop-container"
+      (cdkDropListDropped)="drop($event)"
+    >
+      <div
+        class="table-row"
+        *ngFor="let item of currentPreset.rows; let i = index"
+        cdkDrag
+      >
+        <input type="checkbox" [checked]="item.ignore" />
+        <div>
+          <input
+            type="text"
+            class="key-input shadow-lg"
+            value="{{ item.key }}"
+            (keydown)="updateKey($event)"
+          />
+        </div>
+        <input
+          type="text"
+          class="cell-input shadow-lg"
+          value="{{ item.cell }}"
+        />
+        <span></span>
+        <span></span>
+        <span></span>
+        <a
+          class="boxclose"
+          id="boxclose"
+          (click)="deleteRow($event)"
+          [attr.data-target]="i"
+        ></a>
+      </div>
+    </div>
+  </div>
+</div>

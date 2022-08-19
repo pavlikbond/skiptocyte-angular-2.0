@@ -16,6 +16,8 @@ import { NumpadComponent } from './differential/numpad/numpad.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
+import { TableComponent } from './differential/table/table.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,7 @@ import { MatIconModule } from '@angular/material/icon';
     HomePageComponent,
     NavbarComponent,
     NumpadComponent,
+    TableComponent,
   ],
   imports: [
     BrowserModule,
@@ -38,6 +41,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatFormFieldModule,
     MatSelectModule,
     MatIconModule,
+    DragDropModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

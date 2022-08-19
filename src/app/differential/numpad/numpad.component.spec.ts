@@ -8,9 +8,8 @@ describe('NumpadComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ NumpadComponent ]
-    })
-    .compileComponents();
+      declarations: [NumpadComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(NumpadComponent);
     component = fixture.componentInstance;

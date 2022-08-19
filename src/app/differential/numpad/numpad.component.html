@@ -24,13 +24,20 @@
       name="WBC Count"
       (keypress)="keyPressNumbersWithDecimal($event)"
     />
-
     <mat-form-field appearance="fill">
       <mat-label>Units</mat-label>
-      <mat-select value="1" panelClass="unit-dropdown">
-        <mat-option value="1">10^9/L</mat-option>
-        <mat-option value="2">10^6/mL</mat-option>
-        <mat-option value="3">10^3/uL</mat-option>
+      <mat-select value="0" panelClass="unit-dropdown">
+        <ng-container *ngFor="let unit of units; let i = index">
+          <mat-option value="{{ i }}"
+            ><span>{{ unit }}</span>
+          </mat-option>
+        </ng-container>
+        <input
+          type="text"
+          class="p-3 w-[100%]"
+          (keydown.enter)="addUnits($event)"
+          placeholder="Add Units"
+        />
       </mat-select>
     </mat-form-field>
   </div>
@@ -54,11 +61,25 @@
     <button class="numpad-item zero invis-mobile"><span>0</span></button>
     <button class="numpad-item invis-mobile"><span>.</span></button>
   </div>
-  <div class="numpad-grid mt-4">
+  <div class="numpad-grid ctrl-btns-container mt-4">
     <button class="ctrl-btns clear" (click)="clearBtnHandler($event)">
       Clear
     </button>
-    <button class="ctrl-btns increase">+</button>
-    <button class="ctrl-btns decrease">-</button>
+    <button
+      id="increase"
+      class="ctrl-btns increase"
+      (click)="setActive($event)"
+      [ngClass]="active === 'increase' ? 'active' : ''"
+    >
+      +
+    </button>
+    <button
+      id="decrease"
+      class="ctrl-btns decrease"
+      (click)="setActive($event)"
+      [ngClass]="active === 'decrease' ? 'active' : ''"
+    >
+      -
+    </button>
   </div>
 </div>

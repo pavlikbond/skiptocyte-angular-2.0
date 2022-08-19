@@ -7,8 +7,7 @@ $grey: #e5e5e5;
 $greyHover: #c2c2c2;
 
 .controls-container {
-  min-width: 300px;
-  max-width: 400px;
+  width: clamp(300px, 100%, 400px);
   border-radius: 5px;
   background-color: $darkblue;
   padding: 10px;
@@ -76,6 +75,9 @@ $greyHover: #c2c2c2;
   grid-auto-rows: 86px;
 }
 
+.ctrl-btns-container {
+  grid-auto-rows: 50px;
+}
 .numpad-item,
 .ctrl-btns {
   background-color: black;
@@ -108,6 +110,12 @@ $greyHover: #c2c2c2;
 .zero,
 .clear {
   grid-column: span 2;
+}
+
+.active {
+  background: $darkblue;
+  color: $grey;
+  border: 2px solid $grey;
 }
 
 @media (max-width: 480px) {

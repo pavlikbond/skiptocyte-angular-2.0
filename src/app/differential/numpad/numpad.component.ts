@@ -7,8 +7,10 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
   styleUrls: ['./numpad.component.scss'],
 })
 export class NumpadComponent implements OnInit {
+  active = 'increase';
   maxWbc: string = '100';
   currentCount: number = 10;
+  units = ['10^9/L', '10^6/mL', '10^3/uL'];
 
   constructor() {}
 
@@ -41,5 +43,14 @@ export class NumpadComponent implements OnInit {
 
   clearBtnHandler(event: any) {
     this.currentCount = 0;
+  }
+
+  setActive(event: any) {
+    this.active = event.target.id;
+  }
+
+  addUnits(event: any) {
+    this.units.push(event.target.value);
+    event.target.value = '';
   }
 }
