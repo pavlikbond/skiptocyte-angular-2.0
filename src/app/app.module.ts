@@ -18,7 +18,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { TableComponent } from './differential/table/table.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatTooltipModule } from '@angular/material/tooltip';
 @NgModule({
   declarations: [
     AppComponent,
@@ -42,6 +43,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     MatSelectModule,
     MatIconModule,
     DragDropModule,
+    MatCheckboxModule,
+    MatTooltipModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

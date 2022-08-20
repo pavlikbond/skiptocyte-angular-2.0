@@ -94,7 +94,7 @@ $greyHover: #c2c2c2;
   * {
     flex-basis: 20%;
   }
-  *:nth-child(1) {
+  *:first-child {
     flex-basis: 10%;
   }
   *:nth-child(2) {
@@ -113,7 +113,6 @@ $greyHover: #c2c2c2;
     color: white;
     text-align: center;
     transition: all 0.3s ease;
-
     padding: 5px 10px;
     &:hover {
       transform: scale(1.02);
@@ -126,7 +125,7 @@ $greyHover: #c2c2c2;
     width: min(100px, 25%);
   }
   input[type="checkbox"] {
-    transform: scale(2);
+    transform: scale(1.8);
     accent-color: $blue;
   }
   &:last-child {
