@@ -67,12 +67,66 @@ $greyHover: #c2c2c2;
   }
 }
 
+.arrow {
+  width: 13px;
+  height: 13px;
+  display: inline-block;
+  position: relative;
+  transition: 0.4s ease;
+  text-align: left;
+  &:before,
+  &:after {
+    content: "";
+    background-color: transparent;
+    width: 3px;
+    height: 12px;
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: rotate(0);
+    transition: 0.4s ease;
+    background-color: $blue;
+  }
+
+  &:before {
+    transform: rotate(-45deg);
+  }
+
+  &:after {
+    transform: rotate(45deg);
+    left: 7.5px;
+  }
+}
+
+.active .arrow {
+  &:before {
+    transform: rotate(-135deg);
+  }
+
+  &:after {
+    transform: rotate(135deg);
+  }
+}
+
 .numpad-grid {
   width: 100%;
   display: grid;
   gap: 6px;
   grid-template-columns: repeat(4, minmax(40px, 1fr));
   grid-auto-rows: 86px;
+}
+
+.numpad-container {
+  margin-bottom: 1rem;
+  max-height: 600px;
+  transition: all 0.5s ease;
+  overflow: hidden;
+}
+
+.numpad-closed {
+  max-height: 0;
+  margin: 0;
 }
 
 .ctrl-btns-container {
@@ -118,20 +172,6 @@ $greyHover: #c2c2c2;
   border: 2px solid $grey;
 }
 
-@media (max-width: 480px) {
-  .numpad-grid {
-    grid-template-columns: repeat(3, 1fr);
-    width: 100%;
-  }
-  .invis-mobile {
-    display: none;
-  }
-
-  .clear {
-    grid-column: span 1;
-  }
-}
-
 .deleteButton:hover {
   cursor: pointer;
   background: $medblue;
@@ -146,6 +186,77 @@ $greyHover: #c2c2c2;
   margin-right: 0;
 }
 
+.button {
+  border-radius: 5px;
+  background: $blue;
+  padding: 0px 10px;
+  color: $grey;
+  transition: all 0.3s ease;
+  &:active {
+    transform: scaleY(0.98);
+    transform: scaleX(0.99);
+  }
+}
+
+.numpad-dropdown-btn:hover {
+  transform: scale(1.01);
+}
+
+.arrow {
+  width: 13px;
+  height: 13px;
+  display: inline-block;
+  position: relative;
+  transition: 0.4s ease;
+  text-align: left;
+  &:before,
+  &:after {
+    content: "";
+    background-color: transparent;
+    width: 3px;
+    height: 12px;
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: rotate(0);
+    transition: 0.4s ease;
+    background-color: white;
+  }
+
+  &:before {
+    transform: rotate(-45deg);
+  }
+
+  &:after {
+    transform: rotate(45deg);
+    left: 7.5px;
+  }
+}
+
+.active-arrow .arrow {
+  &:before {
+    transform: rotate(-135deg);
+  }
+
+  &:after {
+    transform: rotate(135deg);
+  }
+}
+
 .mat-option .mat-icon {
   margin: 0;
+}
+@media (max-width: 480px) {
+  .numpad-grid {
+    grid-template-columns: repeat(3, 1fr);
+    width: 100%;
+  }
+  .invis-mobile {
+    display: none;
+  }
+
+  .clear {
+    grid-column: span 1;
+  }
 }

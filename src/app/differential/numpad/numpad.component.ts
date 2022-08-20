@@ -12,7 +12,7 @@ export class NumpadComponent implements OnInit {
   currentCount: number = 10;
   units = ['10^9/L', '10^6/mL', '10^3/uL'];
   selectedUnit = this.units[0];
-
+  numpadVisible: boolean = true;
   constructor() {}
 
   ngOnInit(): void {}
@@ -57,5 +57,9 @@ export class NumpadComponent implements OnInit {
 
   deleteUnitFromList(index: number) {
     this.units.splice(index, 1);
+  }
+
+  numpadDropdown() {
+    this.numpadVisible = !this.numpadVisible;
   }
 }
