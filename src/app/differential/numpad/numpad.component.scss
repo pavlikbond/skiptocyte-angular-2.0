@@ -131,3 +131,21 @@ $greyHover: #c2c2c2;
     grid-column: span 1;
   }
 }
+
+.deleteButton:hover {
+  cursor: pointer;
+  background: $medblue;
+  border-radius: 5px;
+}
+.deleteButton {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translate(-50%, -50%);
+  transition: all 0.3s ease;
+  margin-right: 0;
+}
+
+.mat-option .mat-icon {
+  margin: 0;
+}
