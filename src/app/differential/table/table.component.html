@@ -26,9 +26,10 @@
       [disabled]="isLoading"
     >
       <span class="loader" *ngIf="isLoading"></span>
-      <span *ngIf="isLoading" class="ml-2">Updating...</span>
-      <span *ngIf="!isLoading">Update Preset</span>
+      <span *ngIf="isLoading" class="ml-2">Saving...</span>
+      <span *ngIf="!isLoading">Save Preset</span>
     </button>
+    <button class="button"><mat-icon>settings</mat-icon></button>
   </div>
   <div class="table-header-container">
     <span class="table-header-item">Ignore</span>
