@@ -27,26 +27,38 @@
     <mat-form-field appearance="fill">
       <mat-label>Units</mat-label>
       <mat-select [(value)]="selectedUnit" panelClass="unit-dropdown">
-        <mat-select-trigger>{{selectedUnit}}</mat-select-trigger>
+        <mat-select-trigger>{{ selectedUnit }}</mat-select-trigger>
         <ng-container *ngFor="let unit of units; let i = index">
           <mat-option value="{{ unit }}"
             ><span>{{ unit }}</span>
-            <mat-icon (click)="deleteUnitFromList(i)" class="deleteButton">clear</mat-icon>
+            <mat-icon (click)="deleteUnitFromList(i)" class="deleteButton"
+              >clear</mat-icon
+            >
           </mat-option>
         </ng-container>
-        <mat-option [ngStyle]="{display: 'none'}" >Filler option</mat-option>
-          <input
-            type="text"
-            class="p-3 w-[100%]"
-            (keydown.enter)="addUnits($event)"
-            placeholder="Add Units"
-            maxlength="15"
-          />
+        <mat-option [ngStyle]="{ display: 'none' }">Filler option</mat-option>
+        <input
+          type="text"
+          class="p-3 w-[100%]"
+          (keydown.enter)="addUnits($event)"
+          placeholder="Add Units"
+          maxlength="15"
+        />
       </mat-select>
     </mat-form-field>
   </div>
+  <button
+    class="button w-full h-8 mb-3 numpad-dropdown-btn shadow-md hidden sm:block"
+    (click)="numpadDropdown()"
+    [ngClass]="!numpadVisible ? '' : 'active-arrow'"
+  >
+    <span class="arrow"></span>
+  </button>
 
-  <div class="numpad-container numpad-grid">
+  <div
+    class="numpad-container numpad-grid"
+    [ngClass]="numpadVisible ? '' : 'numpad-closed'"
+  >
     <button class="numpad-item"><span>Num Lock</span></button>
     <button class="numpad-item"><span>/</span></button>
     <button class="numpad-item"><span>*</span></button>
@@ -65,7 +77,7 @@
     <button class="numpad-item zero invis-mobile"><span>0</span></button>
     <button class="numpad-item invis-mobile"><span>.</span></button>
   </div>
-  <div class="numpad-grid ctrl-btns-container mt-4">
+  <div class="numpad-grid ctrl-btns-container">
     <button class="ctrl-btns clear" (click)="clearBtnHandler($event)">
       Clear
     </button>
