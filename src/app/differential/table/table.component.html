@@ -55,12 +55,13 @@
           <!-- <mat-checkbox class="center" [checked]="item.ignore"></mat-checkbox> -->
         </div>
         <!-- <input type="checkbox" [checked]="item.ignore" /> -->
-        <div>
+        <div class="tooltip">
           <input
             type="text"
             class="key-input shadow-lg"
             value="{{ item.key }}"
-            (keydown)="updateKey($event)"
+            [(ngModel)]="item.key"
+            (keydown)="duplicateCheck($event)"
           />
         </div>
         <input

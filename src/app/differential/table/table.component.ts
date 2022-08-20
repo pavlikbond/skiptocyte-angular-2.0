@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import * as data from '../presets.json';
 import { preserveWhitespacesDefault } from '@angular/compiler';
+import { TooltipComponent } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-table',
@@ -12,6 +13,7 @@ export class TableComponent implements OnInit {
   isLoading = false;
   presets: any = data;
   currentPreset = this.presets.presets[0];
+
   constructor() {}
 
   ngOnInit(): void {}
@@ -58,5 +60,28 @@ export class TableComponent implements OnInit {
     let key = event.key;
     event.target.value = key;
     //event.target.value = value;
+  }
+
+  duplicateCheck(event: any) {
+    if (event.key === 'Backspace' || event.key === 'Tab') {
+      return;
+    }
+
+    let duplicateFound: boolean = false;
+    for (let row of this.currentPreset.rows) {
+      if (row.key == event.key) {
+        duplicateFound = true;
+        event.preventDefault();
+        event.target.value = '';
+        event.target.style.border = '2px solid red';
+        setTimeout(() => {
+          event.target.style.border = 'none';
+        }, 2000);
+      }
+    }
+    if (!duplicateFound) {
+      event.target.style.border = 'none';
+      this.updateKey(event);
+    }
   }
 }
