@@ -55,24 +55,28 @@ export class TableComponent implements OnInit {
     this.currentPreset.rows.splice(indexToDelete, 1);
   }
 
-  updateKey(event: any) {
-    event.preventDefault();
-    let key = event.key;
-    event.target.value = key;
-    //event.target.value = value;
-  }
+  duplicateCheck(event: any, i: number) {
+    let keys = this.currentPreset.rows.map((row: any) => {
+      return row.key;
+    });
 
-  duplicateCheck(event: any) {
+    console.log(keys);
+
     if (event.key === 'Backspace' || event.key === 'Tab') {
       return;
     }
-
+    let index = 0;
     let duplicateFound: boolean = false;
     for (let row of this.currentPreset.rows) {
+      //skip checking against itself
+      if (index++ === i) {
+        continue;
+      }
       if (row.key == event.key) {
         duplicateFound = true;
         event.preventDefault();
         event.target.value = '';
+        this.currentPreset.rows[i].key = '';
         event.target.style.border = '2px solid red';
         setTimeout(() => {
           event.target.style.border = 'none';
@@ -81,7 +85,10 @@ export class TableComponent implements OnInit {
     }
     if (!duplicateFound) {
       event.target.style.border = 'none';
-      this.updateKey(event);
+      event.preventDefault();
+      let key = event.key;
+      event.target.value = key;
+      this.currentPreset.rows[i].key = key;
     }
   }
 }

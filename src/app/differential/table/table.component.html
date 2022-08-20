@@ -60,8 +60,7 @@
             type="text"
             class="key-input shadow-lg"
             value="{{ item.key }}"
-            [(ngModel)]="item.key"
-            (keydown)="duplicateCheck($event)"
+            (keydown)="duplicateCheck($event, i)"
           />
         </div>
         <input
