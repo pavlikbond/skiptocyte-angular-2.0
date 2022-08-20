@@ -60,8 +60,6 @@ export class TableComponent implements OnInit {
       return row.key;
     });
 
-    console.log(keys);
-
     if (event.key === 'Backspace' || event.key === 'Tab') {
       return;
     }
