@@ -50,7 +50,11 @@
         *ngFor="let item of currentPreset.rows; let i = index"
         cdkDrag
       >
-        <input type="checkbox" [checked]="item.ignore" />
+        <div class="flex justify-center">
+          <input type="checkbox" [checked]="item.ignore" />
+          <!-- <mat-checkbox class="center" [checked]="item.ignore"></mat-checkbox> -->
+        </div>
+        <!-- <input type="checkbox" [checked]="item.ignore" /> -->
         <div>
           <input
             type="text"

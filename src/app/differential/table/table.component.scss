@@ -125,9 +125,8 @@ $greyHover: #c2c2c2;
     width: min(100px, 25%);
   }
   input[type="checkbox"] {
-    //transform: scale(2);
+    transform: scale(1.8);
     accent-color: $blue;
-    height: clamp(25px, 70%, 100%);
   }
   &:last-child {
     margin-bottom: 0px;
