@@ -11,6 +11,7 @@ export class NumpadComponent implements OnInit {
   maxWbc: string = '100';
   currentCount: number = 10;
   units = ['10^9/L', '10^6/mL', '10^3/uL'];
+  selectedUnit = this.units[0];
 
   constructor() {}
 
@@ -52,5 +53,9 @@ export class NumpadComponent implements OnInit {
   addUnits(event: any) {
     this.units.push(event.target.value);
     event.target.value = '';
+  }
+
+  deleteUnitFromList(index: number) {
+    this.units.splice(index, 1);
   }
 }
