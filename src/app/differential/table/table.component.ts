@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import * as data from '../presets.json';
 import { preserveWhitespacesDefault } from '@angular/compiler';
 import { TooltipComponent } from '@angular/material/tooltip';
+import { Preset } from '../../models/preset.model';
 
 @Component({
   selector: 'app-table',
@@ -11,8 +12,9 @@ import { TooltipComponent } from '@angular/material/tooltip';
 })
 export class TableComponent implements OnInit {
   isLoading = false;
-  presets: any = data;
-  currentPreset = this.presets.presets[0];
+  //presets: any = data;
+  @Input() presets: any;
+  currentPreset = data.presets[0];
 
   constructor() {}
 
