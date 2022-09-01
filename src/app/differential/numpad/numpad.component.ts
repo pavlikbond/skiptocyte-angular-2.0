@@ -18,6 +18,7 @@ export class NumpadComponent implements OnInit {
   @Input() currentCount!: number;
   @Output() maxWbcEvent = new EventEmitter<number>();
   @Output() incDecEvent = new EventEmitter<string>();
+  @Output() updateCurrentCount = new EventEmitter<number>();
 
   active = 'increase';
   maxWbc: number = 100;
@@ -77,6 +78,7 @@ export class NumpadComponent implements OnInit {
 
   clearBtnHandler(event: any) {
     this.currentCount = 0;
+    this.updateCurrentCount.emit(this.currentCount);
   }
 
   setActive(event: any) {

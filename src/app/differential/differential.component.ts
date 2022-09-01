@@ -49,4 +49,8 @@ export class DifferentialComponent implements OnInit {
   receiveIncDec(direction: string) {
     this.direction = direction;
   }
+
+  receiveCurrentCount(count: number) {
+    this.currentCount = count;
+  }
 }
