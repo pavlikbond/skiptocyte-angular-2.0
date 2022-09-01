@@ -35,8 +35,8 @@ $greyHover: #c2c2c2;
   }
   div {
     line-height: 40px;
-    background: $blue;
-    color: white;
+    background: $medblue;
+    color: $grey;
   }
   button:active {
     transform: scale(0.97);
@@ -44,9 +44,7 @@ $greyHover: #c2c2c2;
 }
 
 .wbc-inputs {
-  background: $medblue;
   border-radius: 5px;
-  padding: 8px;
   width: 100%;
   display: grid;
   gap: 6px;
@@ -213,8 +211,14 @@ $greyHover: #c2c2c2;
   }
 }
 
-.numpad-dropdown-btn:hover {
-  transform: scale(1.01);
+.numpad-dropdown-btn {
+  background: black;
+  &:hover {
+    transform: scale(1.01);
+  }
+  &:active {
+    transform: scale(0.96);
+  }
 }
 
 .arrow {
