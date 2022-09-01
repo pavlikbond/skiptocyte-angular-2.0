@@ -57,60 +57,23 @@
 
   <div
     class="numpad-container numpad-grid"
-    [ngClass]="numpadVisible ? '' : 'numpad-closed'"
+    [ngClass]="{
+      'numpad-closed': !numpadVisible
+    }"
   >
-    <button class="numpad-item">
-      <span>Num Lock</span
-      ><span class="cell-name">{{ keyBindingCheck("NumLock") }}</span>
-    </button>
-    <button class="numpad-item">
-      <span>/</span><span class="cell-name">{{ keyBindingCheck("/") }}</span>
-    </button>
-    <button class="numpad-item">
-      <span>*</span><span class="cell-name">{{ keyBindingCheck("*") }}</span>
-    </button>
-    <button class="numpad-item invis-mobile">
-      <span>-</span><span class="cell-name">{{ keyBindingCheck("-") }}</span>
-    </button>
-    <button class="numpad-item">
-      <span>7</span><span class="cell-name">{{ keyBindingCheck("7") }}</span>
-    </button>
-    <button class="numpad-item">
-      <span>8</span><span class="cell-name">{{ keyBindingCheck("8") }}</span>
-    </button>
-    <button class="numpad-item">
-      <span>9</span><span class="cell-name">{{ keyBindingCheck("9") }}</span>
-    </button>
-    <button class="numpad-item plus invis-mobile">
-      <span>+</span><span class="cell-name">{{ keyBindingCheck("+") }}</span>
-    </button>
-    <button class="numpad-item">
-      <span>4</span><span class="cell-name">{{ keyBindingCheck("4") }}</span>
-    </button>
-    <button class="numpad-item">
-      <span>5</span><span class="cell-name">{{ keyBindingCheck("5") }}</span>
-    </button>
-    <button class="numpad-item">
-      <span>6</span><span class="cell-name">{{ keyBindingCheck("6") }}</span>
-    </button>
-    <button class="numpad-item">
-      <span>1</span><span class="cell-name">{{ keyBindingCheck("1") }}</span>
-    </button>
-    <button class="numpad-item">
-      <span>2</span><span class="cell-name">{{ keyBindingCheck("2") }}</span>
-    </button>
-    <button class="numpad-item">
-      <span>3</span><span class="cell-name">{{ keyBindingCheck("3") }}</span>
-    </button>
-    <button class="numpad-item enter invis-mobile">
-      <span>Enter</span
-      ><span class="cell-name">{{ keyBindingCheck("Enter") }}</span>
-    </button>
-    <button class="numpad-item zero invis-mobile">
-      <span>0</span><span class="cell-name">{{ keyBindingCheck("0") }}</span>
-    </button>
-    <button class="numpad-item invis-mobile">
-      <span>.</span><span class="cell-name">{{ keyBindingCheck(".") }}</span>
+    <button
+      class="numpad-item"
+      *ngFor="let item of numpadItems; index as i"
+      [ngClass]="{
+        plus: i === 7,
+        enter: i === 14,
+        zero: i === 15,
+        'invis-mobile': i === 3 || i === 7 || i === 14,
+        flash: currentKey === item
+      }"
+    >
+      <span>{{ item }}</span
+      ><span class="cell-name">{{ keyBindingCheck(item) }}</span>
     </button>
   </div>
   <div class="numpad-grid ctrl-btns-container">

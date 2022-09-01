@@ -274,3 +274,16 @@ $greyHover: #c2c2c2;
     grid-column: span 1;
   }
 }
+
+.flash {
+  animation: blinker 0.2s linear 0s;
+}
+
+@keyframes blinker {
+  0% {
+    border: 2px solid white;
+  }
+  100% {
+    border: none;
+  }
+}

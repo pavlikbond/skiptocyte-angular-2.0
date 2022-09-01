@@ -1,4 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  HostListener,
+} from '@angular/core';
 import { Preset } from 'src/app/models/preset.model';
 
 @Component({
@@ -8,15 +15,37 @@ import { Preset } from 'src/app/models/preset.model';
 })
 export class NumpadComponent implements OnInit {
   @Input() currentPreset!: Preset;
+  @Input() currentCount!: number;
+  @Output() maxWbcEvent = new EventEmitter<number>();
+  @Output() incDecEvent = new EventEmitter<string>();
+
   active = 'increase';
   maxWbc: number = 100;
-  @Input() currentCount!: number;
   units = ['10^9/L', '10^6/mL', '10^3/uL'];
   selectedUnit = this.units[0];
   numpadVisible: boolean = true;
+  currentKey: string = '';
+  numpadItems = [
+    'NumLock',
+    '/',
+    '*',
+    '-',
+    '7',
+    '8',
+    '9',
+    '+',
+    '4',
+    '5',
+    '6',
+    '1',
+    '2',
+    '3',
+    'Enter',
+    '0',
+    '.',
+  ];
+
   constructor() {}
-  @Output() maxWbcEvent = new EventEmitter<number>();
-  @Output() incDecEvent = new EventEmitter<string>();
 
   ngOnInit(): void {}
 
@@ -76,5 +105,22 @@ export class NumpadComponent implements OnInit {
       return row.cell;
     }
     return '';
+  }
+  //listenes for key down events, flashes animation
+  @HostListener('window:keydown', ['$event'])
+  async onKeyDown(event: any) {
+    if (event.target.nodeName === 'INPUT') {
+      return;
+    }
+    let row = this.currentPreset.rows.find((row) => {
+      return row.key === event.key;
+    });
+
+    if (row) {
+      this.currentKey = row.key;
+      setTimeout(() => {
+        this.currentKey = '';
+      }, 200);
+    }
   }
 }
