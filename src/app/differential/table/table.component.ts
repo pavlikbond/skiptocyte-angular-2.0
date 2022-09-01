@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import * as data from '../presets.json';
+//import * as data from '../presets.json';
 import { preserveWhitespacesDefault } from '@angular/compiler';
 import { TooltipComponent } from '@angular/material/tooltip';
+import { Preset } from 'src/app/models/preset.model';
 
 @Component({
   selector: 'app-table',
@@ -11,8 +12,9 @@ import { TooltipComponent } from '@angular/material/tooltip';
 })
 export class TableComponent implements OnInit {
   isLoading = false;
-  presets: any = data;
-  currentPreset = this.presets.presets[0];
+  @Input() presets: Preset[] = [];
+  @Input() currentPreset!: Preset;
+  @Output() presetEvent = new EventEmitter<Preset>();
 
   constructor() {}
 
@@ -45,9 +47,10 @@ export class TableComponent implements OnInit {
     }, 1000);
     //TODO: save to preset json
   }
-
+  //fires when presets dropdown is changed
   changeClient(value: any) {
-    this.currentPreset = this.presets.presets[value];
+    this.currentPreset = this.presets[value];
+    this.presetEvent.emit(this.currentPreset);
   }
 
   deleteRow(event: any) {
@@ -59,9 +62,11 @@ export class TableComponent implements OnInit {
     let keys = this.currentPreset.rows.map((row: any) => {
       return row.key;
     });
-
-    console.log(keys);
-
+    //if backspace is pressed, blank out the key
+    if (event.key === 'Backspace') {
+      this.currentPreset.rows[i].key = '';
+    }
+    //if backspace or tab are hit, return so they perform normal function
     if (event.key === 'Backspace' || event.key === 'Tab') {
       return;
     }
@@ -90,5 +95,9 @@ export class TableComponent implements OnInit {
       event.target.value = key;
       this.currentPreset.rows[i].key = key;
     }
+  }
+  //update current preset with key value
+  updateCurrentPreset(event: any, i: number) {
+    this.currentPreset.rows[i].cell = event.target.value;
   }
 }

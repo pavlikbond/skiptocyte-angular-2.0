@@ -15,7 +15,7 @@
       >
         <mat-option
           value="{{ i }}"
-          *ngFor="let preset of presets.presets; let i = index"
+          *ngFor="let preset of presets; let i = index"
           >{{ preset.name }}</mat-option
         >
       </mat-select>
@@ -67,6 +67,8 @@
           type="text"
           class="cell-input shadow-lg"
           value="{{ item.cell }}"
+          (keyup)="updateCurrentPreset($event, i)"
+          maxlength="15"
         />
         <span></span>
         <span></span>

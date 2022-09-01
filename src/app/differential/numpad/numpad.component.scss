@@ -150,6 +150,20 @@ $greyHover: #c2c2c2;
   }
 }
 
+.numpad-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  .cell-name {
+    font-weight: 300;
+    font-size: clamp(0.7rem, 1vw, 0.9rem);
+    max-width: 100%;
+    color: #84aee6;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
 .ctrl-btns {
   background-color: white;
   color: black;
