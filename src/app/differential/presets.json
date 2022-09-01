@@ -1,233 +1,231 @@
-{
-  "presets": [
-    {
-      "name": "5 Part",
-      "maxWBC": 100,
-      "rows": [
-        {
-          "ignore": false,
-          "key": "5",
-          "cell": "Neutrophil"
-        },
-        {
-          "ignore": false,
-          "key": "2",
-          "cell": "Basophil"
-        },
-        {
-          "ignore": false,
-          "key": "4",
-          "cell": "Monocyte"
-        },
-        {
-          "ignore": false,
-          "key": "1",
-          "cell": "Eosinophil"
-        },
-        {
-          "ignore": false,
-          "key": "6",
-          "cell": "Lymphocyte"
-        }
-      ]
-    },
-    {
-      "name": "Peripheral Blood",
-      "maxWBC": 100,
-      "rows": [
-        {
-          "ignore": false,
-          "key": "5",
-          "cell": "Neutrophil"
-        },
-        {
-          "ignore": false,
-          "key": "2",
-          "cell": "Basophil"
-        },
-        {
-          "ignore": false,
-          "key": "4",
-          "cell": "Monocyte"
-        },
-        {
-          "ignore": false,
-          "key": "1",
-          "cell": "Eosinophil"
-        },
-        {
-          "ignore": false,
-          "key": "6",
-          "cell": "Lymphocyte"
-        },
-        {
-          "ignore": false,
-          "key": "3",
-          "cell": "Band"
-        },
-        {
-          "ignore": false,
-          "key": "7",
-          "cell": "Metamyelocyte"
-        },
-        {
-          "ignore": false,
-          "key": "8",
-          "cell": "Promyelocyte"
-        },
-        {
-          "ignore": false,
-          "key": "9",
-          "cell": "Myelocyte"
-        },
-        {
-          "ignore": false,
-          "key": "0",
-          "cell": "Blast"
-        },
-        {
-          "ignore": false,
-          "key": "+",
-          "cell": "Other"
-        }
-      ]
-    },
-    {
-      "name": "Body Fluid",
-      "maxWBC": 100,
-      "rows": [
-        {
-          "ignore": false,
-          "key": "5",
-          "cell": "Neutrophil"
-        },
-        {
-          "ignore": false,
-          "key": "2",
-          "cell": "Basophil"
-        },
-        {
-          "ignore": false,
-          "key": "4",
-          "cell": "Monocyte"
-        },
-        {
-          "ignore": false,
-          "key": "1",
-          "cell": "Eosinophil"
-        },
-        {
-          "ignore": false,
-          "key": "6",
-          "cell": "Lymphocyte"
-        },
-        {
-          "ignore": false,
-          "key": "3",
-          "cell": "Macrophage"
-        },
-        {
-          "ignore": false,
-          "key": "+",
-          "cell": "Lining Cell"
-        },
-        {
-          "ignore": false,
-          "key": "0",
-          "cell": "Other"
-        }
-      ]
-    },
-    {
-      "name": "Bone Marrow",
-      "maxWBC": 100,
-      "rows": [
-        {
-          "ignore": false,
-          "key": "0",
-          "cell": "Blast"
-        },
-        {
-          "ignore": false,
-          "key": "9",
-          "cell": "Promyelocyte"
-        },
-        {
-          "ignore": false,
-          "key": "7",
-          "cell": "Myelocyte"
-        },
-        {
-          "ignore": false,
-          "key": "8",
-          "cell": "Metamyelocyte"
-        },
-        {
-          "ignore": false,
-          "key": "3",
-          "cell": "Band"
-        },
-        {
-          "ignore": false,
-          "key": "5",
-          "cell": "Seg"
-        },
-        {
-          "ignore": false,
-          "key": "4",
-          "cell": "Monocyte"
-        },
-        {
-          "ignore": false,
-          "key": "*",
-          "cell": "Eos Myelo"
-        },
-        {
-          "ignore": false,
-          "key": "1",
-          "cell": "Eosinophil"
-        },
-        {
-          "ignore": false,
-          "key": "2",
-          "cell": "Basophil"
-        },
-        {
-          "ignore": false,
-          "key": "6",
-          "cell": "Lymphocyte"
-        },
-        {
-          "ignore": false,
-          "key": "/",
-          "cell": "Plasma Cell"
-        },
-        {
-          "ignore": false,
-          "key": "+",
-          "cell": "Mast Cell"
-        },
-        {
-          "ignore": false,
-          "key": ".",
-          "cell": "Pronormo"
-        },
-        {
-          "ignore": false,
-          "key": "a",
-          "cell": "Baso Normo"
-        },
-        {
-          "ignore": false,
-          "key": "b",
-          "cell": "Poly normo"
-        },
-        {
-          "ignore": false,
-          "key": "c",
-          "cell": "Ortho Normo"
-        }
-      ]
-    }
-  ]
-}
+[
+  {
+    "name": "5 Part",
+    "maxWBC": 100,
+    "rows": [
+      {
+        "ignore": false,
+        "key": "5",
+        "cell": "Neutrophil"
+      },
+      {
+        "ignore": false,
+        "key": "2",
+        "cell": "Basophil"
+      },
+      {
+        "ignore": false,
+        "key": "4",
+        "cell": "Monocyte"
+      },
+      {
+        "ignore": false,
+        "key": "1",
+        "cell": "Eosinophil"
+      },
+      {
+        "ignore": false,
+        "key": "6",
+        "cell": "Lymphocyte"
+      }
+    ]
+  },
+  {
+    "name": "Peripheral Blood",
+    "maxWBC": 100,
+    "rows": [
+      {
+        "ignore": false,
+        "key": "5",
+        "cell": "Neutrophil"
+      },
+      {
+        "ignore": false,
+        "key": "2",
+        "cell": "Basophil"
+      },
+      {
+        "ignore": false,
+        "key": "4",
+        "cell": "Monocyte"
+      },
+      {
+        "ignore": false,
+        "key": "1",
+        "cell": "Eosinophil"
+      },
+      {
+        "ignore": false,
+        "key": "6",
+        "cell": "Lymphocyte"
+      },
+      {
+        "ignore": false,
+        "key": "3",
+        "cell": "Band"
+      },
+      {
+        "ignore": false,
+        "key": "7",
+        "cell": "Metamyelocyte"
+      },
+      {
+        "ignore": false,
+        "key": "8",
+        "cell": "Promyelocyte"
+      },
+      {
+        "ignore": false,
+        "key": "9",
+        "cell": "Myelocyte"
+      },
+      {
+        "ignore": false,
+        "key": "0",
+        "cell": "Blast"
+      },
+      {
+        "ignore": false,
+        "key": "+",
+        "cell": "Other"
+      }
+    ]
+  },
+  {
+    "name": "Body Fluid",
+    "maxWBC": 100,
+    "rows": [
+      {
+        "ignore": false,
+        "key": "5",
+        "cell": "Neutrophil"
+      },
+      {
+        "ignore": false,
+        "key": "2",
+        "cell": "Basophil"
+      },
+      {
+        "ignore": false,
+        "key": "4",
+        "cell": "Monocyte"
+      },
+      {
+        "ignore": false,
+        "key": "1",
+        "cell": "Eosinophil"
+      },
+      {
+        "ignore": false,
+        "key": "6",
+        "cell": "Lymphocyte"
+      },
+      {
+        "ignore": false,
+        "key": "3",
+        "cell": "Macrophage"
+      },
+      {
+        "ignore": false,
+        "key": "+",
+        "cell": "Lining Cell"
+      },
+      {
+        "ignore": false,
+        "key": "0",
+        "cell": "Other"
+      }
+    ]
+  },
+  {
+    "name": "Bone Marrow",
+    "maxWBC": 100,
+    "rows": [
+      {
+        "ignore": false,
+        "key": "0",
+        "cell": "Blast"
+      },
+      {
+        "ignore": false,
+        "key": "9",
+        "cell": "Promyelocyte"
+      },
+      {
+        "ignore": false,
+        "key": "7",
+        "cell": "Myelocyte"
+      },
+      {
+        "ignore": false,
+        "key": "8",
+        "cell": "Metamyelocyte"
+      },
+      {
+        "ignore": false,
+        "key": "3",
+        "cell": "Band"
+      },
+      {
+        "ignore": false,
+        "key": "5",
+        "cell": "Seg"
+      },
+      {
+        "ignore": false,
+        "key": "4",
+        "cell": "Monocyte"
+      },
+      {
+        "ignore": false,
+        "key": "*",
+        "cell": "Eos Myelo"
+      },
+      {
+        "ignore": false,
+        "key": "1",
+        "cell": "Eosinophil"
+      },
+      {
+        "ignore": false,
+        "key": "2",
+        "cell": "Basophil"
+      },
+      {
+        "ignore": false,
+        "key": "6",
+        "cell": "Lymphocyte"
+      },
+      {
+        "ignore": false,
+        "key": "/",
+        "cell": "Plasma Cell"
+      },
+      {
+        "ignore": false,
+        "key": "+",
+        "cell": "Mast Cell"
+      },
+      {
+        "ignore": false,
+        "key": ".",
+        "cell": "Pronormo"
+      },
+      {
+        "ignore": false,
+        "key": "a",
+        "cell": "Baso Normo"
+      },
+      {
+        "ignore": false,
+        "key": "b",
+        "cell": "Poly normo"
+      },
+      {
+        "ignore": false,
+        "key": "c",
+        "cell": "Ortho Normo"
+      }
+    ]
+  }
+]

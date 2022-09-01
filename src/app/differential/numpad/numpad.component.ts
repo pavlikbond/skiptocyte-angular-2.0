@@ -1,5 +1,5 @@
-import { CloseScrollStrategy } from '@angular/cdk/overlay';
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Preset } from 'src/app/models/preset.model';
 
 @Component({
   selector: 'app-numpad',
@@ -7,17 +7,21 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
   styleUrls: ['./numpad.component.scss'],
 })
 export class NumpadComponent implements OnInit {
+  @Input() currentPreset!: Preset;
   active = 'increase';
-  maxWbc: string = '100';
-  currentCount: number = 10;
+  maxWbc: number = 100;
+  @Input() currentCount!: number;
   units = ['10^9/L', '10^6/mL', '10^3/uL'];
   selectedUnit = this.units[0];
   numpadVisible: boolean = true;
   constructor() {}
+  @Output() maxWbcEvent = new EventEmitter<number>();
+  @Output() incDecEvent = new EventEmitter<string>();
 
   ngOnInit(): void {}
 
   keyPressNumbers(event: any) {
+    this.maxWbcEvent.emit(this.maxWbc);
     var charCode = event.which ? event.which : event.keyCode;
     // Only Numbers 0-9
     if (event.target.value.length > 5) {
@@ -48,6 +52,7 @@ export class NumpadComponent implements OnInit {
 
   setActive(event: any) {
     this.active = event.target.id;
+    this.incDecEvent.emit(this.active);
   }
 
   addUnits(event: any) {
@@ -61,5 +66,15 @@ export class NumpadComponent implements OnInit {
 
   numpadDropdown() {
     this.numpadVisible = !this.numpadVisible;
+  }
+
+  keyBindingCheck(key: string) {
+    const row = this.currentPreset.rows.find((row) => {
+      return row.key == key;
+    });
+    if (row) {
+      return row.cell;
+    }
+    return '';
   }
 }
