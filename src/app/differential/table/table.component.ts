@@ -15,6 +15,10 @@ export class TableComponent implements OnInit {
   @Input() presets: Preset[] = [];
   @Input() currentPreset!: Preset;
   @Output() presetEvent = new EventEmitter<Preset>();
+  inputPresetName!: string;
+  inputMaxCount!: number;
+  inputNumRows!: number;
+  
 
   constructor() {}
 

@@ -20,6 +20,9 @@ import { TableComponent } from './differential/table/table.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import {OverlayPanelModule} from 'primeng/overlaypanel';
+import {InputNumberModule} from 'primeng/inputnumber';
+import {InputTextModule} from 'primeng/inputtext';
 @NgModule({
   declarations: [
     AppComponent,
@@ -45,6 +48,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     DragDropModule,
     MatCheckboxModule,
     MatTooltipModule,
+    OverlayPanelModule,
+    InputNumberModule,
+    InputTextModule
   ],
   providers: [],
   bootstrap: [AppComponent],
