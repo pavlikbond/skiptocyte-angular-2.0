@@ -1,28 +1,21 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-//import * as data from '../presets.json';
-import { preserveWhitespacesDefault } from '@angular/compiler';
-import { TooltipComponent } from '@angular/material/tooltip';
 import { Preset } from 'src/app/models/preset.model';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss'],
 })
-export class TableComponent implements OnInit {
+export class TableComponent {
   isLoading = false;
   @Input() presets: Preset[] = [];
   @Input() currentPreset!: Preset;
+  index: string = '0';
   @Output() presetEvent = new EventEmitter<Preset>();
-  inputPresetName!: string;
-  inputMaxCount!: number;
-  inputNumRows!: number;
-  
-
-  constructor() {}
-
-  ngOnInit(): void {}
+  numRowsError: string = '';
+  maxCount!: string;
 
   drop(event: CdkDragDrop<string[]>) {
     moveItemInArray(
@@ -103,5 +96,27 @@ export class TableComponent implements OnInit {
   //update current preset with key value
   updateCurrentPreset(event: any, i: number) {
     this.currentPreset.rows[i].cell = event.target.value;
+  }
+  //validation for new preset form submit
+  onSubmit(presetForm: NgForm) {
+    //if form is valid create new preset and close modal
+    if (presetForm.valid) {
+      let maxWBC = presetForm.controls['inputMaxCount'].value;
+      let newPreset: Preset = {
+        name: presetForm.controls['presetName'].value,
+        maxWBC: maxWBC ? maxWBC : 100,
+        rows: [
+          {
+            ignore: false,
+            key: '',
+            cell: '',
+          },
+        ],
+      };
+      this.presets = [...this.presets, newPreset];
+      this.changeClient(this.presets.length - 1);
+      this.index = (this.presets.length - 1).toString();
+      presetForm.resetForm();
+    }
   }
 }
