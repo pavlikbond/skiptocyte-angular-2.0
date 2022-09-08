@@ -19,9 +19,7 @@ export class NumpadComponent implements OnInit {
   @Output() maxWbcEvent = new EventEmitter<number>();
   @Output() incDecEvent = new EventEmitter<string>();
   @Output() updateCurrentCount = new EventEmitter<number>();
-
   active = 'increase';
-  maxWbc: number = 100;
   units = ['10^9/L', '10^6/mL', '10^3/uL'];
   selectedUnit = this.units[0];
   numpadVisible: boolean = true;
@@ -51,7 +49,7 @@ export class NumpadComponent implements OnInit {
   ngOnInit(): void {}
 
   keyPressNumbers(event: any) {
-    this.maxWbcEvent.emit(this.maxWbc);
+    this.maxWbcEvent.emit(this.currentPreset.maxWBC);
     var charCode = event.which ? event.which : event.keyCode;
     // Only Numbers 0-9
     if (event.target.value.length > 5) {

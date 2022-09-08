@@ -9,7 +9,8 @@
     <mat-form-field appearance="fill">
       <mat-label>Presets</mat-label>
       <mat-select
-        value="0"
+        #presetSelect
+        [(value)]="index"
         panelClass="unit-dropdown"
         (selectionChange)="changeClient($event.value)"
       >
@@ -29,6 +30,7 @@
       <span *ngIf="isLoading" class="ml-2">Saving...</span>
       <span *ngIf="!isLoading">Save Preset</span>
     </button>
+    <button class="button" (click)="op.toggle($event)">New Preset</button>
     <button class="button"><mat-icon>settings</mat-icon></button>
   </div>
   <div class="table-header-container">
@@ -55,7 +57,7 @@
           <!-- <mat-checkbox class="center" [checked]="item.ignore"></mat-checkbox> -->
         </div>
         <!-- <input type="checkbox" [checked]="item.ignore" /> -->
-        <div class="tooltip">
+        <div>
           <input
             type="text"
             class="key-input shadow-lg"
@@ -83,3 +85,55 @@
     </div>
   </div>
 </div>
+
+<p-overlayPanel #op [showCloseIcon]="true">
+  <ng-template pTemplate>
+    <form #presetForm="ngForm" (ngSubmit)="onSubmit(presetForm)">
+      <div class="flex flex-col gap-5">
+        <h2 class="text-center text-xl">New Preset</h2>
+        <div>
+          <label class="block mb-2" for="preset_name">Preset name</label>
+          <input
+            maxlength="30"
+            type="text"
+            pInputText
+            placeholder="e.g. Peripheral Blood"
+            name="presetName"
+            ngModel
+            #presetName="ngModel"
+            required
+            [ngClass]="
+              presetName.touched && !presetName.valid
+                ? 'ng-invalid ng-dirty'
+                : ''
+            "
+          />
+          <small
+            *ngIf="presetName.touched && !presetName.valid"
+            class="p-error block"
+            >Preset name cannot be blank</small
+          >
+        </div>
+        <div>
+          <label class="block mb-2">Max Count</label>
+          <p-inputNumber
+            [(ngModel)]="maxCount"
+            class="w-full"
+            placeholder="e.g. 100"
+            name="inputMaxCount"
+            [min]="0"
+            [max]="9999"
+            [maxlength]="5"
+          ></p-inputNumber>
+        </div>
+        <button
+          (click)="presetForm.valid && op.hide()"
+          class="btn btn-active float-right"
+          type="submit"
+        >
+          Ok
+        </button>
+      </div>
+    </form>
+  </ng-template>
+</p-overlayPanel>
