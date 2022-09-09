@@ -2,20 +2,25 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Preset } from 'src/app/models/preset.model';
 import { NgForm } from '@angular/forms';
+import { PresetService } from 'src/app/services/preset.service';
 
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss'],
+  providers: [PresetService],
 })
 export class TableComponent {
   isLoading = false;
   @Input() presets: Preset[] = [];
-  @Input() currentPreset!: Preset;
+  //@Input() currentPreset!: Preset;
+  currentPreset: Preset = this.presetService.currentPreset;
   index: string = '0';
   @Output() presetEvent = new EventEmitter<Preset>();
   numRowsError: string = '';
   maxCount!: string;
+
+  constructor(private presetService: PresetService) {}
 
   drop(event: CdkDragDrop<string[]>) {
     moveItemInArray(

@@ -13,4 +13,9 @@ export class PresetService {
   direction: string = 'increase';
 
   constructor() {}
+
+  setCurrentPreset(preset: Preset) {
+    this.currentPreset = preset;
+    console.log(this.currentPreset);
+  }
 }
