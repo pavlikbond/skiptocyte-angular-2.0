@@ -1,24 +1,23 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Preset } from '../models/preset.model';
 import * as presets from './presets.json';
+import { PresetService } from 'src/app/services/preset.service';
 
 @Component({
   selector: 'app-differential',
   templateUrl: './differential.component.html',
   styleUrls: ['./differential.component.scss'],
+  providers: [PresetService],
 })
-export class DifferentialComponent implements OnInit {
+export class DifferentialComponent {
   presets = Array.from(presets);
   currentPreset = this.presets[0];
   currentCount = 0;
   maxWbc: number = 100;
   direction: string = 'increase';
-  constructor() {}
 
-  ngOnInit(): void {
-    console.log(this.presets[0].rows);
-  }
-  //update current preset when table component selects new preset, so it can be passed to numpad
+  constructor(private presetService: PresetService) {}
+
   receiveCurrentPreset(preset: Preset) {
     this.currentPreset = preset;
   }

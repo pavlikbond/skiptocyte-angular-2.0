@@ -7,14 +7,16 @@ import {
   HostListener,
 } from '@angular/core';
 import { Preset } from 'src/app/models/preset.model';
+import { PresetService } from 'src/app/services/preset.service';
 
 @Component({
   selector: 'app-numpad',
   templateUrl: './numpad.component.html',
   styleUrls: ['./numpad.component.scss'],
 })
-export class NumpadComponent implements OnInit {
-  @Input() currentPreset!: Preset;
+export class NumpadComponent {
+  currentPreset: Preset = this.presetService.currentPreset;
+  //@Input() currentPreset!: Preset;
   @Input() currentCount!: number;
   @Output() maxWbcEvent = new EventEmitter<number>();
   @Output() incDecEvent = new EventEmitter<string>();
@@ -44,12 +46,10 @@ export class NumpadComponent implements OnInit {
     '.',
   ];
 
-  constructor() {}
-
-  ngOnInit(): void {}
+  constructor(private presetService: PresetService) {}
 
   keyPressNumbers(event: any) {
-    this.maxWbcEvent.emit(this.currentPreset.maxWBC);
+    this.maxWbcEvent.emit(this.presetService.currentPreset.maxWBC);
     var charCode = event.which ? event.which : event.keyCode;
     // Only Numbers 0-9
     if (event.target.value.length > 5) {

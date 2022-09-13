@@ -14,8 +14,8 @@ export class PresetService {
 
   constructor() {}
 
-  setCurrentPreset(preset: Preset) {
-    this.currentPreset = preset;
+  checkCurrentPreset() {
     console.log(this.currentPreset);
+    console.log(this);
   }
 }

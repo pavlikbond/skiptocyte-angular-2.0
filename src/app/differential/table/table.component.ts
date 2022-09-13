@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Preset } from 'src/app/models/preset.model';
 import { NgForm } from '@angular/forms';
@@ -8,12 +8,10 @@ import { PresetService } from 'src/app/services/preset.service';
   selector: 'app-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss'],
-  providers: [PresetService],
 })
 export class TableComponent {
   isLoading = false;
-  @Input() presets: Preset[] = [];
-  //@Input() currentPreset!: Preset;
+  presets: Preset[] = this.presetService.presets;
   currentPreset: Preset = this.presetService.currentPreset;
   index: string = '0';
   @Output() presetEvent = new EventEmitter<Preset>();
@@ -52,7 +50,9 @@ export class TableComponent {
   //fires when presets dropdown is changed
   changeClient(value: any) {
     this.currentPreset = this.presets[value];
-    this.presetEvent.emit(this.currentPreset);
+    this.presetService.currentPreset = this.currentPreset;
+    this.presetService.checkCurrentPreset();
+    //this.presetEvent.emit(this.currentPreset);
   }
 
   deleteRow(event: any) {

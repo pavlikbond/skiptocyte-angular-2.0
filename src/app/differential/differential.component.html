@@ -1,11 +1,9 @@
 <div class="container">
   <app-table
-    [presets]="presets"
     class="table"
     (presetEvent)="receiveCurrentPreset($event)"
   ></app-table>
   <app-numpad
-    [currentPreset]="currentPreset"
     class="numpad"
     [currentCount]="currentCount"
     (maxWbcEvent)="receiveMaxWbc($event)"
