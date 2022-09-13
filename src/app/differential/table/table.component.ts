@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Preset } from 'src/app/models/preset.model';
 import { NgForm } from '@angular/forms';
@@ -14,7 +14,6 @@ export class TableComponent {
   presets: Preset[] = this.presetService.presets;
   currentPreset: Preset = this.presetService.currentPreset;
   index: string = '0';
-  @Output() presetEvent = new EventEmitter<Preset>();
   numRowsError: string = '';
   maxCount!: string;
 
@@ -33,6 +32,9 @@ export class TableComponent {
       ignore: false,
       key: '',
       cell: '',
+      count: 0,
+      relative: 0,
+      absolute: 0,
     });
   }
 
@@ -51,13 +53,30 @@ export class TableComponent {
   changeClient(value: any) {
     this.currentPreset = this.presets[value];
     this.presetService.currentPreset = this.currentPreset;
-    this.presetService.checkCurrentPreset();
-    //this.presetEvent.emit(this.currentPreset);
   }
 
   deleteRow(event: any) {
     let indexToDelete = event.target.dataset.target;
     this.currentPreset.rows.splice(indexToDelete, 1);
+  }
+
+  getCount(i: number) {
+    return this.presetService.getCount(i);
+  }
+
+  getRelative(i: number) {
+    let result = '';
+    let relative = this.presetService.getRelative(i);
+
+    if (relative > 0) {
+      result += relative + '%';
+    }
+    return result;
+  }
+
+  getAbsolute(i: number) {
+    let absolute = this.presetService.getAbsolute(i);
+    return absolute > 0 ? absolute : '';
   }
 
   duplicateCheck(event: any, i: number) {
@@ -115,6 +134,9 @@ export class TableComponent {
             ignore: false,
             key: '',
             cell: '',
+            count: 0,
+            relative: 0,
+            absolute: 0,
           },
         ],
       };
