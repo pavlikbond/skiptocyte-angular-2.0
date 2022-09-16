@@ -21,8 +21,10 @@ export class PresetService {
       this.currentPreset.rows[i].count++;
     }
     if (this.direction === 'decrease' && this.currentCount > 0) {
-      this.currentCount--;
-      this.currentPreset.rows[i].count--;
+      if (this.currentPreset.rows[i].count > 0) {
+        this.currentCount--;
+        this.currentPreset.rows[i].count--;
+      }
     }
     for (let row of this.currentPreset.rows) {
       let num = row.count / this.currentCount;
