@@ -72,9 +72,9 @@
           (keyup)="updateCurrentPreset($event, i)"
           maxlength="15"
         />
-        <span></span>
-        <span></span>
-        <span></span>
+        <span class="text-center">{{ getCount(i) }}</span>
+        <span class="text-center">{{ getRelative(i) }}</span>
+        <span class="text-center">{{ getAbsolute(i) }}</span>
         <a
           class="boxclose"
           id="boxclose"
@@ -85,7 +85,7 @@
     </div>
   </div>
 </div>
-
+<!-- dropdown to make new preset -->
 <p-overlayPanel #op [showCloseIcon]="true">
   <ng-template pTemplate>
     <form #presetForm="ngForm" (ngSubmit)="onSubmit(presetForm)">

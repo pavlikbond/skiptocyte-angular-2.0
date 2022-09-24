@@ -1,29 +1,20 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  Output,
-  EventEmitter,
-  HostListener,
-} from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { Preset } from 'src/app/models/preset.model';
+import { PresetService } from 'src/app/services/preset.service';
 
 @Component({
   selector: 'app-numpad',
   templateUrl: './numpad.component.html',
   styleUrls: ['./numpad.component.scss'],
 })
-export class NumpadComponent implements OnInit {
-  @Input() currentPreset!: Preset;
-  @Input() currentCount!: number;
-  @Output() maxWbcEvent = new EventEmitter<number>();
-  @Output() incDecEvent = new EventEmitter<string>();
-  @Output() updateCurrentCount = new EventEmitter<number>();
+export class NumpadComponent {
+  currentPreset: Preset = this.presetService.currentPreset;
   active = 'increase';
   units = ['10^9/L', '10^6/mL', '10^3/uL'];
   selectedUnit = this.units[0];
   numpadVisible: boolean = true;
   currentKey: string = '';
+  WbcCount: number = 0;
   numpadItems = [
     'NumLock',
     '/',
@@ -44,12 +35,9 @@ export class NumpadComponent implements OnInit {
     '.',
   ];
 
-  constructor() {}
-
-  ngOnInit(): void {}
+  constructor(private presetService: PresetService) {}
 
   keyPressNumbers(event: any) {
-    this.maxWbcEvent.emit(this.currentPreset.maxWBC);
     var charCode = event.which ? event.which : event.keyCode;
     // Only Numbers 0-9
     if (event.target.value.length > 5) {
@@ -70,18 +58,21 @@ export class NumpadComponent implements OnInit {
       event.preventDefault();
       return false;
     }
-    if (event.keyCode) return true;
+    if (event.keyCode) {
+      this.presetService.WbcCount = +event.target.value;
+      return true;
+    }
     return;
   }
 
   clearBtnHandler(event: any) {
-    this.currentCount = 0;
-    this.updateCurrentCount.emit(this.currentCount);
+    this.presetService.currentCount = 0;
+    this.presetService.clearCounts();
   }
 
   setActive(event: any) {
     this.active = event.target.id;
-    this.incDecEvent.emit(this.active);
+    this.presetService.direction = this.active;
   }
 
   addUnits(event: any) {
@@ -93,12 +84,19 @@ export class NumpadComponent implements OnInit {
     this.units.splice(index, 1);
   }
 
+  getMaxWbc() {
+    return this.presetService.currentPreset.maxWBC;
+  }
   numpadDropdown() {
     this.numpadVisible = !this.numpadVisible;
   }
 
+  getCurrentCount() {
+    return this.presetService.currentCount;
+  }
+
   keyBindingCheck(key: string) {
-    const row = this.currentPreset.rows.find((row) => {
+    const row = this.presetService.currentPreset.rows.find((row) => {
       return row.key == key;
     });
     if (row) {
@@ -112,12 +110,16 @@ export class NumpadComponent implements OnInit {
     if (event.target.nodeName === 'INPUT') {
       return;
     }
-    let row = this.currentPreset.rows.find((row) => {
+    let row = this.presetService.currentPreset.rows.find((row) => {
       return row.key === event.key;
     });
-
+    //if keybinding was found in current preset, update count depending on direction
     if (row) {
       this.currentKey = row.key;
+      this.presetService.adjustCount(
+        this.currentKey,
+        this.presetService.currentPreset.rows.indexOf(row)
+      );
       setTimeout(() => {
         this.currentKey = '';
       }, 200);

@@ -4,8 +4,11 @@ export interface Preset {
   rows: Row[];
 }
 
-interface Row {
+export interface Row {
   ignore: boolean;
   key: string;
   cell: string;
+  count: number;
+  relative: number;
+  absolute: number;
 }

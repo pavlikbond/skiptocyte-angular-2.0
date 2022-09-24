@@ -1,32 +1,47 @@
 [
   {
     "name": "5 Part",
-    "maxWBC": 100,
+    "maxWBC": 120,
     "rows": [
       {
         "ignore": false,
         "key": "5",
-        "cell": "Neutrophil"
+        "cell": "Neutrophil",
+        "count": 0,
+        "relative": 0,
+        "absolute": 0
       },
       {
         "ignore": false,
         "key": "2",
-        "cell": "Basophil"
+        "cell": "Basophil",
+        "count": 0,
+        "relative": 0,
+        "absolute": 0
       },
       {
         "ignore": false,
         "key": "4",
-        "cell": "Monocyte"
+        "cell": "Monocyte",
+        "count": 0,
+        "relative": 0,
+        "absolute": 0
       },
       {
         "ignore": false,
         "key": "1",
-        "cell": "Eosinophil"
+        "cell": "Eosinophil",
+        "count": 0,
+        "relative": 0,
+        "absolute": 0
       },
       {
         "ignore": false,
         "key": "6",
-        "cell": "Lymphocyte"
+        "cell": "Lymphocyte",
+        "count": 0,
+        "relative": 0,
+        "absolute": 0
       }
     ]
   },
@@ -37,57 +52,90 @@
       {
         "ignore": false,
         "key": "5",
-        "cell": "Neutrophil"
+        "cell": "Neutrophil",
+        "count": 0,
+        "relative": 0,
+        "absolute": 0
       },
       {
         "ignore": false,
         "key": "2",
-        "cell": "Basophil"
+        "cell": "Basophil",
+        "count": 0,
+        "relative": 0,
+        "absolute": 0
       },
       {
         "ignore": false,
         "key": "4",
-        "cell": "Monocyte"
+        "cell": "Monocyte",
+        "count": 0,
+        "relative": 0,
+        "absolute": 0
       },
       {
         "ignore": false,
         "key": "1",
-        "cell": "Eosinophil"
+        "cell": "Eosinophil",
+        "count": 0,
+        "relative": 0,
+        "absolute": 0
       },
       {
         "ignore": false,
         "key": "6",
-        "cell": "Lymphocyte"
+        "cell": "Lymphocyte",
+        "count": 0,
+        "relative": 0,
+        "absolute": 0
       },
       {
         "ignore": false,
         "key": "3",
-        "cell": "Band"
+        "cell": "Band",
+        "count": 0,
+        "relative": 0,
+        "absolute": 0
       },
       {
         "ignore": false,
         "key": "7",
-        "cell": "Metamyelocyte"
+        "cell": "Metamyelocyte",
+        "count": 0,
+        "relative": 0,
+        "absolute": 0
       },
       {
         "ignore": false,
         "key": "8",
-        "cell": "Promyelocyte"
+        "cell": "Promyelocyte",
+        "count": 0,
+        "relative": 0,
+        "absolute": 0
       },
       {
         "ignore": false,
         "key": "9",
-        "cell": "Myelocyte"
+        "cell": "Myelocyte",
+        "count": 0,
+        "relative": 0,
+        "absolute": 0
       },
       {
         "ignore": false,
         "key": "0",
-        "cell": "Blast"
+        "cell": "Blast",
+        "count": 0,
+        "relative": 0,
+        "absolute": 0
       },
       {
         "ignore": false,
         "key": "+",
-        "cell": "Other"
+        "cell": "Other",
+        "count": 0,
+        "relative": 0,
+        "absolute": 0
       }
     ]
   },
@@ -98,42 +146,66 @@
       {
         "ignore": false,
         "key": "5",
-        "cell": "Neutrophil"
+        "cell": "Neutrophil",
+        "count": 0,
+        "relative": 0,
+        "absolute": 0
       },
       {
         "ignore": false,
         "key": "2",
-        "cell": "Basophil"
+        "cell": "Basophil",
+        "count": 0,
+        "relative": 0,
+        "absolute": 0
       },
       {
         "ignore": false,
         "key": "4",
-        "cell": "Monocyte"
+        "cell": "Monocyte",
+        "count": 0,
+        "relative": 0,
+        "absolute": 0
       },
       {
         "ignore": false,
         "key": "1",
-        "cell": "Eosinophil"
+        "cell": "Eosinophil",
+        "count": 0,
+        "relative": 0,
+        "absolute": 0
       },
       {
         "ignore": false,
         "key": "6",
-        "cell": "Lymphocyte"
+        "cell": "Lymphocyte",
+        "count": 0,
+        "relative": 0,
+        "absolute": 0
       },
       {
         "ignore": false,
         "key": "3",
-        "cell": "Macrophage"
+        "cell": "Macrophage",
+        "count": 0,
+        "relative": 0,
+        "absolute": 0
       },
       {
         "ignore": false,
         "key": "+",
-        "cell": "Lining Cell"
+        "cell": "Lining Cell",
+        "count": 0,
+        "relative": 0,
+        "absolute": 0
       },
       {
         "ignore": false,
         "key": "0",
-        "cell": "Other"
+        "cell": "Other",
+        "count": 0,
+        "relative": 0,
+        "absolute": 0
       }
     ]
   },
@@ -144,87 +216,138 @@
       {
         "ignore": false,
         "key": "0",
-        "cell": "Blast"
+        "cell": "Blast",
+        "count": 0,
+        "relative": 0,
+        "absolute": 0
       },
       {
         "ignore": false,
         "key": "9",
-        "cell": "Promyelocyte"
+        "cell": "Promyelocyte",
+        "count": 0,
+        "relative": 0,
+        "absolute": 0
       },
       {
         "ignore": false,
         "key": "7",
-        "cell": "Myelocyte"
+        "cell": "Myelocyte",
+        "count": 0,
+        "relative": 0,
+        "absolute": 0
       },
       {
         "ignore": false,
         "key": "8",
-        "cell": "Metamyelocyte"
+        "cell": "Metamyelocyte",
+        "count": 0,
+        "relative": 0,
+        "absolute": 0
       },
       {
         "ignore": false,
         "key": "3",
-        "cell": "Band"
+        "cell": "Band",
+        "count": 0,
+        "relative": 0,
+        "absolute": 0
       },
       {
         "ignore": false,
         "key": "5",
-        "cell": "Seg"
+        "cell": "Seg",
+        "count": 0,
+        "relative": 0,
+        "absolute": 0
       },
       {
         "ignore": false,
         "key": "4",
-        "cell": "Monocyte"
+        "cell": "Monocyte",
+        "count": 0,
+        "relative": 0,
+        "absolute": 0
       },
       {
         "ignore": false,
         "key": "*",
-        "cell": "Eos Myelo"
+        "cell": "Eos Myelo",
+        "count": 0,
+        "relative": 0,
+        "absolute": 0
       },
       {
         "ignore": false,
         "key": "1",
-        "cell": "Eosinophil"
+        "cell": "Eosinophil",
+        "count": 0,
+        "relative": 0,
+        "absolute": 0
       },
       {
         "ignore": false,
         "key": "2",
-        "cell": "Basophil"
+        "cell": "Basophil",
+        "count": 0,
+        "relative": 0,
+        "absolute": 0
       },
       {
         "ignore": false,
         "key": "6",
-        "cell": "Lymphocyte"
+        "cell": "Lymphocyte",
+        "count": 0,
+        "relative": 0,
+        "absolute": 0
       },
       {
         "ignore": false,
         "key": "/",
-        "cell": "Plasma Cell"
+        "cell": "Plasma Cell",
+        "count": 0,
+        "relative": 0,
+        "absolute": 0
       },
       {
         "ignore": false,
         "key": "+",
-        "cell": "Mast Cell"
+        "cell": "Mast Cell",
+        "count": 0,
+        "relative": 0,
+        "absolute": 0
       },
       {
         "ignore": false,
         "key": ".",
-        "cell": "Pronormo"
+        "cell": "Pronormo",
+        "count": 0,
+        "relative": 0,
+        "absolute": 0
       },
       {
         "ignore": false,
         "key": "a",
-        "cell": "Baso Normo"
+        "cell": "Baso Normo",
+        "count": 0,
+        "relative": 0,
+        "absolute": 0
       },
       {
         "ignore": false,
         "key": "b",
-        "cell": "Poly normo"
+        "cell": "Poly normo",
+        "count": 0,
+        "relative": 0,
+        "absolute": 0
       },
       {
         "ignore": false,
         "key": "c",
-        "cell": "Ortho Normo"
+        "cell": "Ortho Normo",
+        "count": 0,
+        "relative": 0,
+        "absolute": 0
       }
     ]
   }
