@@ -10,19 +10,24 @@
     <label for="WBC Count">WBC</label>
     <div></div>
 
-    <input
-      type="number"
-      name="max-wbc"
-      [(ngModel)]="currentPreset.maxWBC"
-      (keyup)="keyPressNumbers($event)"
-    />
-    <input
-      type="number"
-      step="0.01"
-      value="0"
-      name="WBC Count"
-      (keypress)="keyPressNumbersWithDecimal($event)"
-    />
+    <p-inputNumber
+      mode="decimal"
+      [maxlength]="7"
+      placeholder="100"
+      [(ngModel)]="maxWBC"
+      inputStyleClass="wbc-count"
+      (onInput)="updateMaxWbc($event)"
+    ></p-inputNumber>
+    <p-inputNumber
+      mode="decimal"
+      [minFractionDigits]="0"
+      [maxFractionDigits]="2"
+      [maxlength]="10"
+      placeholder="0.00"
+      inputStyleClass="wbc-count"
+      (onInput)="updateAbsolutes($event)"
+      [(ngModel)]="WbcCount"
+    ></p-inputNumber>
     <mat-form-field appearance="fill">
       <mat-label>Units</mat-label>
       <mat-select [(value)]="selectedUnit" panelClass="unit-dropdown">

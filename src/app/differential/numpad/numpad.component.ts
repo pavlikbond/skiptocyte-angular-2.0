@@ -9,12 +9,13 @@ import { PresetService } from 'src/app/services/preset.service';
 })
 export class NumpadComponent {
   currentPreset: Preset = this.presetService.currentPreset;
+  maxWBC: number = this.presetService.currentPreset.maxWBC;
   active = 'increase';
   units = ['10^9/L', '10^6/mL', '10^3/uL'];
   selectedUnit = this.units[0];
   numpadVisible: boolean = true;
   currentKey: string = '';
-  WbcCount: number = 0;
+  WbcCount!: number;
   numpadItems = [
     'NumLock',
     '/',
@@ -37,34 +38,14 @@ export class NumpadComponent {
 
   constructor(private presetService: PresetService) {}
 
-  keyPressNumbers(event: any) {
-    var charCode = event.which ? event.which : event.keyCode;
-    // Only Numbers 0-9
-    if (event.target.value.length > 5) {
-      event.preventDefault();
-      return false;
-    }
-    if (charCode < 48 || charCode > 57) {
-      event.preventDefault();
-      return false;
-    } else {
-      return true;
-    }
+  updateAbsolutes(event: any) {
+    this.presetService.WbcCount = +event.value;
+    this.presetService.updateAbsolutes();
   }
-
-  keyPressNumbersWithDecimal(event: any) {
-    var charCode = event.which ? event.which : event.keyCode;
-    if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57)) {
-      event.preventDefault();
-      return false;
-    }
-    if (event.keyCode) {
-      this.presetService.WbcCount = +event.target.value;
-      return true;
-    }
-    return;
+  //event when chaning the wbc count
+  updateMaxWbc(event: any) {
+    this.presetService.currentPreset.maxWBC = +event.value;
   }
-
   clearBtnHandler(event: any) {
     this.presetService.currentCount = 0;
     this.presetService.clearCounts();

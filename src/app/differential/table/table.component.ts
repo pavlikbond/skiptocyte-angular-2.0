@@ -53,6 +53,7 @@ export class TableComponent {
   changeClient(value: any) {
     this.currentPreset = this.presets[value];
     this.presetService.currentPreset = this.currentPreset;
+    this.presetService.clearCounts();
   }
 
   deleteRow(event: any) {

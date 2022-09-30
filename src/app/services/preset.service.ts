@@ -16,7 +16,10 @@ export class PresetService {
   constructor() {}
 
   adjustCount(key: string, i: number) {
-    if (this.direction === 'increase' && this.currentCount < this.maxWBC) {
+    if (
+      this.direction === 'increase' &&
+      this.currentCount < this.currentPreset.maxWBC
+    ) {
       this.currentCount++;
       this.currentPreset.rows[i].count++;
     }
@@ -32,6 +35,16 @@ export class PresetService {
 
       row.absolute =
         Math.round((num * this.WbcCount + Number.EPSILON) * 100) / 100;
+    }
+  }
+
+  updateAbsolutes() {
+    for (let row of this.currentPreset.rows) {
+      //get ratio of that rows count to currentCount
+      let ratio = row.count / this.currentCount;
+      //upate all
+      row.absolute =
+        Math.round((ratio * this.WbcCount + Number.EPSILON) * 100) / 100;
     }
   }
 
@@ -53,5 +66,6 @@ export class PresetService {
       row.relative = 0;
       row.absolute = 0;
     }
+    this.currentCount = 0;
   }
 }
