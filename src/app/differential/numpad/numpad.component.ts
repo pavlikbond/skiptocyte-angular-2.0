@@ -9,7 +9,7 @@ import { PresetService } from 'src/app/services/preset.service';
 })
 export class NumpadComponent {
   currentPreset: Preset = this.presetService.currentPreset;
-  maxWBC: number = this.presetService.currentPreset.maxWBC;
+  maxWBC: number = this.currentPreset.maxWBC;
   active = 'increase';
   units = ['10^9/L', '10^6/mL', '10^3/uL'];
   selectedUnit = this.units[0];
@@ -39,12 +39,13 @@ export class NumpadComponent {
   constructor(private presetService: PresetService) {}
 
   updateAbsolutes(event: any) {
+    console.log(event);
     this.presetService.WbcCount = +event.value;
-    this.presetService.updateAbsolutes();
+    this.presetService.updateRelativesAndAbsolutes();
   }
   //event when chaning the wbc count
   updateMaxWbc(event: any) {
-    this.presetService.currentPreset.maxWBC = +event.value;
+    this.currentPreset.maxWBC = event.value;
   }
   clearBtnHandler(event: any) {
     this.presetService.currentCount = 0;
@@ -66,6 +67,7 @@ export class NumpadComponent {
   }
 
   getMaxWbc() {
+    this.maxWBC = this.presetService.currentPreset.maxWBC;
     return this.presetService.currentPreset.maxWBC;
   }
   numpadDropdown() {

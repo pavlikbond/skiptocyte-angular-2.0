@@ -16,35 +16,44 @@ export class PresetService {
   constructor() {}
 
   adjustCount(key: string, i: number) {
+    let ignore = this.currentPreset.rows[i].ignore;
+    //if setting set to increase, increment and row count
     if (
       this.direction === 'increase' &&
       this.currentCount < this.currentPreset.maxWBC
     ) {
-      this.currentCount++;
       this.currentPreset.rows[i].count++;
     }
+    //if setting is decrease, decrease row count
     if (this.direction === 'decrease' && this.currentCount > 0) {
       if (this.currentPreset.rows[i].count > 0) {
-        this.currentCount--;
         this.currentPreset.rows[i].count--;
       }
     }
-    for (let row of this.currentPreset.rows) {
-      let num = row.count / this.currentCount;
-      row.relative = Math.round((num + Number.EPSILON) * 1000) / 10;
-
-      row.absolute =
-        Math.round((num * this.WbcCount + Number.EPSILON) * 100) / 100;
-    }
+    this.updateRelativesAndAbsolutes();
   }
 
-  updateAbsolutes() {
+  setCurrentCount() {
+    let total = 0;
     for (let row of this.currentPreset.rows) {
-      //get ratio of that rows count to currentCount
-      let ratio = row.count / this.currentCount;
-      //upate all
-      row.absolute =
-        Math.round((ratio * this.WbcCount + Number.EPSILON) * 100) / 100;
+      total += row.ignore ? 0 : row.count;
+    }
+    this.currentCount = total;
+  }
+
+  updateRelativesAndAbsolutes() {
+    this.setCurrentCount();
+    for (let row of this.currentPreset.rows) {
+      let num = row.count / this.currentCount;
+      if (!row.ignore) {
+        row.relative = Math.round((num + Number.EPSILON) * 1000) / 10;
+
+        row.absolute =
+          Math.round((num * this.WbcCount + Number.EPSILON) * 100) / 100;
+      } else {
+        row.relative = 0;
+        row.absolute = 0;
+      }
     }
   }
 

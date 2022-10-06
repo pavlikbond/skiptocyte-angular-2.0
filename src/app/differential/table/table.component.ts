@@ -61,6 +61,12 @@ export class TableComponent {
     this.currentPreset.rows.splice(indexToDelete, 1);
   }
 
+  onCheckboxClick(event: any, i: number) {
+    let checked = event.target.checked;
+    this.currentPreset.rows[i].ignore = checked;
+    this.presetService.updateRelativesAndAbsolutes();
+  }
+
   getCount(i: number) {
     return this.presetService.getCount(i);
   }
