@@ -24,14 +24,16 @@ export class PresetService {
       this.currentPreset.rows[i].count++;
     }
     //if setting is decrease, decrease row count
-    if (this.direction === 'decrease' && this.currentCount > 0) {
+    if (this.direction === 'decrease') {
       if (this.currentPreset.rows[i].count > 0) {
         this.currentPreset.rows[i].count--;
       }
     }
     this.updateRelativesAndAbsolutes();
-    if (this.currentCount >= this.currentPreset.maxWBC) {
-      this.playDing();
+    if (this.direction === 'increase') {
+      if (this.currentCount >= this.currentPreset.maxWBC) {
+        this.playDing();
+      }
     }
   }
 
