@@ -12,7 +12,7 @@ export class PresetService {
   currentCount: number = 0;
   direction: string = 'increase';
   WbcCount: number = 0;
-
+  maxDecimals: number = 3;
   constructor() {}
 
   adjustCount(key: string, i: number) {
@@ -42,14 +42,18 @@ export class PresetService {
   }
 
   updateRelativesAndAbsolutes() {
+    let exp = 10 ** this.maxDecimals;
+    //console.log(typeof num);
+
     this.setCurrentCount();
     for (let row of this.currentPreset.rows) {
-      let num = row.count / this.currentCount;
+      //or 0 because otherwise it might return NaN
+      let num = row.count / this.currentCount || 0;
       if (!row.ignore) {
         row.relative = Math.round((num + Number.EPSILON) * 1000) / 10;
 
         row.absolute =
-          Math.round((num * this.WbcCount + Number.EPSILON) * 100) / 100;
+          Math.round((num * this.WbcCount + Number.EPSILON) * exp) / exp;
       } else {
         row.relative = 0;
         row.absolute = 0;
@@ -66,7 +70,13 @@ export class PresetService {
   }
 
   getAbsolute(i: number) {
-    return this.currentPreset.rows[i].absolute;
+    //adds commas to digits before the decimal
+    let x = String(this.currentPreset.rows[i].absolute).replace(
+      /(?<!\.\d*)(\d)(?=(?:\d{3})+(?!\d))/g,
+      '$1,'
+    );
+
+    return x;
   }
 
   clearCounts() {

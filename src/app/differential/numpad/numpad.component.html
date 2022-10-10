@@ -1,7 +1,7 @@
 <div class="controls-container">
   <div class="max-print-container flex">
     <div class="max-wbc-ratio overflow-hidden">
-      {{ getCurrentCount() }}/{{ getMaxWbc() }}
+      {{ getCurrentCount() }} / {{ getMaxWbc() }}
     </div>
     <button class="print-btn">
       <mat-icon>print</mat-icon><span>Print</span>
@@ -11,24 +11,20 @@
     <label for="max-wbc">Max Count</label>
     <label for="WBC Count">WBC</label>
     <div></div>
-
-    <p-inputNumber
-      [maxlength]="7"
+    <input
+      type="text"
+      (input)="updateMaxWbc($event)"
+      [value]="getMaxWbc()"
       placeholder="100"
-      [(ngModel)]="maxWBC"
-      inputStyleClass="wbc-count"
-      (onInput)="updateMaxWbc($event)"
-    ></p-inputNumber>
-    <p-inputNumber
-      mode="decimal"
-      [minFractionDigits]="0"
-      [maxFractionDigits]="2"
-      [maxlength]="10"
+      class="wbc-input"
+    />
+    <input
+      type="text"
       placeholder="0.00"
-      inputStyleClass="wbc-count"
-      (onInput)="updateAbsolutes($event)"
-      [(ngModel)]="WbcCount"
-    ></p-inputNumber>
+      (input)="updateWBCCount($event)"
+      [value]="getWBCCount()"
+      class="wbc-input"
+    />
     <mat-form-field appearance="fill">
       <mat-label>Units</mat-label>
       <mat-select [(value)]="selectedUnit" panelClass="unit-dropdown">

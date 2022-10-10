@@ -83,7 +83,7 @@ export class TableComponent {
 
   getAbsolute(i: number) {
     let absolute = this.presetService.getAbsolute(i);
-    return absolute > 0 ? absolute : '';
+    return absolute !== '0' ? absolute : '';
   }
 
   duplicateCheck(event: any, i: number) {
