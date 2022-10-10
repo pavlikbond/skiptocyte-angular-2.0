@@ -8,7 +8,6 @@ import { PresetService } from 'src/app/services/preset.service';
   styleUrls: ['./numpad.component.scss'],
 })
 export class NumpadComponent {
-  currentPreset: Preset = this.presetService.currentPreset;
   active = 'increase';
   units = ['10^9/L', '10^6/mL', '10^3/uL'];
   selectedUnit = this.units[0];
@@ -86,7 +85,9 @@ export class NumpadComponent {
     let result = this.formatInt(e.target.value);
     e.target.value = result;
     //update maxwbc with converted number
-    this.currentPreset.maxWBC = Number(result.split(',').join(''));
+    this.presetService.currentPreset.maxWBC = Number(
+      result.split(',').join('')
+    );
   }
 
   updateWBCCount(e: any) {
@@ -147,8 +148,12 @@ export class NumpadComponent {
     if (event.target.nodeName === 'INPUT') {
       return;
     }
+    this.updateAllCounts(event.key);
+  }
+
+  updateAllCounts(key: String) {
     let row = this.presetService.currentPreset.rows.find((row) => {
-      return row.key === event.key;
+      return row.key === key;
     });
     //if keybinding was found in current preset, update count depending on direction
     if (row) {
@@ -161,5 +166,11 @@ export class NumpadComponent {
         this.currentKey = '';
       }, 200);
     }
+  }
+
+  onNumpadClick(event: any, i: number) {
+    navigator.vibrate(200);
+    let key = this.numpadItems[i];
+    this.updateAllCounts(key);
   }
 }

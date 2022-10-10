@@ -72,6 +72,7 @@
         'invis-mobile': i === 3 || i === 7 || i === 14,
         flash: currentKey === item
       }"
+      (click)="onNumpadClick($event, i)"
     >
       <span>{{ item }}</span
       ><span class="cell-name">{{ keyBindingCheck(item) }}</span>

@@ -16,7 +16,6 @@ export class PresetService {
   constructor() {}
 
   adjustCount(key: string, i: number) {
-    let ignore = this.currentPreset.rows[i].ignore;
     //if setting set to increase, increment and row count
     if (
       this.direction === 'increase' &&
@@ -31,6 +30,9 @@ export class PresetService {
       }
     }
     this.updateRelativesAndAbsolutes();
+    if (this.currentCount >= this.currentPreset.maxWBC) {
+      this.playDing();
+    }
   }
 
   setCurrentCount() {
@@ -42,6 +44,9 @@ export class PresetService {
   }
 
   updateRelativesAndAbsolutes() {
+    //let fraction = String(this.WbcCount).split('.')[1];
+    //let numsAfterDec = fraction ? fraction.length : 0;
+    //let exp = 10 ** Math.min(this.maxDecimals, numsAfterDec);
     let exp = 10 ** this.maxDecimals;
     //console.log(typeof num);
 
@@ -86,5 +91,17 @@ export class PresetService {
       row.absolute = 0;
     }
     this.currentCount = 0;
+  }
+
+  playDing() {
+    let audio = new Audio();
+    audio.src = '../assets/smb_fireball.wav';
+    audio.load();
+    audio.play();
+  }
+  digits(value: Number) {
+    return value
+      .toExponential()
+      .replace(/^([0-9]+)\.?([0-9]+)?e[\+\-0-9]*$/g, '$1$2').length;
   }
 }
