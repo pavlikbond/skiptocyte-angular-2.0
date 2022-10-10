@@ -53,7 +53,11 @@
         cdkDrag
       >
         <div class="flex justify-center">
-          <input type="checkbox" [checked]="item.ignore" />
+          <input
+            type="checkbox"
+            [checked]="item.ignore"
+            (click)="onCheckboxClick($event, i)"
+          />
           <!-- <mat-checkbox class="center" [checked]="item.ignore"></mat-checkbox> -->
         </div>
         <!-- <input type="checkbox" [checked]="item.ignore" /> -->
@@ -72,9 +76,9 @@
           (keyup)="updateCurrentPreset($event, i)"
           maxlength="15"
         />
-        <span class="text-center">{{ getCount(i) }}</span>
-        <span class="text-center">{{ getRelative(i) }}</span>
-        <span class="text-center">{{ getAbsolute(i) }}</span>
+        <span class="text-center text-lg">{{ getCount(i) }}</span>
+        <span class="text-center text-lg">{{ getRelative(i) }}</span>
+        <span class="text-center text-lg">{{ getAbsolute(i) }}</span>
         <a
           class="boxclose"
           id="boxclose"

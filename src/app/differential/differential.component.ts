@@ -22,24 +22,24 @@ export class DifferentialComponent {
     this.currentPreset = preset;
   }
 
-  @HostListener('window:keydown', ['$event'])
-  onKeyDown(event: any) {
-    if (event.target.nodeName === 'INPUT') {
-      return;
-    }
-    let row = this.currentPreset.rows.find((row) => {
-      return row.key === event.key;
-    });
+  // @HostListener('window:keydown', ['$event'])
+  // onKeyDown(event: any) {
+  //   if (event.target.nodeName === 'INPUT') {
+  //     return;
+  //   }
+  //   let row = this.currentPreset.rows.find((row) => {
+  //     return row.key === event.key;
+  //   });
 
-    if (row) {
-      if (this.direction === 'increase' && this.currentCount < this.maxWbc) {
-        this.currentCount++;
-      }
-      if (this.direction === 'decrease' && this.currentCount > 0) {
-        this.currentCount--;
-      }
-    }
-  }
+  //   if (row) {
+  //     if (this.direction === 'increase' && this.currentCount < this.maxWbc) {
+  //       this.currentCount++;
+  //     }
+  //     if (this.direction === 'decrease' && this.currentCount > 0) {
+  //       this.currentCount--;
+  //     }
+  //   }
+  // }
 
   receiveMaxWbc(maxWbc: number) {
     this.maxWbc = maxWbc;

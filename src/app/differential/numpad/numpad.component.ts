@@ -8,13 +8,13 @@ import { PresetService } from 'src/app/services/preset.service';
   styleUrls: ['./numpad.component.scss'],
 })
 export class NumpadComponent {
-  currentPreset: Preset = this.presetService.currentPreset;
   active = 'increase';
   units = ['10^9/L', '10^6/mL', '10^3/uL'];
   selectedUnit = this.units[0];
   numpadVisible: boolean = true;
   currentKey: string = '';
-  WbcCount: number = 0;
+  //WbcCount!: number;
+  maxLength: number = 8;
   numpadItems = [
     'NumLock',
     '/',
@@ -37,32 +37,64 @@ export class NumpadComponent {
 
   constructor(private presetService: PresetService) {}
 
-  keyPressNumbers(event: any) {
-    var charCode = event.which ? event.which : event.keyCode;
-    // Only Numbers 0-9
-    if (event.target.value.length > 5) {
-      event.preventDefault();
-      return false;
+  formatInt(int: Number) {
+    const maxLength = this.maxLength;
+
+    let result = String(int).replace(/[^0-9]/g, '');
+    if (result === '0') {
+      result = '';
     }
-    if (charCode < 48 || charCode > 57) {
-      event.preventDefault();
-      return false;
-    } else {
-      return true;
-    }
+    result = result.slice(0, maxLength);
+    return result.replace(/(?<!\.\d*)(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
   }
 
-  keyPressNumbersWithDecimal(event: any) {
-    var charCode = event.which ? event.which : event.keyCode;
-    if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57)) {
-      event.preventDefault();
-      return false;
+  formatFloat(int: Number) {
+    const maxLength = this.maxLength;
+    const maxDecimals = this.presetService.maxDecimals;
+    let result = String(int);
+    //regex that only allows numbers and periods to be inputted
+    result = result.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');
+    //remove leading zeros
+    if (result === '0') {
+      result = '';
     }
-    if (event.keyCode) {
-      this.presetService.WbcCount = +event.target.value;
-      return true;
+    //if decimal entered, add zero before it
+    if (result === '.') {
+      result = '0.';
     }
-    return;
+    //check for lengths before and after decimal
+    if (result.includes('.')) {
+      let split = result.split('.');
+      if (split[1].length > maxDecimals) {
+        //console.log(split)
+        result = result.slice(0, -1);
+      }
+      if (split[0].length > maxLength) {
+        split[0] = split[0].slice(0, maxLength);
+        result = split.join('.');
+      }
+    } else {
+      result = result.substring(0, maxLength);
+    }
+    //regex to add commas every thousands before decimal
+    return result.replace(/(?<!\.\d*)(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+  }
+
+  //event when chaning the wbc count
+  updateMaxWbc(e: any) {
+    let result = this.formatInt(e.target.value);
+    e.target.value = result;
+    //update maxwbc with converted number
+    this.presetService.currentPreset.maxWBC = Number(
+      result.split(',').join('')
+    );
+  }
+
+  updateWBCCount(e: any) {
+    let result = this.formatFloat(e.target.value);
+    e.target.value = result;
+    this.presetService.WbcCount = Number(result.split(',').join(''));
+    this.presetService.updateRelativesAndAbsolutes();
   }
 
   clearBtnHandler(event: any) {
@@ -85,14 +117,20 @@ export class NumpadComponent {
   }
 
   getMaxWbc() {
-    return this.presetService.currentPreset.maxWBC;
+    return this.formatInt(this.presetService.currentPreset.maxWBC);
+  }
+
+  getWBCCount() {
+    let value = this.formatFloat(this.presetService.WbcCount);
+    return value;
   }
   numpadDropdown() {
     this.numpadVisible = !this.numpadVisible;
   }
 
   getCurrentCount() {
-    return this.presetService.currentCount;
+    let result = this.formatInt(this.presetService.currentCount);
+    return result === '' ? 0 : result;
   }
 
   keyBindingCheck(key: string) {
@@ -110,8 +148,12 @@ export class NumpadComponent {
     if (event.target.nodeName === 'INPUT') {
       return;
     }
+    this.updateAllCounts(event.key);
+  }
+
+  updateAllCounts(key: String) {
     let row = this.presetService.currentPreset.rows.find((row) => {
-      return row.key === event.key;
+      return row.key === key;
     });
     //if keybinding was found in current preset, update count depending on direction
     if (row) {
@@ -124,5 +166,11 @@ export class NumpadComponent {
         this.currentKey = '';
       }, 200);
     }
+  }
+
+  onNumpadClick(event: any, i: number) {
+    navigator.vibrate(200);
+    let key = this.numpadItems[i];
+    this.updateAllCounts(key);
   }
 }

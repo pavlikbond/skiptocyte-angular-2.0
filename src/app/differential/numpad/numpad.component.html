@@ -1,6 +1,8 @@
 <div class="controls-container">
   <div class="max-print-container flex">
-    <div class="max-wbc-ratio">{{ getCurrentCount() }}/{{ getMaxWbc() }}</div>
+    <div class="max-wbc-ratio overflow-hidden">
+      {{ getCurrentCount() }} / {{ getMaxWbc() }}
+    </div>
     <button class="print-btn">
       <mat-icon>print</mat-icon><span>Print</span>
     </button>
@@ -9,19 +11,19 @@
     <label for="max-wbc">Max Count</label>
     <label for="WBC Count">WBC</label>
     <div></div>
-
     <input
-      type="number"
-      name="max-wbc"
-      [(ngModel)]="currentPreset.maxWBC"
-      (keyup)="keyPressNumbers($event)"
+      type="text"
+      (input)="updateMaxWbc($event)"
+      [value]="getMaxWbc()"
+      placeholder="100"
+      class="wbc-input"
     />
     <input
-      type="number"
-      step="0.01"
-      value="0"
-      name="WBC Count"
-      (keypress)="keyPressNumbersWithDecimal($event)"
+      type="text"
+      placeholder="0.00"
+      (input)="updateWBCCount($event)"
+      [value]="getWBCCount()"
+      class="wbc-input"
     />
     <mat-form-field appearance="fill">
       <mat-label>Units</mat-label>
@@ -70,6 +72,7 @@
         'invis-mobile': i === 3 || i === 7 || i === 14,
         flash: currentKey === item
       }"
+      (click)="onNumpadClick($event, i)"
     >
       <span>{{ item }}</span
       ><span class="cell-name">{{ keyBindingCheck(item) }}</span>

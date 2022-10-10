@@ -53,11 +53,18 @@ export class TableComponent {
   changeClient(value: any) {
     this.currentPreset = this.presets[value];
     this.presetService.currentPreset = this.currentPreset;
+    this.presetService.clearCounts();
   }
 
   deleteRow(event: any) {
     let indexToDelete = event.target.dataset.target;
     this.currentPreset.rows.splice(indexToDelete, 1);
+  }
+
+  onCheckboxClick(event: any, i: number) {
+    let checked = event.target.checked;
+    this.currentPreset.rows[i].ignore = checked;
+    this.presetService.updateRelativesAndAbsolutes();
   }
 
   getCount(i: number) {
@@ -76,7 +83,7 @@ export class TableComponent {
 
   getAbsolute(i: number) {
     let absolute = this.presetService.getAbsolute(i);
-    return absolute > 0 ? absolute : '';
+    return absolute !== '0' ? absolute : '';
   }
 
   duplicateCheck(event: any, i: number) {
