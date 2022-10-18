@@ -20,6 +20,11 @@ $greyHover: #c2c2c2;
   font-size: 0.8rem;
 }
 
+::ng-deep .mat-form-field {
+  background-color: white;
+  border-radius: 5px;
+}
+
 .button {
   border-radius: 5px;
   background: $blue;

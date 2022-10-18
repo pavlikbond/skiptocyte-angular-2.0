@@ -6,7 +6,7 @@
     <button class="clear-btn button" (click)="clearAll()">
       <mat-icon>delete_outline</mat-icon><span class="hide">Clear All</span>
     </button>
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="fill" panelClass="preset-select">
       <mat-label>Presets</mat-label>
       <mat-select
         #presetSelect
@@ -31,7 +31,9 @@
       <span *ngIf="!isLoading">Save Preset</span>
     </button>
     <button class="button" (click)="op.toggle($event)">New Preset</button>
-    <button class="button"><mat-icon>settings</mat-icon></button>
+    <button class="button" (click)="openDialog()">
+      <mat-icon>settings</mat-icon>
+    </button>
   </div>
   <div class="table-header-container">
     <span class="table-header-item">Ignore</span>

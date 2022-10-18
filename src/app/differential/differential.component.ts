@@ -7,7 +7,7 @@ import { PresetService } from 'src/app/services/preset.service';
   selector: 'app-differential',
   templateUrl: './differential.component.html',
   styleUrls: ['./differential.component.scss'],
-  providers: [PresetService],
+  //providers: [PresetService],
 })
 export class DifferentialComponent {
   presets = Array.from(presets);

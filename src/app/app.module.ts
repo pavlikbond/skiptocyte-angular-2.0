@@ -1,6 +1,6 @@
+import { PresetService } from 'src/app/services/preset.service';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DifferentialComponent } from './differential/differential.component';
@@ -20,9 +20,11 @@ import { TableComponent } from './differential/table/table.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import {OverlayPanelModule} from 'primeng/overlaypanel';
-import {InputNumberModule} from 'primeng/inputnumber';
-import {InputTextModule} from 'primeng/inputtext';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { InputTextModule } from 'primeng/inputtext';
+import { SettingsDialogComponent } from './differential/table/settings-dialog/settings-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,7 +35,9 @@ import {InputTextModule} from 'primeng/inputtext';
     NavbarComponent,
     NumpadComponent,
     TableComponent,
+    SettingsDialogComponent,
   ],
+  entryComponents: [SettingsDialogComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -50,9 +54,10 @@ import {InputTextModule} from 'primeng/inputtext';
     MatTooltipModule,
     OverlayPanelModule,
     InputNumberModule,
-    InputTextModule
+    InputTextModule,
+    MatDialogModule,
   ],
-  providers: [],
+  providers: [PresetService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

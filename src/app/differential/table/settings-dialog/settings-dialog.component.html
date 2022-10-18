@@ -1,0 +1,16 @@
+<h1 class="text-center">Settings</h1>
+<h3 class="">Choose sound</h3>
+<div class="song-scroller flex shadow-md">
+  <button class="left-button btn" (click)="previousTrack()">
+    <mat-icon>keyboard_arrow_left</mat-icon>
+  </button>
+  <span (click)="playDing()" onselectstart="return false">
+    <div class="play-icon-cont">
+      <mat-icon class="play-icon">play_circle_filled</mat-icon>
+    </div>
+    <p>{{ displayTrack }}</p></span
+  >
+  <button class="right-button btn" (click)="nextTrack()">
+    <mat-icon>keyboard_arrow_right</mat-icon>
+  </button>
+</div>
