@@ -1,0 +1,101 @@
+$darkblue: #161c2f;
+$medblue: #242d43;
+$blue: #303a5e;
+$bluehover: #2366be;
+$verydarkblue: #000000;
+$grey: #e5e5e5;
+$greyHover: #c2c2c2;
+
+button {
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $blue;
+  &:hover {
+    background-color: $medblue;
+  }
+}
+
+h3 {
+  font-weight: 500;
+}
+
+.left-button {
+  border-radius: 5px 0 0 5px;
+}
+
+.right-button {
+  border-radius: 0 5px 5px 0;
+}
+
+.song-scroller {
+  span {
+    border-top: 1px solid $medblue;
+    border-bottom: 1px solid $medblue;
+    display: flex;
+    padding: 0 10px;
+    align-items: center;
+    justify-content: center;
+    width: 12rem;
+    position: relative;
+    cursor: pointer;
+    p {
+      margin: 0;
+      font-size: 1.3rem;
+    }
+  }
+}
+
+.play-icon-cont {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: all 0.2s ease;
+  .play-icon {
+    color: $blue;
+    transform: scale(1.8);
+    &:active {
+      transform: scale(1.75);
+    }
+  }
+}
+
+.play-icon-cont:hover {
+  opacity: 1;
+  background-color: white;
+}
+
+.close-btn {
+  color: white;
+  padding: 8px 12px;
+  border-radius: 5px;
+  font-weight: 400;
+  font-size: 1.2rem;
+  letter-spacing: 0.07rem;
+}
+
+.x-btn {
+  border-radius: 50%;
+  padding: 5px;
+  color: white;
+  background-color: $blue;
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  &:hover {
+    background-color: $medblue;
+  }
+  &:active {
+    transform: scale(0.95);
+  }
+}

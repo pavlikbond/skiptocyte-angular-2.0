@@ -3,6 +3,8 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Preset } from 'src/app/models/preset.model';
 import { NgForm } from '@angular/forms';
 import { PresetService } from 'src/app/services/preset.service';
+import { MatDialog } from '@angular/material/dialog';
+import { SettingsDialogComponent } from './settings-dialog/settings-dialog.component';
 
 @Component({
   selector: 'app-table',
@@ -17,7 +19,7 @@ export class TableComponent {
   numRowsError: string = '';
   maxCount!: string;
 
-  constructor(private presetService: PresetService) {}
+  constructor(private presetService: PresetService, public dialog: MatDialog) {}
 
   drop(event: CdkDragDrop<string[]>) {
     moveItemInArray(
@@ -152,5 +154,16 @@ export class TableComponent {
       this.index = (this.presets.length - 1).toString();
       presetForm.resetForm();
     }
+  }
+
+  openDialog() {
+    this.dialog.open(SettingsDialogComponent);
+  }
+
+  deletePreset(i: number) {
+    console.log('delete preset ' + i);
+    console.log(this.presetService.presets);
+
+    this.presetService.presets.splice(i, 1);
   }
 }

@@ -1,6 +1,6 @@
+import { PresetService } from 'src/app/services/preset.service';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DifferentialComponent } from './differential/differential.component';
@@ -11,7 +11,6 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { FormsModule } from '@angular/forms';
 import { HomePageComponent } from './home-page/home-page.component';
 import { HttpClientModule } from '@angular/common/http';
-import { NavbarComponent } from './navbar/navbar.component';
 import { NumpadComponent } from './differential/numpad/numpad.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -20,9 +19,17 @@ import { TableComponent } from './differential/table/table.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import {OverlayPanelModule} from 'primeng/overlaypanel';
-import {InputNumberModule} from 'primeng/inputnumber';
-import {InputTextModule} from 'primeng/inputtext';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { InputTextModule } from 'primeng/inputtext';
+import { SettingsDialogComponent } from './differential/table/settings-dialog/settings-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
+import { MainNavComponent } from './main-nav/main-nav.component';
+import { LayoutModule } from '@angular/cdk/layout';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,10 +37,12 @@ import {InputTextModule} from 'primeng/inputtext';
     DilutionComponent,
     ContactComponent,
     HomePageComponent,
-    NavbarComponent,
     NumpadComponent,
     TableComponent,
+    SettingsDialogComponent,
+    MainNavComponent,
   ],
+  entryComponents: [SettingsDialogComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -50,9 +59,15 @@ import {InputTextModule} from 'primeng/inputtext';
     MatTooltipModule,
     OverlayPanelModule,
     InputNumberModule,
-    InputTextModule
+    InputTextModule,
+    MatDialogModule,
+    MatToolbarModule,
+    MatButtonModule,
+    LayoutModule,
+    MatSidenavModule,
+    MatListModule,
   ],
-  providers: [],
+  providers: [PresetService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

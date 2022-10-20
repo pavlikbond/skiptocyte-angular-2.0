@@ -9,24 +9,24 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    component: HomePageComponent
+    component: HomePageComponent,
   },
   {
-    path:'differential',
-    component: DifferentialComponent
+    path: 'differential',
+    component: DifferentialComponent,
   },
   {
     path: 'contact',
-    component: ContactComponent
+    component: ContactComponent,
   },
   {
     path: 'dilution',
-    component: DilutionComponent
-  }
+    component: DilutionComponent,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes), BrowserModule],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

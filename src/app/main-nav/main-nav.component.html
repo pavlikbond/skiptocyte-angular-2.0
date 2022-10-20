@@ -1,0 +1,93 @@
+<!-- added my own backdrop that causes drawer to close on click -->
+<div
+  *ngIf="opened"
+  class="my-backdrop"
+  (click)="drawer.close()"
+  (click)="onClick()"
+></div>
+<mat-sidenav-container class="sidenav-container relative" (click)="onClick()">
+  <mat-sidenav
+    #drawer
+    class="sidenav"
+    [ngClass]="{ hidden: (isHandset$ | async) === false }"
+    fixedInViewport
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="(isHandset$ | async) === false"
+  >
+    <mat-toolbar>
+      <h2>Menu</h2>
+      <span class="example-spacer"></span>
+      <button
+        mat-mini-fab
+        color="accent"
+        aria-label="icon button with a close icon"
+        (click)="drawer.toggle()"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-toolbar>
+    <mat-nav-list>
+      <a mat-list-item routerLink="/">Home</a>
+      <a mat-list-item routerLink="/dilution">Dilution</a>
+      <a mat-list-item routerLink="/differential">Counter</a>
+      <a mat-list-item routerLink="/contact">Contact</a>
+    </mat-nav-list>
+    <div class="flex gap-4 px-4">
+      <button mat-raised-button color="accent">
+        <mat-icon class="mr-2">account_circle</mat-icon>Login
+      </button>
+      <button mat-stroked-button>
+        <mat-icon class="mr-2">person_add</mat-icon>Sign Up
+      </button>
+    </div>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <a routerLink="/"
+        ><span class="w-[120px] mr-2 flex justify-center"
+          ><img src="../../assets/images/logo.svg" alt="" /></span
+      ></a>
+      <span class="example-spacer"></span>
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+        *ngIf="isHandset$ | async"
+      >
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <div class="nav-wrapper" [ngClass]="{ hidden: (isHandset$ | async) }">
+        <button
+          mat-button
+          routerLink="/"
+          routerLinkActive="active-btn"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="home-btn"
+        >
+          Home
+        </button>
+        <button mat-button routerLink="/dilution" routerLinkActive="active-btn">
+          Dilution
+        </button>
+        <button
+          mat-button
+          routerLink="/differential"
+          routerLinkActive="active-btn"
+        >
+          Counter
+        </button>
+        <button mat-button routerLink="/contact" routerLinkActive="active-btn">
+          Contact
+        </button>
+        <button mat-raised-button color="accent">
+          <mat-icon class="mr-2 hidden md:block">account_circle</mat-icon>Login
+        </button>
+        <button mat-button>
+          <mat-icon class="mr-2 hidden">person_add</mat-icon>Sign Up
+        </button>
+      </div>
+    </mat-toolbar>
+  </mat-sidenav-content>
+</mat-sidenav-container>

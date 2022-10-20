@@ -13,6 +13,15 @@ export class PresetService {
   direction: string = 'increase';
   WbcCount: number = 0;
   maxDecimals: number = 3;
+
+  trackList: { name: string; filePath: string }[] = [
+    { name: 'Beep 1', filePath: '../assets/Beep_1.wav' },
+    { name: 'Beep 2', filePath: '../assets/Beep_2.mp3' },
+    { name: 'Beep 3', filePath: '../assets/Beep_3.mp3' },
+  ];
+  currentTrack: number = 0;
+  //currentTrack: { name: string; filePath: string } = this.trackList[0];
+
   constructor() {}
 
   adjustCount(key: string, i: number) {
@@ -97,7 +106,8 @@ export class PresetService {
 
   playDing() {
     let audio = new Audio();
-    audio.src = '../assets/smb_fireball.wav';
+    audio.src = this.trackList[this.currentTrack].filePath;
+
     audio.load();
     audio.play();
   }
