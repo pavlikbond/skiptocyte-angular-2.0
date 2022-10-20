@@ -1,37 +1,51 @@
 <div class="table-container rounded-md">
   <div class="top-level-controls">
-    <button class="add-btn button" (click)="addRow()">
-      <mat-icon>add</mat-icon><span class="hide">Add Row</span>
-    </button>
-    <button class="clear-btn button" (click)="clearAll()">
-      <mat-icon>delete_outline</mat-icon><span class="hide">Clear All</span>
-    </button>
-    <mat-form-field appearance="fill" panelClass="preset-select">
-      <mat-label>Presets</mat-label>
-      <mat-select
-        #presetSelect
-        [(value)]="index"
-        panelClass="unit-dropdown"
-        (selectionChange)="changeClient($event.value)"
-      >
-        <mat-option
-          value="{{ i }}"
-          *ngFor="let preset of presets; let i = index"
-          >{{ preset.name }}</mat-option
-        >
-      </mat-select>
-    </mat-form-field>
+    <div class="preset-select">
+      <mat-form-field appearance="fill">
+        <mat-label>Presets</mat-label>
+        <mat-select
+          #presetSelect
+          [(value)]="index"
+          panelClass="unit-dropdown"
+          (selectionChange)="changeClient($event.value)"
+          ><mat-select-trigger>{{ currentPreset.name }}</mat-select-trigger>
+          <mat-option
+            value="{{ i }}"
+            *ngFor="let preset of presets; let i = index"
+            >{{ preset.name
+            }}<mat-icon class="deleteButton" (click)="deletePreset(i)"
+              >clear</mat-icon
+            ></mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+    </div>
     <button
       class="update-preset button"
       (click)="updatePreset()"
       [disabled]="isLoading"
     >
       <span class="loader" *ngIf="isLoading"></span>
-      <span *ngIf="isLoading" class="ml-2">Saving...</span>
-      <span *ngIf="!isLoading">Save Preset</span>
+      <span *ngIf="isLoading" class=""
+        ><span class="hide-md">Saving...</span></span
+      >
+      <span *ngIf="!isLoading"
+        ><mat-icon class="show">save</mat-icon
+        ><span class="hide-md">Save Preset</span></span
+      >
     </button>
-    <button class="button" (click)="op.toggle($event)">New Preset</button>
-    <button class="button" (click)="openDialog()">
+    <button class="button" (click)="op.toggle($event)">
+      <span>New Preset</span>
+    </button>
+    <button class="add-btn button" (click)="addRow()">
+      <mat-icon>add</mat-icon
+      ><span class="hide">Add <span class="hide-md">Row</span></span>
+    </button>
+    <button class="clear-btn button" (click)="clearAll()">
+      <mat-icon>delete_outline</mat-icon
+      ><span class="hide">Clear <span class="hide-md">All</span></span>
+    </button>
+    <button class="button settings-btn" (click)="openDialog()">
       <mat-icon>settings</mat-icon>
     </button>
   </div>
@@ -54,7 +68,7 @@
         *ngFor="let item of currentPreset.rows; let i = index"
         cdkDrag
       >
-        <div class="flex justify-center">
+        <div class="input-container">
           <input
             type="checkbox"
             [checked]="item.ignore"
@@ -63,24 +77,32 @@
           <!-- <mat-checkbox class="center" [checked]="item.ignore"></mat-checkbox> -->
         </div>
         <!-- <input type="checkbox" [checked]="item.ignore" /> -->
-        <div>
+        <div class="input-container">
           <input
             type="text"
-            class="key-input shadow-lg"
+            class="key-input shadow-lg text-xs md:text-base"
             value="{{ item.key }}"
             (keydown)="duplicateCheck($event, i)"
           />
         </div>
-        <input
-          type="text"
-          class="cell-input shadow-lg"
-          value="{{ item.cell }}"
-          (keyup)="updateCurrentPreset($event, i)"
-          maxlength="15"
-        />
-        <span class="text-center text-lg">{{ getCount(i) }}</span>
-        <span class="text-center text-lg">{{ getRelative(i) }}</span>
-        <span class="text-center text-lg">{{ getAbsolute(i) }}</span>
+        <div class="input-container">
+          <input
+            type="text"
+            class="cell-input shadow-lg text-xs md:text-base"
+            value="{{ item.cell }}"
+            (keyup)="updateCurrentPreset($event, i)"
+            maxlength="15"
+          />
+        </div>
+        <span class="text-center text-xs sm:text-sm md:text-lg">{{
+          getCount(i)
+        }}</span>
+        <span class="text-center text-xs sm:text-sm md:text-lg">{{
+          getRelative(i)
+        }}</span>
+        <span class="text-center text-xs sm:text-sm md:text-lg">{{
+          getAbsolute(i)
+        }}</span>
         <a
           class="boxclose"
           id="boxclose"

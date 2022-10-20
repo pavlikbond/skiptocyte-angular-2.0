@@ -159,4 +159,11 @@ export class TableComponent {
   openDialog() {
     this.dialog.open(SettingsDialogComponent);
   }
+
+  deletePreset(i: number) {
+    console.log('delete preset ' + i);
+    console.log(this.presetService.presets);
+
+    this.presetService.presets.splice(i, 1);
+  }
 }

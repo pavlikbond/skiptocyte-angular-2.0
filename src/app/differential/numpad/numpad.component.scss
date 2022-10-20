@@ -11,6 +11,7 @@ $greyHover: #c2c2c2;
   border-radius: 5px;
   background-color: $darkblue;
   padding: 10px;
+  min-width: 320px;
 }
 
 .max-print-container {
@@ -190,18 +191,23 @@ $greyHover: #c2c2c2;
   border: 2px solid $grey;
 }
 
+.units-input {
+  border-top: 1px solid $blue;
+}
+
 .deleteButton:hover {
   cursor: pointer;
-  background: $medblue;
-  border-radius: 5px;
+  color: black;
+  font-weight: bold;
 }
 .deleteButton {
   position: absolute;
   top: 50%;
-  right: 0;
+  right: -5%;
   transform: translate(-50%, -50%);
   transition: all 0.3s ease;
-  margin-right: 0;
+  color: $blue;
+  transition: all 0.3s ease;
 }
 
 .button {
