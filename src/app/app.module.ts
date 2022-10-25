@@ -30,6 +30,7 @@ import { MainNavComponent } from './main-nav/main-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
+import { PrintDialogComponent } from './differential/numpad/print-dialog/print-dialog.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,6 +42,7 @@ import { MatListModule } from '@angular/material/list';
     TableComponent,
     SettingsDialogComponent,
     MainNavComponent,
+    PrintDialogComponent,
   ],
   entryComponents: [SettingsDialogComponent],
   imports: [

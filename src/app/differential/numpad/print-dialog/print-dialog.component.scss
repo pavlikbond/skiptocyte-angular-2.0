@@ -1,0 +1,98 @@
+.print-dialog {
+  display: flex;
+  justify-content: space-between;
+  gap: 25px;
+}
+.preview-pane {
+  h2 {
+    font-size: 1.6rem;
+    margin-bottom: 20px;
+  }
+  border: 2px solid lightgrey;
+  width: 595px;
+  height: 770px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  padding: 7%;
+  .field-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    .field {
+      border-bottom: 2px solid black;
+      .field-name {
+        font-weight: 500;
+      }
+    }
+    p {
+      margin: 0;
+    }
+  }
+}
+
+.form-field-row {
+  height: 50px;
+  border-radius: 5px;
+  display: grid;
+  grid-template-columns: 1fr 10fr 20fr 1fr;
+  gap: 5px;
+  padding: 5px;
+  border: 2px solid lightgrey;
+  background-color: white;
+  span {
+    margin: auto 0 auto 10px;
+  }
+  input {
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    padding: 5px;
+  }
+}
+
+.print-settings-container {
+  .add-field-input {
+    border: 1px solid lightgrey;
+    padding: 5px;
+    border-radius: 5px;
+    display: inline-block;
+    min-width: 50%;
+  }
+}
+.cdk-drag-preview {
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+    0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.cdk-drag-placeholder {
+  opacity: 0;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.form-fields-container.cdk-drop-list-dragging
+  .form-field-row:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+table {
+  border-collapse: collapse;
+  border-radius: 5px;
+  width: 100%;
+  margin-top: 10%;
+}
+
+th,
+td {
+  border: 2px solid grey;
+  padding: 0.5rem;
+  font-size: 1.1rem;
+}
+
+th {
+  font-weight: 500;
+  background: lightgrey;
+}

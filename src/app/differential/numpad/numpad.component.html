@@ -3,7 +3,7 @@
     <div class="max-wbc-ratio overflow-hidden">
       {{ getCurrentCount() }} / {{ getMaxWbc() }}
     </div>
-    <button class="print-btn">
+    <button class="print-btn" (click)="openDialog()">
       <mat-icon>print</mat-icon><span>Print</span>
     </button>
   </div>
