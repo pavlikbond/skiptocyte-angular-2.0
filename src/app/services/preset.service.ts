@@ -13,7 +13,8 @@ export class PresetService {
   direction: string = 'increase';
   WbcCount: number = 0;
   maxDecimals: number = 3;
-
+  units = ['10^9/L', '10^6/mL', '10^3/uL'];
+  selectedUnit: string = this.units[0];
   trackList: { name: string; filePath: string }[] = [
     { name: 'Beep 1', filePath: '../assets/Beep_1.wav' },
     { name: 'Beep 2', filePath: '../assets/Beep_2.mp3' },
@@ -96,10 +97,12 @@ export class PresetService {
   }
 
   clearCounts() {
-    for (let row of this.currentPreset.rows) {
-      row.count = 0;
-      row.relative = 0;
-      row.absolute = 0;
+    if (this.currentPreset) {
+      for (let row of this.currentPreset.rows) {
+        row.count = 0;
+        row.relative = 0;
+        row.absolute = 0;
+      }
     }
     this.currentCount = 0;
   }

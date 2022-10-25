@@ -2,6 +2,7 @@
   display: flex;
   justify-content: space-between;
   gap: 25px;
+  height: 92vh;
 }
 .preview-pane {
   h2 {
@@ -26,6 +27,18 @@
     }
     p {
       margin: 0;
+    }
+  }
+}
+
+.all-settings {
+  height: 770px;
+  overflow: auto;
+  .additional-settings {
+    .checkboxes {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1rem;
     }
   }
 }

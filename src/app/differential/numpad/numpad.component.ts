@@ -11,8 +11,8 @@ import { PrintDialogComponent } from './print-dialog/print-dialog.component';
 })
 export class NumpadComponent {
   active = 'increase';
-  units = ['10^9/L', '10^6/mL', '10^3/uL'];
-  selectedUnit = this.units[0];
+  units = this.presetService.units;
+  selectedUnit = this.presetService.selectedUnit;
   numpadVisible: boolean = true;
   currentKey: string = '';
   //WbcCount!: number;
@@ -110,12 +110,12 @@ export class NumpadComponent {
   }
 
   addUnits(event: any) {
-    this.units.push(event.target.value);
+    this.presetService.units.push(event.target.value);
     event.target.value = '';
   }
 
   deleteUnitFromList(index: number) {
-    this.units.splice(index, 1);
+    this.presetService.units.splice(index, 1);
   }
 
   getMaxWbc() {
@@ -178,5 +178,9 @@ export class NumpadComponent {
 
   openDialog() {
     this.dialog.open(PrintDialogComponent);
+  }
+
+  changeUnit() {
+    this.presetService.selectedUnit = this.selectedUnit;
   }
 }

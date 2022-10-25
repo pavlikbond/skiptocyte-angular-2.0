@@ -1,63 +1,103 @@
 <div class="print-dialog">
   <div class="print-settings-container">
     <h2 class="text-center">Print Settings</h2>
-    <div
-      class="form-fields-container mb-5"
-      cdkDropList
-      (cdkDropListDropped)="drop($event)"
-    >
+    <div class="all-settings">
       <div
-        *ngFor="let field of fields; let i = index"
-        cdkDrag
-        class="form-field-row shadow-md mb-2"
+        class="form-fields-container mb-5"
+        cdkDropList
+        (cdkDropListDropped)="drop($event)"
       >
-        <mat-icon cdkDragHandle class="text-gray-400 m-auto cursor-move"
-          >drag_indicator</mat-icon
+        <div
+          *ngFor="let field of fields; let i = index"
+          cdkDrag
+          class="form-field-row shadow-md mb-2"
         >
-        <span>{{ field.name }}</span>
-        <input
-          type="text"
-          class="field-value-input"
-          [(ngModel)]="fields[i].value"
-          maxlength="50"
-        />
-        <button mat-button (click)="deleteFieldRow(i)">
-          <mat-icon class="text-center text-gray-600">close</mat-icon>
-        </button>
+          <mat-icon cdkDragHandle class="text-gray-400 m-auto cursor-move"
+            >drag_indicator</mat-icon
+          >
+          <span>{{ field.name }}</span>
+          <input
+            type="text"
+            class="field-value-input"
+            [(ngModel)]="fields[i].value"
+            maxlength="50"
+            placeholder="Type Here"
+          />
+          <button mat-button (click)="deleteFieldRow(i)">
+            <mat-icon class="text-center text-gray-600">close</mat-icon>
+          </button>
+        </div>
       </div>
-    </div>
-    <div class="add-new-field flex">
-      <button
-        *ngIf="!adding"
-        mat-raised-button
-        color="accent"
-        (click)="toggleField()"
-      >
-        Add Field
-      </button>
-      <div *ngIf="adding" class="flex gap-2 w-full">
-        <input
-          type="text"
-          class="add-field-input shadow-md"
-          placeholder="Name"
-          [(ngModel)]="newFieldValue"
-          #newFieldInput
-          (keydown.enter)="addNewField()"
-          maxlength="30"
-        />
-        <button (click)="addNewField()" mat-raised-button color="accent">
-          Add
+      <div class="add-new-field flex">
+        <button
+          *ngIf="!adding"
+          mat-raised-button
+          color="accent"
+          (click)="toggleField()"
+        >
+          Add Field
         </button>
-        <button (click)="toggleField()" mat-stroked-button>Cancel</button>
+        <div *ngIf="adding" class="flex gap-2 w-full">
+          <input
+            type="text"
+            class="add-field-input shadow-md"
+            placeholder="Name"
+            [(ngModel)]="newFieldValue"
+            #newFieldInput
+            (keydown.enter)="addNewField()"
+            maxlength="30"
+          />
+          <button (click)="addNewField()" mat-raised-button color="accent">
+            Add
+          </button>
+          <button (click)="toggleField()" mat-stroked-button>Cancel</button>
+        </div>
+      </div>
+
+      <div class="additional-settings mt-2">
+        <h2 class="text-center">Additional Settings</h2>
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Report Title</mat-label>
+          <input
+            matInput
+            placeholder="Ex. Report"
+            value="Report"
+            [(ngModel)]="allSettings.reportTitle"
+            maxlength="30"
+            autocomplete="off"
+          />
+        </mat-form-field>
+        <div class="checkboxes">
+          <mat-checkbox [(ngModel)]="allSettings.showLabels"
+            >Show labels</mat-checkbox
+          >
+          <mat-checkbox [(ngModel)]="allSettings.showCell"
+            >Show Cell</mat-checkbox
+          >
+          <mat-checkbox [(ngModel)]="allSettings.showCount"
+            >Show Count</mat-checkbox
+          >
+          <mat-checkbox [(ngModel)]="allSettings.showRelative"
+            >Show Relative</mat-checkbox
+          >
+          <mat-checkbox [(ngModel)]="allSettings.showAbsolute"
+            >Show Absolute</mat-checkbox
+          >
+          <mat-checkbox [(ngModel)]="allSettings.showUnits"
+            >Show Units</mat-checkbox
+          >
+          <mat-checkbox [(ngModel)]="allSettings.showIgnored"
+            >Show Ignored</mat-checkbox
+          >
+        </div>
       </div>
     </div>
   </div>
 
   <div class="preview-container max-w-[595px]">
     <h2 class="text-center">Preview</h2>
-
     <div class="preview-pane">
-      <h2 class="text-center">Report</h2>
+      <h2 class="text-center">{{ allSettings.reportTitle }}</h2>
       <div class="field-container">
         <div *ngFor="let field of fields" class="field">
           <span class="mr-2 field-name"
@@ -68,28 +108,39 @@
       </div>
       <div class="counts-container mt-5">
         <table>
-          <thead>
+          <thead *ngIf="allSettings.showLabels">
             <tr>
-              <th>Cell</th>
-              <th>Count</th>
-              <th>Relative</th>
-              <th>Absolute</th>
+              <th *ngIf="allSettings.showCell">Cell</th>
+              <th *ngIf="allSettings.showCount">Count</th>
+              <th *ngIf="allSettings.showRelative">Relative</th>
+              <th *ngIf="allSettings.showAbsolute">Absolute</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let item of currentCounts">
-              <td>{{ item.cell }}</td>
-              <td>{{ item.count }}</td>
-              <td>{{ item.relative }}</td>
-              <td>{{ item.absolute }}</td>
-            </tr>
+            <ng-container *ngFor="let item of currentCounts">
+              <tr *ngIf="!item.ignore || allSettings.showIgnored">
+                <td *ngIf="allSettings.showCell">{{ item.cell }}</td>
+                <td *ngIf="allSettings.showCount">{{ item.count }}</td>
+                <td *ngIf="allSettings.showRelative" class="text-right">
+                  {{ item.ignore ? "" : item.relative + " %" }}
+                </td>
+                <td *ngIf="allSettings.showAbsolute" class="text-right">
+                  <span>{{ item.ignore ? "" : item.absolute }}</span>
+                  <span
+                    *ngIf="allSettings.showUnits && !item.ignore"
+                    class="text-sm pl-2"
+                    [innerHTML]="formattedUnit()"
+                  ></span>
+                </td>
+              </tr>
+            </ng-container>
           </tbody>
         </table>
       </div>
     </div>
 
     <div class="button-container flex justify-end gap-3">
-      <button mat-flat-button color="accent">Print</button>
+      <button mat-flat-button color="accent" (click)="print()">Print</button>
       <button mat-stroked-button [mat-dialog-close]="true">Cancel</button>
     </div>
   </div>

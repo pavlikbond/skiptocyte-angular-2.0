@@ -20,6 +20,16 @@ export class PrintDialogComponent {
   @ViewChild('newFieldInput') newFieldInputRef!: ElementRef;
   adding: boolean = false;
   newFieldValue: string = '';
+  allSettings = {
+    showLabels: true,
+    showCell: true,
+    showCount: false,
+    showRelative: true,
+    showAbsolute: true,
+    showUnits: false,
+    showIgnored: false,
+    reportTitle: 'Report',
+  };
 
   constructor(private presetService: PresetService) {}
 
@@ -44,5 +54,25 @@ export class PrintDialogComponent {
         this.newFieldInputRef.nativeElement.focus();
       }, 50);
     }
+  }
+
+  formattedUnit() {
+    let unit = this.presetService.selectedUnit;
+    if (unit.includes('^')) {
+      let index = unit.indexOf('^');
+      let superScript = '';
+      for (let i = index + 1; i < unit.length; i++) {
+        if (!isNaN(+unit[i])) {
+          superScript += unit[i];
+        } else {
+          break;
+        }
+      }
+      unit = unit.replace('^' + superScript, `<sup>${superScript}</sup>`);
+    }
+    return `${unit}`;
+  }
+  print() {
+    window.print();
   }
 }
