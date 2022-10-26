@@ -32,7 +32,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { PrintDialogComponent } from './differential/numpad/print-dialog/print-dialog.component';
 import { MatInputModule } from '@angular/material/input';
-import { PrintViewComponent } from './differential/numpad/print-dialog/print-view/print-view.component';
+import { NgxPrintModule } from 'ngx-print';
 @NgModule({
   declarations: [
     AppComponent,
@@ -45,7 +45,6 @@ import { PrintViewComponent } from './differential/numpad/print-dialog/print-vie
     SettingsDialogComponent,
     MainNavComponent,
     PrintDialogComponent,
-    PrintViewComponent,
   ],
   entryComponents: [SettingsDialogComponent],
   imports: [
@@ -72,6 +71,7 @@ import { PrintViewComponent } from './differential/numpad/print-dialog/print-vie
     MatSidenavModule,
     MatListModule,
     MatInputModule,
+    NgxPrintModule,
   ],
   providers: [PresetService],
   bootstrap: [AppComponent],

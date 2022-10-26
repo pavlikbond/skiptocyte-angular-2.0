@@ -1,0 +1,17 @@
+@page {
+  margin: 0;
+}
+
+.preview-pane {
+  transform-origin: top left;
+  transform: scale(1.4);
+  border: none !important;
+  padding: 6% !important;
+  padding-top: 3% !important;
+  overflow: visible !important;
+}
+
+.wbc-count {
+  margin-top: 1em !important;
+  font-size: 1em !important;
+}

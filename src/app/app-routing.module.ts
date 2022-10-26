@@ -1,4 +1,3 @@
-import { PrintViewComponent } from './differential/numpad/print-dialog/print-view/print-view.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import { DilutionComponent } from './dilution/dilution.component';
 import { ContactComponent } from './contact/contact.component';
@@ -23,10 +22,6 @@ const routes: Routes = [
   {
     path: 'dilution',
     component: DilutionComponent,
-  },
-  {
-    path: 'print',
-    component: PrintViewComponent,
   },
 ];
 
