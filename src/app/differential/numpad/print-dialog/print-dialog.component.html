@@ -104,7 +104,7 @@
     <div id="print-section">
       <div class="preview-pane" #previewPane>
         <div class="preview-page" #previewPage>
-          <h2 class="text-center">{{ allSettings.reportTitle }}</h2>
+          <h2>{{ allSettings.reportTitle }}</h2>
           <div class="field-container">
             <div *ngFor="let field of fields" class="field">
               <span class="mr-2 field-name"
@@ -113,16 +113,19 @@
               <span>{{ field.value }}</span>
             </div>
           </div>
-          <div class="wbc-count" *ngIf="allSettings.showWBC">
-            <span>WBC Count: </span>
-            <span>{{ count }} </span>
+          <div class="wbc-count" *ngIf="allSettings.showWBC; else elseBlock">
+            <span>WBC Count:</span>
+            <span class="ml-1">{{ count }}</span>
             <span
               *ngIf="allSettings.showUnits"
-              [innerHTML]="formattedUnit()"
-              class="units"
+              [innerHTML]="'x ' + formattedUnit()"
+              class="units ml-1"
             ></span>
           </div>
-          <div class="counts-container mt-5">
+          <ng-template #elseBlock>
+            <div class="spacer"></div>
+          </ng-template>
+          <div class="counts-container">
             <table>
               <thead *ngIf="allSettings.showLabels">
                 <tr>
@@ -162,11 +165,12 @@
             </table>
           </div>
         </div>
-        <div class="preview-page" *ngFor="let page of pages">
-          <div class="counts-container mt-5">
+
+        <div class="preview-page" *ngFor="let page of pages; let i = index">
+          <div class="counts-container">
             <table>
               <tbody>
-                <ng-container *ngFor="let item of pageRows[1]">
+                <ng-container *ngFor="let item of pageRows[i + 1]">
                   <tr *ngIf="!item.ignore || allSettings.showIgnored">
                     <td *ngIf="allSettings.showCell">{{ item.cell }}</td>
                     <td *ngIf="allSettings.showCount" class="text-right">
