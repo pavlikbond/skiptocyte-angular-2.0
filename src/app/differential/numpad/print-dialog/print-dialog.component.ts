@@ -10,7 +10,6 @@ import { PresetService } from 'src/app/services/preset.service';
   styleUrls: ['./print-dialog.component.scss'],
 })
 export class PrintDialogComponent {
-  numPages: number = 1;
   pages: number[] = [];
   currentCounts = this.presetService.currentPreset.rows;
   fields: { name: string; value: string }[] = [
@@ -100,22 +99,24 @@ export class PrintDialogComponent {
   }
 
   isFull() {
+    let numPages = this.pageRows.length;
+
     let element = this.previewPage.nativeElement;
+    let pane = this.previewPane.nativeElement;
     let ch = element.clientHeight;
     let sh = element.scrollHeight;
     console.log(ch);
     console.log(sh);
-    console.log(this.numPages);
+    console.log(pane.scrollHeight);
+
+    let result = sh > (ch + 5) * numPages;
+    //console.log(result);
+    //console.log((ch + 5) * numPages);
 
     return sh > ch + 5;
   }
 
   async work() {
-    this.numPages = this.getNumPages();
-    this.pages = Array(this.numPages - 1)
-      .fill(0)
-      .map((x, i) => i);
-
     while (this.isFull()) {
       let removed = this.pageRows[0].pop();
       if (!this.pageRows[1]) {
@@ -125,6 +126,10 @@ export class PrintDialogComponent {
       }
       await this.sleep(1);
     }
+    let numPages = this.pageRows.length;
+    this.pages = Array(numPages - 1)
+      .fill(0)
+      .map((x, i) => i);
   }
 
   sleep(ms: number) {
