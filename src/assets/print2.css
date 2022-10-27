@@ -9,9 +9,14 @@
   padding: 6% !important;
   padding-top: 3% !important;
   overflow: visible !important;
+  border: 1px solid red !important;
 }
 
 .wbc-count {
   margin-top: 1em !important;
   font-size: 1em !important;
+}
+
+.preview-page {
+  border: 1px solid red !important;
 }
