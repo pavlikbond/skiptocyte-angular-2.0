@@ -119,44 +119,49 @@ export class PrintDialogComponent {
   }
 
   refactor() {
-    let total = this.getTotal();
-    //if we need to add extra pages
-    if (total > 20) {
-      //let NumNewPages = Math.ceil((total - 20) / 20);
-      let page1RowSpaces = this.getTotal(true);
-      let rows: Row[][] = [];
-      let pageIndex = 0;
-      for (let row of this.presetService.currentPreset.rows) {
-        if (this.allSettings.showIgnored) {
-          rows[pageIndex] = rows[pageIndex] ? [...rows[pageIndex], row] : [row];
-        }
-        //if not displaying ignored rows only push non-ignored rows
-        else {
-          if (!row.ignore) {
+    //need the  timeout otherwise it doesn't work
+    setTimeout(() => {
+      let total = this.getTotal();
+      //if we need to add extra pages
+      if (total > 20) {
+        //let NumNewPages = Math.ceil((total - 20) / 20);
+        let page1RowSpaces = this.getTotal(true);
+        let rows: Row[][] = [];
+        let pageIndex = 0;
+        for (let row of this.presetService.currentPreset.rows) {
+          if (this.allSettings.showIgnored) {
             rows[pageIndex] = rows[pageIndex]
               ? [...rows[pageIndex], row]
               : [row];
           }
-        }
-        //if it's the first page, we only have page1rowspaces amount of space
-        if (pageIndex === 0) {
-          if (rows[0].length === page1RowSpaces) {
-            pageIndex++;
+          //if not displaying ignored rows only push non-ignored rows
+          else {
+            if (!row.ignore) {
+              rows[pageIndex] = rows[pageIndex]
+                ? [...rows[pageIndex], row]
+                : [row];
+            }
+          }
+          //if it's the first page, we only have page1rowspaces amount of space
+          if (pageIndex === 0) {
+            if (rows[0].length === page1RowSpaces) {
+              pageIndex++;
+            }
+          }
+          //all other pages have 20 space
+          else {
+            if (rows[pageIndex].length === 20) {
+              pageIndex++;
+            }
           }
         }
-        //all other pages have 20 space
-        else {
-          if (rows[pageIndex].length === 20) {
-            pageIndex++;
-          }
-        }
-      }
 
-      this.pageRows = [...rows];
-      this.pages = Array(this.pageRows.length - 1)
-        .fill(0)
-        .map((x, i) => i);
-    }
+        this.pageRows = [...rows];
+        this.pages = Array(this.pageRows.length - 1)
+          .fill(0)
+          .map((x, i) => i);
+      }
+    });
   }
 
   // getNumPages() {
