@@ -171,37 +171,43 @@
         </div>
 
         <div class="preview-page" *ngFor="let page of pages; let i = index">
-          <div class="counts-container">
-            <table>
-              <tbody>
-                <ng-container *ngFor="let item of pageRows[i + 1]">
-                  <tr *ngIf="!item.ignore || allSettings.showIgnored">
-                    <td *ngIf="allSettings.showCell">{{ item.cell }}</td>
-                    <td *ngIf="allSettings.showCount" class="text-right">
-                      {{ item.count }}
-                    </td>
-                    <td
-                      *ngIf="allSettings.showRelative"
-                      class="text-right relative-td"
-                    >
-                      {{ item.ignore ? "" : item.relative + " %" }}
-                    </td>
-                    <td
-                      *ngIf="allSettings.showAbsolute"
-                      class="text-right absolute-td"
-                    >
-                      <span>{{ item.ignore ? "" : item.absolute }}</span>
-                      <span
-                        *ngIf="allSettings.showUnits && !item.ignore"
-                        class="text-sm pl-2 units"
-                        [innerHTML]="formattedUnit()"
-                      ></span>
-                    </td>
-                  </tr>
-                </ng-container>
-              </tbody>
-            </table>
-          </div>
+          <table>
+            <thead *ngIf="allSettings.showLabels">
+              <tr>
+                <th *ngIf="allSettings.showCell">Cell</th>
+                <th *ngIf="allSettings.showCount">Count</th>
+                <th *ngIf="allSettings.showRelative">Relative</th>
+                <th *ngIf="allSettings.showAbsolute">Absolute</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngFor="let item of pageRows[i + 1]">
+                <tr *ngIf="!item.ignore || allSettings.showIgnored">
+                  <td *ngIf="allSettings.showCell">{{ item.cell }}</td>
+                  <td *ngIf="allSettings.showCount" class="text-right">
+                    {{ item.count }}
+                  </td>
+                  <td
+                    *ngIf="allSettings.showRelative"
+                    class="text-right relative-td"
+                  >
+                    {{ item.ignore ? "" : item.relative + " %" }}
+                  </td>
+                  <td
+                    *ngIf="allSettings.showAbsolute"
+                    class="text-right absolute-td"
+                  >
+                    <span>{{ item.ignore ? "" : item.absolute }}</span>
+                    <span
+                      *ngIf="allSettings.showUnits && !item.ignore"
+                      class="text-sm pl-2 units"
+                      [innerHTML]="formattedUnit()"
+                    ></span>
+                  </td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>

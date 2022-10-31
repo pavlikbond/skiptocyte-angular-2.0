@@ -150,7 +150,7 @@ export class PrintDialogComponent {
           }
           //all other pages have 20 space
           else {
-            if (rows[pageIndex].length === 20) {
+            if (rows[pageIndex].length === 19) {
               pageIndex++;
             }
           }
