@@ -105,102 +105,57 @@
   <div class="preview-container max-w-[595px]">
     <h2 class="text-center">Preview</h2>
     <!-- <iframe src="/print" frameborder="0" style="width: 100%"></iframe> -->
-    <div id="print-section">
-      <div class="preview-pane" #previewPane>
-        <div class="preview-page" #previewPage>
-          <h2>{{ allSettings.reportTitle }}</h2>
-          <div class="field-container">
-            <div *ngFor="let field of fields" class="field">
-              <span class="mr-2 field-name"
-                >{{ field.name }}{{ field.name ? ":" : "" }}</span
-              >
-              <span>{{ field.value }}</span>
-            </div>
-          </div>
-          <div class="wbc-count" *ngIf="allSettings.showWBC; else elseBlock">
-            <span>WBC Count:</span>
-            <span class="ml-1">{{ count }}</span>
-            <span
-              *ngIf="allSettings.showUnits"
-              [innerHTML]="'x ' + formattedUnit()"
-              class="units ml-1"
-            ></span>
-          </div>
-          <ng-template #elseBlock>
-            <div class="spacer"></div>
-          </ng-template>
-          <div class="counts-container">
-            <table>
-              <thead *ngIf="allSettings.showLabels">
-                <tr>
-                  <th *ngIf="allSettings.showCell">Cell</th>
-                  <th *ngIf="allSettings.showCount">Count</th>
-                  <th *ngIf="allSettings.showRelative">Relative</th>
-                  <th *ngIf="allSettings.showAbsolute">Absolute</th>
-                </tr>
-              </thead>
-              <tbody>
-                <ng-container *ngFor="let item of pageRows[0]">
-                  <tr *ngIf="!item.ignore || allSettings.showIgnored">
-                    <td *ngIf="allSettings.showCell">{{ item.cell }}</td>
-                    <td *ngIf="allSettings.showCount" class="text-right">
-                      {{ item.count }}
-                    </td>
-                    <td
-                      *ngIf="allSettings.showRelative"
-                      class="text-right relative-td"
-                    >
-                      {{ item.ignore ? "" : item.relative + " %" }}
-                    </td>
-                    <td
-                      *ngIf="allSettings.showAbsolute"
-                      class="text-right absolute-td"
-                    >
-                      <span>{{ item.ignore ? "" : item.absolute }}</span>
-                      <span
-                        *ngIf="allSettings.showUnits && !item.ignore"
-                        class="text-sm pl-2 units"
-                        [innerHTML]="formattedUnit()"
-                      ></span>
-                    </td>
-                  </tr>
-                </ng-container>
-              </tbody>
-            </table>
+
+    <div id="print-section" class="preview-pane" #previewPane>
+      <div class="preview-page" #previewPage>
+        <h2 class="title">{{ allSettings.reportTitle }}</h2>
+        <div class="field-container">
+          <div *ngFor="let field of fields" class="field">
+            <span class="mr-2 field-name"
+              >{{ field.name }}{{ field.name ? ":" : "" }}</span
+            >
+            <span>{{ field.value }}</span>
           </div>
         </div>
-
-        <div class="preview-page" *ngFor="let page of pages; let i = index">
-          <table>
+        <div class="wbc-count" *ngIf="allSettings.showWBC; else elseBlock">
+          <span>WBC Count:</span>
+          <span class="ml-1">{{ count }}</span>
+          <span
+            *ngIf="allSettings.showUnits"
+            [innerHTML]="'x ' + formattedUnit()"
+            class="units ml-1"
+          ></span>
+        </div>
+        <ng-template #elseBlock>
+          <div class="spacer"></div>
+        </ng-template>
+        <div class="counts-container">
+          <table class="data-table">
             <thead *ngIf="allSettings.showLabels">
               <tr>
-                <th *ngIf="allSettings.showCell">Cell</th>
-                <th *ngIf="allSettings.showCount">Count</th>
-                <th *ngIf="allSettings.showRelative">Relative</th>
-                <th *ngIf="allSettings.showAbsolute">Absolute</th>
+                <th *ngIf="allSettings.showCell" class="th">Cell</th>
+                <th *ngIf="allSettings.showCount" class="th">Count</th>
+                <th *ngIf="allSettings.showRelative" class="th">Relative</th>
+                <th *ngIf="allSettings.showAbsolute" class="th">Absolute</th>
               </tr>
             </thead>
             <tbody>
-              <ng-container *ngFor="let item of pageRows[i + 1]">
+              <ng-container *ngFor="let item of pageRows[0]">
                 <tr *ngIf="!item.ignore || allSettings.showIgnored">
-                  <td *ngIf="allSettings.showCell">{{ item.cell }}</td>
-                  <td *ngIf="allSettings.showCount" class="text-right">
+                  <td *ngIf="allSettings.showCell" class="td">
+                    {{ item.cell }}
+                  </td>
+                  <td *ngIf="allSettings.showCount" class="text-right td">
                     {{ item.count }}
                   </td>
-                  <td
-                    *ngIf="allSettings.showRelative"
-                    class="text-right relative-td"
-                  >
+                  <td *ngIf="allSettings.showRelative" class="text-right td">
                     {{ item.ignore ? "" : item.relative + " %" }}
                   </td>
-                  <td
-                    *ngIf="allSettings.showAbsolute"
-                    class="text-right absolute-td"
-                  >
+                  <td *ngIf="allSettings.showAbsolute" class="text-right td">
                     <span>{{ item.ignore ? "" : item.absolute }}</span>
                     <span
                       *ngIf="allSettings.showUnits && !item.ignore"
-                      class="text-sm pl-2 units"
+                      class="text-sm pl-2"
                       [innerHTML]="formattedUnit()"
                     ></span>
                   </td>
@@ -210,6 +165,44 @@
           </table>
         </div>
       </div>
+      <ng-container *ngFor="let page of pages; let i = index">
+        <div class="page-divider"></div>
+        <div class="preview-page">
+          <table class="data-table">
+            <thead *ngIf="allSettings.showLabels">
+              <tr>
+                <th *ngIf="allSettings.showCell" class="th">Cell</th>
+                <th *ngIf="allSettings.showCount" class="th">Count</th>
+                <th *ngIf="allSettings.showRelative" class="th">Relative</th>
+                <th *ngIf="allSettings.showAbsolute" class="th">Absolute</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngFor="let item of pageRows[i + 1]">
+                <tr *ngIf="!item.ignore || allSettings.showIgnored">
+                  <td *ngIf="allSettings.showCell" class="td">
+                    {{ item.cell }}
+                  </td>
+                  <td *ngIf="allSettings.showCount" class="text-right td">
+                    {{ item.count }}
+                  </td>
+                  <td *ngIf="allSettings.showRelative" class="text-right td">
+                    {{ item.ignore ? "" : item.relative + " %" }}
+                  </td>
+                  <td *ngIf="allSettings.showAbsolute" class="text-right td">
+                    <span>{{ item.ignore ? "" : item.absolute }}</span>
+                    <span
+                      *ngIf="allSettings.showUnits && !item.ignore"
+                      class="text-sm pl-2"
+                      [innerHTML]="formattedUnit()"
+                    ></span>
+                  </td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+      </ng-container>
     </div>
 
     <div class="button-container flex justify-end gap-3">

@@ -134,16 +134,10 @@ th {
 
 .preview-page {
   height: 100%;
-  border: 1px solid red;
-  margin-bottom: 108px;
-  &:first-child {
-    margin-top: 0;
-  }
-  &:last-child {
-    margin-bottom: 0;
-  }
 }
 
-.divider {
-  height: 108px;
+.page-divider {
+  border-top: 1px solid darkgrey;
+  margin: 50px 0;
+  transform: scaleX(1.1);
 }

@@ -150,7 +150,9 @@ export class PrintDialogComponent {
           }
           //all other pages have 20 space
           else {
-            if (rows[pageIndex].length === 19) {
+            if (
+              rows[pageIndex].length === (this.allSettings.showLabels ? 19 : 20)
+            ) {
               pageIndex++;
             }
           }

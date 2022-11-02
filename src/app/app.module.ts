@@ -33,6 +33,7 @@ import { MatListModule } from '@angular/material/list';
 import { PrintDialogComponent } from './differential/numpad/print-dialog/print-dialog.component';
 import { MatInputModule } from '@angular/material/input';
 import { NgxPrintModule } from 'ngx-print';
+
 @NgModule({
   declarations: [
     AppComponent,
