@@ -2,36 +2,46 @@
   <h1 class="text-center">Settings</h1>
   <div class="sound-setting shadow-lg">
     <h3 class="">Max Count Reached</h3>
-    <mat-checkbox class="m-checkbox">Play Sound</mat-checkbox>
+    <mat-checkbox
+      (click)="onClickCheckbox()"
+      class="m-checkbox"
+      [(ngModel)]="tableSettings.playMaxCount"
+      >Play Sound</mat-checkbox
+    >
     <div class="song-scroller flex shadow-md">
-      <button class="left-button btn" (click)="previousTrack()">
+      <button class="left-button btn" (click)="previousTrack(0)">
         <mat-icon>keyboard_arrow_left</mat-icon>
       </button>
-      <span (click)="playDing()" onselectstart="return false">
+      <span (click)="playDing(0)" onselectstart="return false">
         <div class="play-icon-cont">
           <mat-icon class="play-icon">play_circle_filled</mat-icon>
         </div>
-        <p>{{ displayTrack }}</p></span
+        <p>{{ getTrack("max") }}</p></span
       >
-      <button class="right-button btn" (click)="nextTrack()">
+      <button class="right-button btn" (click)="nextTrack(0)">
         <mat-icon>keyboard_arrow_right</mat-icon>
       </button>
     </div>
   </div>
   <div class="sound-setting shadow-md">
-    <h3 class="">Count Increased</h3>
-    <mat-checkbox class="m-checkbox">Play Sound</mat-checkbox>
+    <h3 class="">Count Changed</h3>
+    <mat-checkbox
+      (click)="onClickCheckbox()"
+      class="m-checkbox"
+      [(ngModel)]="tableSettings.playCountChange"
+      >Play Sound</mat-checkbox
+    >
     <div class="song-scroller flex shadow-lg">
-      <button class="left-button btn" (click)="previousTrack()">
+      <button class="left-button btn" (click)="previousTrack(1)">
         <mat-icon>keyboard_arrow_left</mat-icon>
       </button>
-      <span (click)="playDing()" onselectstart="return false">
+      <span (click)="playDing(1)" onselectstart="return false">
         <div class="play-icon-cont">
           <mat-icon class="play-icon">play_circle_filled</mat-icon>
         </div>
-        <p>{{ displayTrack }}</p></span
+        <p>{{ getTrack("change") }}</p></span
       >
-      <button class="right-button btn" (click)="nextTrack()">
+      <button class="right-button btn" (click)="nextTrack(1)">
         <mat-icon>keyboard_arrow_right</mat-icon>
       </button>
     </div>
