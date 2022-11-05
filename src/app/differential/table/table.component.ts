@@ -137,21 +137,9 @@ export class TableComponent {
   onSubmit(presetForm: NgForm) {
     //if form is valid create new preset and close modal
     if (presetForm.valid) {
-      let maxWBC = presetForm.controls['inputMaxCount'].value;
-      let newPreset: Preset = {
-        name: presetForm.controls['presetName'].value,
-        maxWBC: maxWBC ? maxWBC : 100,
-        rows: [
-          {
-            ignore: false,
-            key: '',
-            cell: '',
-            count: 0,
-            relative: 0,
-            absolute: 0,
-          },
-        ],
-      };
+      let maxWBC: string = presetForm.controls['inputMaxCount'].value;
+      let name = presetForm.controls['presetName'].value;
+      let newPreset: Preset = this.createPreset(name, maxWBC ? +maxWBC : 100);
       this.presets = [...this.presets, newPreset];
       this.changeClient(this.presets.length - 1);
       this.index = (this.presets.length - 1).toString();
@@ -168,23 +156,45 @@ export class TableComponent {
   }
 
   deletePreset(i: number) {
-    //if you delete the current preset, change which preset is displayed
-    // if (this.currentPreset === this.presetService.presets[i]) {
-    //   this.presetService.presets.splice(i, 1);
-    //   if (this.presetService.presets[0]) {
-    //     this.presetService.currentPreset = this.presetService.presets[0];
-    //     this.currentPreset = this.presetService.currentPreset;
-    //   }
-    // } else {
-    //   this.presetService.presets.splice(i, 1);
-    // }
-    this.presetService.presets.splice(i, 1);
-    console.log(this.currentPreset);
-    console.log(this.presetService.currentPreset);
+    if (this.currentPreset === this.presetService.presets[i]) {
+      this.presetService.presets.splice(i, 1);
+      if (this.presetService.presets.length === 0) {
+        let preset: Preset = this.createPreset();
+        this.currentPreset = preset;
+        this.presetService.currentPreset = preset;
+      } else {
+        this.presetService.currentPreset = this.presetService.presets[0];
+        this.currentPreset = this.presetService.currentPreset;
+      }
+    } else {
+      this.presetService.presets.splice(i, 1);
+    }
+
+    this.index = this.presetService.presets
+      .indexOf(this.currentPreset)
+      .toString();
   }
 
-  getCurrentPreset(){
-    return this.presetService.currentPreset
+  createPreset(name: string = 'Default', max: number = 100) {
+    let newPreset: Preset = {
+      name: name,
+      maxWBC: max,
+      rows: [
+        {
+          ignore: false,
+          key: '',
+          cell: '',
+          count: 0,
+          relative: 0,
+          absolute: 0,
+        },
+      ],
+    };
+    return newPreset;
+  }
+
+  getCurrentPreset() {
+    return this.presetService.currentPreset;
   }
 
   getAllPresets() {
