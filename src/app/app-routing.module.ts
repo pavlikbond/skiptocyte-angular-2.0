@@ -1,5 +1,5 @@
 import { HomePageComponent } from './home-page/home-page.component';
-import { DilutionComponent } from './dilution/dilution.component';
+import { ToolsComponent } from './tools/tools.component';
 import { ContactComponent } from './contact/contact.component';
 import { DifferentialComponent } from './differential/differential.component';
 import { BrowserModule } from '@angular/platform-browser';
@@ -20,8 +20,8 @@ const routes: Routes = [
     component: ContactComponent,
   },
   {
-    path: 'dilution',
-    component: DilutionComponent,
+    path: 'tools',
+    component: ToolsComponent,
   },
 ];
 

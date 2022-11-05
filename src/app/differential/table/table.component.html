@@ -10,7 +10,7 @@
           (selectionChange)="changeClient($event)"
           ><mat-select-trigger>{{ currentPreset.name }}</mat-select-trigger>
           <mat-option
-            *ngFor="let preset of presets; let i = index"
+            *ngFor="let preset of getAllPresets(); let i = index"
             value="{{ i }}"
             >{{ preset.name
             }}<mat-icon class="deleteButton" (click)="deletePreset(i)"
@@ -65,7 +65,7 @@
     >
       <div
         class="table-row"
-        *ngFor="let item of currentPreset.rows; let i = index"
+        *ngFor="let item of getCurrentPreset().rows; let i = index"
         cdkDrag
       >
         <div class="input-container">
