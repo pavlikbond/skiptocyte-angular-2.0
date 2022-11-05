@@ -13,7 +13,7 @@ import { SettingsDialogComponent } from './settings-dialog/settings-dialog.compo
 })
 export class TableComponent {
   isLoading = false;
-  presets: Preset[] = this.presetService.presets;
+  presets: Preset[] = this.getAllPresets();
   currentPreset: Preset = this.presetService.currentPreset;
   index: string = '0';
   numRowsError: string = '';
@@ -156,6 +156,10 @@ export class TableComponent {
       this.changeClient(this.presets.length - 1);
       this.index = (this.presets.length - 1).toString();
       presetForm.resetForm();
+      this.currentPreset = this.presets[this.presets.length - 1];
+
+      this.presetService.presets = this.presets;
+      this.presetService.currentPreset = this.currentPreset;
     }
   }
 
@@ -177,5 +181,13 @@ export class TableComponent {
     this.presetService.presets.splice(i, 1);
     console.log(this.currentPreset);
     console.log(this.presetService.currentPreset);
+  }
+
+  getCurrentPreset(){
+    return this.presetService.currentPreset
+  }
+
+  getAllPresets() {
+    return this.presetService.presets;
   }
 }
