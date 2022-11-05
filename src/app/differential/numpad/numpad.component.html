@@ -3,7 +3,7 @@
     <div class="max-wbc-ratio overflow-hidden">
       {{ getCurrentCount() }} / {{ getMaxWbc() }}
     </div>
-    <button class="print-btn">
+    <button class="print-btn" (click)="openDialog()">
       <mat-icon>print</mat-icon><span>Print</span>
     </button>
   </div>
@@ -27,7 +27,11 @@
     />
     <mat-form-field appearance="fill">
       <mat-label>Units</mat-label>
-      <mat-select [(value)]="selectedUnit" panelClass="unit-dropdown">
+      <mat-select
+        [(value)]="selectedUnit"
+        panelClass="unit-dropdown"
+        (selectionChange)="changeUnit()"
+      >
         <mat-select-trigger>{{ selectedUnit }}</mat-select-trigger>
         <ng-container *ngFor="let unit of units; let i = index">
           <mat-option value="{{ unit }}"

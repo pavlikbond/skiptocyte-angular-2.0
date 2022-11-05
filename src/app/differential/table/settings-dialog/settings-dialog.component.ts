@@ -6,32 +6,45 @@ import { PresetService } from 'src/app/services/preset.service';
   styleUrls: ['./settings-dialog.component.scss'],
 })
 export class SettingsDialogComponent {
-  index: number = this.presetService.currentTrack;
-  displayTrack: String = this.presetService.trackList[this.index].name;
-
+  tableSettings = {
+    playMaxCount: this.presetService.soundSettings.playMaxCount,
+    playCountChange: this.presetService.soundSettings.playCountChange,
+  };
   constructor(private presetService: PresetService) {}
 
   getTracks() {
     return this.presetService.trackList;
   }
 
-  nextTrack() {
-    let tracks = this.presetService.trackList;
-    this.index = ++this.index % tracks.length;
-    this.presetService.currentTrack = this.index;
-    this.displayTrack = tracks[this.index].name;
-    this.presetService.playDing();
+  getTrack(type: string) {
+    if (type === 'max') {
+      return this.presetService.getDisplayTrack(
+        this.presetService.currentTrackMax
+      );
+    } else {
+      return this.presetService.getDisplayTrack(
+        this.presetService.currentTrackChange
+      );
+    }
   }
 
-  previousTrack() {
-    let tracks = this.presetService.trackList;
-    this.index = --this.index < 0 ? tracks.length - 1 : this.index;
-    this.presetService.currentTrack = this.index;
-    this.displayTrack = tracks[this.index].name;
-    this.presetService.playDing();
+  nextTrack(index: number) {
+    this.presetService.nextTrack(index);
+    this.presetService.playDing(index);
   }
 
-  playDing() {
-    this.presetService.playDing();
+  previousTrack(index: number) {
+    this.presetService.previousTrack(index);
+    this.presetService.playDing(index);
+  }
+
+  playDing(index: number) {
+    this.presetService.playDing(index);
+  }
+
+  onClickCheckbox() {
+    setTimeout(() => {
+      this.presetService.soundSettings = { ...this.tableSettings };
+    });
   }
 }

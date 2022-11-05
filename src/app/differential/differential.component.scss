@@ -15,3 +15,9 @@
 .numpad {
   flex-basis: 400px;
 }
+
+@media print {
+  * {
+    display: none;
+  }
+}

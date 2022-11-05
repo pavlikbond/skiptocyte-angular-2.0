@@ -6,7 +6,8 @@ $verydarkblue: #000000;
 $grey: #e5e5e5;
 $greyHover: #c2c2c2;
 
-button {
+.left-button,
+.right-button {
   padding: 5px;
   display: flex;
   align-items: center;
@@ -70,20 +71,11 @@ h3 {
   background-color: white;
 }
 
-.close-btn {
-  color: white;
-  padding: 8px 12px;
-  border-radius: 5px;
-  font-weight: 400;
-  font-size: 1.2rem;
-  letter-spacing: 0.07rem;
-}
-
 .x-btn {
   border-radius: 50%;
   padding: 5px;
-  color: white;
-  background-color: $blue;
+  color: $medblue;
+  background-color: white;
   position: absolute;
   top: -20px;
   right: -20px;
@@ -93,9 +85,20 @@ h3 {
   cursor: pointer;
   transition: all 0.2s ease;
   &:hover {
-    background-color: $medblue;
+    background-color: $grey;
   }
   &:active {
     transform: scale(0.95);
   }
+}
+
+.m-checkbox {
+  margin-bottom: 15px;
+}
+
+.sound-setting {
+  margin-bottom: 5%;
+  padding: 15px;
+  border-radius: 5px;
+  border: 2px solid lightgrey;
 }

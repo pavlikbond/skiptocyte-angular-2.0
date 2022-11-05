@@ -52,15 +52,18 @@ export class TableComponent {
     //TODO: save to preset json
   }
   //fires when presets dropdown is changed
-  changeClient(value: any) {
-    this.currentPreset = this.presets[value];
-    this.presetService.currentPreset = this.currentPreset;
+  changeClient(event: any) {
+    let value = +event.value;
+    this.currentPreset = this.presetService.presets[value];
+    this.presetService.currentPreset = this.presetService.presets[value];
     this.presetService.clearCounts();
   }
 
   deleteRow(event: any) {
     let indexToDelete = event.target.dataset.target;
     this.currentPreset.rows.splice(indexToDelete, 1);
+    //updates the current count to adjust for the amount that was deleted
+    this.presetService.setCurrentCount();
   }
 
   onCheckboxClick(event: any, i: number) {
@@ -161,9 +164,18 @@ export class TableComponent {
   }
 
   deletePreset(i: number) {
-    console.log('delete preset ' + i);
-    console.log(this.presetService.presets);
-
+    //if you delete the current preset, change which preset is displayed
+    // if (this.currentPreset === this.presetService.presets[i]) {
+    //   this.presetService.presets.splice(i, 1);
+    //   if (this.presetService.presets[0]) {
+    //     this.presetService.currentPreset = this.presetService.presets[0];
+    //     this.currentPreset = this.presetService.currentPreset;
+    //   }
+    // } else {
+    //   this.presetService.presets.splice(i, 1);
+    // }
     this.presetService.presets.splice(i, 1);
+    console.log(this.currentPreset);
+    console.log(this.presetService.currentPreset);
   }
 }

@@ -1,22 +1,60 @@
 <div class="relative">
   <h1 class="text-center">Settings</h1>
-  <h3 class="">Choose sound</h3>
-  <div class="song-scroller flex shadow-md">
-    <button class="left-button btn" (click)="previousTrack()">
-      <mat-icon>keyboard_arrow_left</mat-icon>
-    </button>
-    <span (click)="playDing()" onselectstart="return false">
-      <div class="play-icon-cont">
-        <mat-icon class="play-icon">play_circle_filled</mat-icon>
-      </div>
-      <p>{{ displayTrack }}</p></span
+  <div class="sound-setting shadow-lg">
+    <h3 class="">Max Count Reached</h3>
+    <mat-checkbox
+      (click)="onClickCheckbox()"
+      class="m-checkbox"
+      [(ngModel)]="tableSettings.playMaxCount"
+      >Play Sound</mat-checkbox
     >
-    <button class="right-button btn" (click)="nextTrack()">
-      <mat-icon>keyboard_arrow_right</mat-icon>
-    </button>
+    <div class="song-scroller flex shadow-md">
+      <button class="left-button btn" (click)="previousTrack(0)">
+        <mat-icon>keyboard_arrow_left</mat-icon>
+      </button>
+      <span (click)="playDing(0)" onselectstart="return false">
+        <div class="play-icon-cont">
+          <mat-icon class="play-icon">play_circle_filled</mat-icon>
+        </div>
+        <p>{{ getTrack("max") }}</p></span
+      >
+      <button class="right-button btn" (click)="nextTrack(0)">
+        <mat-icon>keyboard_arrow_right</mat-icon>
+      </button>
+    </div>
+  </div>
+  <div class="sound-setting shadow-md">
+    <h3 class="">Count Changed</h3>
+    <mat-checkbox
+      (click)="onClickCheckbox()"
+      class="m-checkbox"
+      [(ngModel)]="tableSettings.playCountChange"
+      >Play Sound</mat-checkbox
+    >
+    <div class="song-scroller flex shadow-lg">
+      <button class="left-button btn" (click)="previousTrack(1)">
+        <mat-icon>keyboard_arrow_left</mat-icon>
+      </button>
+      <span (click)="playDing(1)" onselectstart="return false">
+        <div class="play-icon-cont">
+          <mat-icon class="play-icon">play_circle_filled</mat-icon>
+        </div>
+        <p>{{ getTrack("change") }}</p></span
+      >
+      <button class="right-button btn" (click)="nextTrack(1)">
+        <mat-icon>keyboard_arrow_right</mat-icon>
+      </button>
+    </div>
   </div>
   <div class="flex justify-end mt-5">
-    <button class="close-btn" [mat-dialog-close]="true">Close</button>
+    <button
+      class="close-btn"
+      mat-raised-button
+      color="primary"
+      [mat-dialog-close]="true"
+    >
+      Close
+    </button>
   </div>
   <span class="x-btn m-auto" [mat-dialog-close]="true">
     <mat-icon class="text-center text-[1.55rem]">close</mat-icon></span

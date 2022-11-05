@@ -7,11 +7,11 @@
           #presetSelect
           [(value)]="index"
           panelClass="unit-dropdown"
-          (selectionChange)="changeClient($event.value)"
+          (selectionChange)="changeClient($event)"
           ><mat-select-trigger>{{ currentPreset.name }}</mat-select-trigger>
           <mat-option
-            value="{{ i }}"
             *ngFor="let preset of presets; let i = index"
+            value="{{ i }}"
             >{{ preset.name
             }}<mat-icon class="deleteButton" (click)="deletePreset(i)"
               >clear</mat-icon
@@ -91,7 +91,7 @@
             class="cell-input shadow-lg text-xs md:text-base"
             value="{{ item.cell }}"
             (keyup)="updateCurrentPreset($event, i)"
-            maxlength="15"
+            maxlength="25"
           />
         </div>
         <span class="text-center text-xs sm:text-sm md:text-lg">{{

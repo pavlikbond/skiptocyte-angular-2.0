@@ -1,0 +1,85 @@
+@page {
+  margin: 0;
+}
+
+#print-section {
+  overflow-y: visible !important;
+  position: relative;
+}
+
+.preview-pane {
+  overflow: auto;
+  border: 2px solid lightgrey;
+  width: 595px;
+  height: 770px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  padding: 7%;
+}
+
+.preview-page {
+  padding: 10%;
+}
+
+.field-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 15px;
+}
+.field {
+  display: flex;
+  align-items: flex-end;
+  height: 34px;
+  border-bottom: 2px solid black !important;
+  overflow: hidden;
+  white-space: nowrap;
+  margin-bottom: 10px;
+}
+.field-name {
+  font-weight: 500;
+}
+
+.title {
+  height: 5%;
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 1.6rem;
+  font-weight: 500;
+}
+
+.wbc-count {
+  height: 10%;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  font-size: 1.3rem;
+}
+
+.units {
+  font-size: 0.8rem;
+  position: relative;
+  top: 3px;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.td {
+  font-size: 1.1rem;
+}
+
+.th {
+  background-color: lightgrey;
+  font-weight: 500;
+  font-size: 1.2rem;
+}
+
+.preview-page {
+  height: 100%;
+}
+
+.page-divider {
+  display: none;
+}

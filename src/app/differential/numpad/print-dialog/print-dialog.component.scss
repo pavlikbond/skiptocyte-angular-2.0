@@ -1,0 +1,143 @@
+* {
+  box-sizing: border-box;
+}
+.print-dialog {
+  display: flex;
+  justify-content: space-between;
+  height: 92vh;
+  gap: 10px;
+  max-width: 1100px;
+}
+
+.all-settings {
+  height: 770px;
+  overflow: auto;
+  padding-bottom: 10px;
+  .additional-settings {
+    border: 2px solid lightgrey;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 1rem;
+    .checkboxes {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1rem;
+    }
+  }
+}
+
+.form-field-row {
+  height: 50px;
+  border-radius: 5px;
+  display: grid;
+  grid-template-columns: 1fr 10fr 20fr 1fr;
+  gap: 5px;
+  padding: 5px;
+  border: 2px solid lightgrey;
+  background-color: white;
+  span {
+    margin: auto 0 auto 10px;
+  }
+  input {
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    padding: 5px;
+  }
+}
+
+.print-settings-container {
+  .add-field-input {
+    border: 1px solid lightgrey;
+    padding: 5px;
+    border-radius: 5px;
+    display: inline-block;
+    min-width: 50%;
+  }
+}
+.cdk-drag-preview {
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+    0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.cdk-drag-placeholder {
+  opacity: 0;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.form-fields-container.cdk-drop-list-dragging
+  .form-field-row:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.preview-pane {
+  overflow: auto;
+  border: 2px solid lightgrey;
+  width: 595px;
+  height: 770px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  padding: 7%;
+  h2 {
+    height: 5%;
+    text-align: center;
+    margin: 0;
+  }
+  .field-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 15px;
+    .field {
+      display: flex;
+      align-items: flex-end;
+      height: 34px;
+      border-bottom: 2px solid black;
+      overflow: hidden;
+      white-space: nowrap;
+      .field-name {
+        font-weight: 500;
+      }
+    }
+  }
+  .wbc-count {
+    height: 10%;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    font-size: 1rem;
+    .units {
+      font-size: 0.8rem;
+    }
+  }
+  .spacer {
+    height: 5%;
+  }
+}
+
+table {
+  width: 100%;
+}
+th,
+td {
+  height: 34px;
+  border: 2px solid grey;
+  padding: 0 5px;
+}
+
+th {
+  background-color: lightgrey;
+}
+
+.preview-page {
+  height: 100%;
+}
+
+.page-divider {
+  border-top: 1px solid darkgrey;
+  margin: 50px 0;
+  transform: scaleX(1.1);
+}
