@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DifferentialComponent } from './differential/differential.component';
-import { DilutionComponent } from './dilution/dilution.component';
+import { ToolsComponent } from './tools/tools.component';
 import { ContactComponent } from './contact/contact.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -38,7 +38,7 @@ import { NgxPrintModule } from 'ngx-print';
   declarations: [
     AppComponent,
     DifferentialComponent,
-    DilutionComponent,
+    ToolsComponent,
     ContactComponent,
     HomePageComponent,
     NumpadComponent,
@@ -46,6 +46,7 @@ import { NgxPrintModule } from 'ngx-print';
     SettingsDialogComponent,
     MainNavComponent,
     PrintDialogComponent,
+    ToolsComponent,
   ],
   entryComponents: [SettingsDialogComponent],
   imports: [
