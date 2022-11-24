@@ -33,6 +33,10 @@ import { MatListModule } from '@angular/material/list';
 import { PrintDialogComponent } from './differential/numpad/print-dialog/print-dialog.component';
 import { MatInputModule } from '@angular/material/input';
 import { NgxPrintModule } from 'ngx-print';
+import { provideFirebaseApp, getApp, initializeApp } from '@angular/fire/app';
+import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+import { environment } from 'src/environments/environment';
+import { getAuth, provideAuth } from '@angular/fire/auth';
 
 @NgModule({
   declarations: [
@@ -74,6 +78,9 @@ import { NgxPrintModule } from 'ngx-print';
     MatListModule,
     MatInputModule,
     NgxPrintModule,
+    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
+    provideFirestore(() => getFirestore()),
+    provideAuth(() => getAuth()),
   ],
   providers: [PresetService],
   bootstrap: [AppComponent],
