@@ -3,7 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  firebaseConfig: {
+  firebase: {
     apiKey: 'AIzaSyDLDjRkSF87X_v1TGuxNAEHOzvQqIOFu-w',
     authDomain: 'skiptocyte.firebaseapp.com',
     projectId: 'skiptocyte',
