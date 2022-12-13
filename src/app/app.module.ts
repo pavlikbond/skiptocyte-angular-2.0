@@ -1,3 +1,5 @@
+import { FirebaseService } from './services/firebase.service';
+import { getAuth } from '@angular/fire/auth';
 import { PresetService } from 'src/app/services/preset.service';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -33,6 +35,9 @@ import { MatListModule } from '@angular/material/list';
 import { PrintDialogComponent } from './differential/numpad/print-dialog/print-dialog.component';
 import { MatInputModule } from '@angular/material/input';
 import { NgxPrintModule } from 'ngx-print';
+import { initializeApp } from '@angular/fire/app';
+import { environment } from 'src/environments/environment';
+import { AngularFireModule } from '@angular/fire/compat';
 
 @NgModule({
   declarations: [
@@ -74,8 +79,9 @@ import { NgxPrintModule } from 'ngx-print';
     MatListModule,
     MatInputModule,
     NgxPrintModule,
+    AngularFireModule.initializeApp(environment.firebase),
   ],
-  providers: [PresetService],
+  providers: [PresetService, FirebaseService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
