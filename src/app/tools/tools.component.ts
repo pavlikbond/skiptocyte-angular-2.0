@@ -12,26 +12,26 @@ interface Item {
   styleUrls: ['./tools.component.scss'],
 })
 export class ToolsComponent implements OnInit {
-  items: Observable<any[]>;
-  constructor(firestore: AngularFirestore) {
-    firestore
-      .doc('/test/Wk96QDpWIX9e93XdzNVL')
-      .get()
-      .subscribe((item: any) => {
-        console.log(item.data());
-      });
-
-    this.items = firestore.collection('test').valueChanges();
-    this.items.subscribe((item: any) => {
-      console.log(item);
-    });
+  // items: Observable<any[]>;
+  constructor() {
+    // firestore: AngularFirestore
+    // firestore
+    //   .doc('/test/Wk96QDpWIX9e93XdzNVL')
+    //   .get()
+    //   .subscribe((item: any) => {
+    //     console.log(item.data());
+    //   });
+    // this.items = firestore.collection('test').valueChanges();
+    // this.items.subscribe((item: any) => {
+    //   console.log(item);
+    // });
   }
 
   ngOnInit(): void {}
 
   onClick() {
-    console.log('clicked');
-    console.log(this.items);
-    console.log();
+    // console.log('clicked');
+    // console.log(this.items);
+    // console.log();
   }
 }

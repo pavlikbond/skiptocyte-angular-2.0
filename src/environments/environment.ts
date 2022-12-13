@@ -12,7 +12,7 @@ export const environment = {
     appId: '1:639494550957:web:1f92182cbf7ef913e79d24',
     measurementId: 'G-V921SHZH3X',
   },
-
+  useEmulators: true,
   production: false,
 };
 

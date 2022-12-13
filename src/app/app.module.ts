@@ -35,8 +35,19 @@ import { PrintDialogComponent } from './differential/numpad/print-dialog/print-d
 import { MatInputModule } from '@angular/material/input';
 import { NgxPrintModule } from 'ngx-print';
 import { AngularFireModule } from '@angular/fire/compat';
-import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
-
+import {
+  AngularFireAuthModule,
+  USE_EMULATOR as USE_AUTH_EMULATOR,
+} from '@angular/fire/compat/auth';
+import {
+  AngularFirestoreModule,
+  USE_EMULATOR as USE_FIRESTORE_EMULATOR,
+} from '@angular/fire/compat/firestore';
+import {
+  AngularFireFunctionsModule,
+  USE_EMULATOR as USE_FUNCTIONS_EMULATOR,
+} from '@angular/fire/compat/functions';
+import { LoginComponent } from './login/login.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -50,6 +61,7 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
     MainNavComponent,
     PrintDialogComponent,
     ToolsComponent,
+    LoginComponent,
   ],
   entryComponents: [SettingsDialogComponent],
   imports: [
@@ -80,7 +92,24 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
   ],
-  providers: [PresetService],
+  providers: [
+    {
+      provide: USE_AUTH_EMULATOR,
+      useValue: environment.useEmulators
+        ? ['http://localhost:9099']
+        : undefined,
+    },
+    {
+      provide: USE_FIRESTORE_EMULATOR,
+      useValue: environment.useEmulators
+        ? ['http://localhost:8080']
+        : undefined,
+    },
+    // {
+    //   provide: USE_FUNCTIONS_EMULATOR,
+    //   useValue: environment.useEmulators ? ['localhost', 5001] : undefined,
+    // },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
