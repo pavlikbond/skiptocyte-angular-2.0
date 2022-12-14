@@ -1,3 +1,4 @@
+import { UserService } from './../../services/user.service';
 import { Component } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Preset } from 'src/app/models/preset.model';
@@ -5,6 +6,8 @@ import { NgForm } from '@angular/forms';
 import { PresetService } from 'src/app/services/preset.service';
 import { MatDialog } from '@angular/material/dialog';
 import { SettingsDialogComponent } from './settings-dialog/settings-dialog.component';
+import { catchError, tap } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 
 @Component({
   selector: 'app-table',
@@ -19,7 +22,15 @@ export class TableComponent {
   numRowsError: string = '';
   maxCount!: string;
 
-  constructor(private presetService: PresetService, public dialog: MatDialog) {}
+  constructor(
+    private presetService: PresetService,
+    public dialog: MatDialog,
+    public user: UserService
+  ) {
+    this.presetService.currentPreset$.subscribe((preset) => {
+      this.currentPreset = preset;
+    });
+  }
 
   drop(event: CdkDragDrop<string[]>) {
     moveItemInArray(
@@ -46,10 +57,12 @@ export class TableComponent {
 
   updatePreset() {
     this.isLoading = true;
-    setTimeout(() => {
-      this.isLoading = false;
-    }, 1000);
-    //TODO: save to preset json
+    this.presetService.updatePresets().subscribe({
+      error: (e) => console.error(e),
+      complete: () => {
+        this.isLoading = false;
+      },
+    });
   }
   //fires when presets dropdown is changed
   changeClient(event: any) {

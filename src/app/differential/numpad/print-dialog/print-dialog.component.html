@@ -8,7 +8,7 @@
         (cdkDropListDropped)="drop($event)"
       >
         <div
-          *ngFor="let field of fields; let i = index"
+          *ngFor="let field of allSettings.fields; let i = index"
           cdkDrag
           class="form-field-row shadow-md mb-2"
         >
@@ -19,7 +19,7 @@
           <input
             type="text"
             class="field-value-input"
-            [(ngModel)]="fields[i].value"
+            [(ngModel)]="allSettings.fields[i].value"
             maxlength="50"
             placeholder="Type Here"
           />
@@ -34,7 +34,7 @@
           mat-raised-button
           color="accent"
           (click)="toggleField()"
-          disabled="{{ this.fields.length >= 12 }}"
+          disabled="{{ this.allSettings.fields.length >= 12 }}"
         >
           Add Field
         </button>
@@ -110,7 +110,7 @@
       <div class="preview-page" #previewPage>
         <h2 class="title">{{ allSettings.reportTitle }}</h2>
         <div class="field-container">
-          <div *ngFor="let field of fields" class="field">
+          <div *ngFor="let field of allSettings.fields" class="field">
             <span class="mr-2 field-name"
               >{{ field.name }}{{ field.name ? ":" : "" }}</span
             >

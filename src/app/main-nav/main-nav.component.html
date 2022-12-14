@@ -81,10 +81,24 @@
         <button mat-button routerLink="/contact" routerLinkActive="active-btn">
           Contact
         </button>
-        <button mat-raised-button color="accent" routerLink="/login">
-          <mat-icon class="mr-2 hidden md:block">account_circle</mat-icon>Login
+        <button
+          mat-raised-button
+          color="accent"
+          routerLink="/login"
+          *ngIf="user.isLoggedOut$ | async"
+        >
+          <mat-icon class="mr-2">account_circle</mat-icon>Login
         </button>
-        <button mat-button>
+        <button
+          mat-raised-button
+          color="accent"
+          routerLink="/"
+          *ngIf="user.isLoggedIn$ | async"
+          (click)="logout()"
+        >
+          <mat-icon class="mr-2">exit_to_app</mat-icon>Log Out
+        </button>
+        <button mat-button *ngIf="user.isLoggedOut$ | async">
           <mat-icon class="mr-2 hidden">person_add</mat-icon>Sign Up
         </button>
       </div>

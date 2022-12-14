@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import firebase from 'firebase/compat/app';
 import EmailAuthProvider = firebase.auth.EmailAuthProvider;
 import GoogleAuthProvider = firebase.auth.GoogleAuthProvider;
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',

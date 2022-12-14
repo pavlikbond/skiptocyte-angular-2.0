@@ -2,7 +2,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+@import "~firebaseui/dist/firebaseui.css";
 $grey: #e5e5e5;
 
 * {

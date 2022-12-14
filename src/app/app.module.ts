@@ -42,6 +42,7 @@ import {
 import {
   AngularFirestoreModule,
   USE_EMULATOR as USE_FIRESTORE_EMULATOR,
+  SETTINGS as USE_FIRESTORE_SETTINGS,
 } from '@angular/fire/compat/firestore';
 import {
   AngularFireFunctionsModule,
@@ -91,8 +92,13 @@ import { LoginComponent } from './login/login.component';
     NgxPrintModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
+    AngularFireAuthModule,
   ],
   providers: [
+    // {
+    //   provide: USE_FIRESTORE_SETTINGS,
+    //   useValue: { experimentalForceLongPolling: true, merge: true },
+    // },
     {
       provide: USE_AUTH_EMULATOR,
       useValue: environment.useEmulators

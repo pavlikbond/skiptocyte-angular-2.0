@@ -1,6 +1,9 @@
+import { UserService } from './user.service';
 import { Injectable } from '@angular/core';
 import * as presets from '../differential/presets.json';
 import { Preset, Row } from '../models/preset.model';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -8,7 +11,7 @@ import { Preset, Row } from '../models/preset.model';
 export class PresetService {
   presets: Preset[] = Array.from(presets);
   currentPreset: Preset = this.presets[0];
-  maxWBC: number = this.currentPreset.maxWBC;
+  currentPreset$ = new BehaviorSubject(this.presets[0]);
   currentCount: number = 0;
   direction: string = 'increase';
   WbcCount: number = 0;
@@ -29,7 +32,13 @@ export class PresetService {
 
   //currentTrack: { name: string; filePath: string } = this.trackList[0];
 
-  constructor() {}
+  constructor(private user: UserService, private db: AngularFirestore) {
+    this.getPresetsFromDb();
+  }
+
+  getMaxWbc() {
+    return this.currentPreset.maxWBC;
+  }
 
   adjustCount(key: string, i: number) {
     //if setting set to increase, increment and row count
@@ -161,5 +170,31 @@ export class PresetService {
           ? this.trackList.length - 1
           : this.currentTrackChange;
     }
+  }
+
+  getPresetsFromDb() {
+    this.user.uid$.subscribe((uid) => {
+      console.log(uid);
+
+      if (uid) {
+        this.db
+          .collection(`users`)
+          .doc(uid)
+          .ref.get()
+          .then((result) => {
+            if (result.exists) {
+              console.log(result.data());
+              let data: any = result.data();
+              this.presets = data.presets;
+              this.currentPreset = this.presets[0];
+              this.currentPreset$.next(this.currentPreset);
+            }
+          });
+      }
+    });
+  }
+
+  updatePresets() {
+    return this.user.updatePresets(this.presets);
   }
 }
