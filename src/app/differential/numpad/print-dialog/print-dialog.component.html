@@ -1,5 +1,5 @@
 <div class="print-dialog">
-  <div class="print-settings-container">
+  <div class="print-settings-container" *ngIf="user.isLoggedIn$ | async">
     <h2 class="text-center">Print Settings</h2>
     <div class="all-settings">
       <div
@@ -99,6 +99,19 @@
           >
         </div>
       </div>
+    </div>
+    <div class="m-0">
+      <button
+        mat-flat-button
+        color="accent"
+        (click)="onSaveSettings()"
+        class="relative"
+      >
+        <div class="spinner-container" *ngIf="saving">
+          <mat-spinner diameter="30"></mat-spinner>
+        </div>
+        Save Settings
+      </button>
     </div>
   </div>
 

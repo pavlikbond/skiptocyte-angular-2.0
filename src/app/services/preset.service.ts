@@ -4,14 +4,15 @@ import * as presets from '../differential/presets.json';
 import { Preset, Row } from '../models/preset.model';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { BehaviorSubject } from 'rxjs';
+import { convertDbPresetsForApp } from '../models/preset-utils';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PresetService {
-  presets: Preset[] = Array.from(presets);
-  currentPreset: Preset = this.presets[0];
-  currentPreset$ = new BehaviorSubject(this.presets[0]);
+  presets: Preset[];
+  currentPreset: Preset;
+  currentPreset$: BehaviorSubject<Preset>;
   currentCount: number = 0;
   direction: string = 'increase';
   WbcCount: number = 0;
@@ -34,6 +35,9 @@ export class PresetService {
 
   constructor(private user: UserService, private db: AngularFirestore) {
     this.getPresetsFromDb();
+    this.presets = [{ name: '', maxWBC: 100, rows: [] }];
+    this.currentPreset = this.presets[0];
+    this.currentPreset$ = new BehaviorSubject(this.presets[0]);
   }
 
   getMaxWbc() {
@@ -185,16 +189,34 @@ export class PresetService {
             if (result.exists) {
               console.log(result.data());
               let data: any = result.data();
-              this.presets = data.presets;
-              this.currentPreset = this.presets[0];
-              this.currentPreset$.next(this.currentPreset);
+              if (data.presets) {
+                this.presets = convertDbPresetsForApp(data.presets);
+                this.currentPreset = this.presets[0];
+                this.currentPreset$.next(this.currentPreset);
+              } else {
+                this.loadStandardPresets();
+              }
+            } else {
+              this.loadStandardPresets();
             }
+          })
+          .catch((err) => {
+            console.log(err);
+            this.loadStandardPresets();
           });
+      } else {
+        this.loadStandardPresets();
       }
     });
   }
 
   updatePresets() {
     return this.user.updatePresets(this.presets);
+  }
+
+  loadStandardPresets() {
+    this.presets = Array.from(presets);
+    this.currentPreset = this.presets[0];
+    this.currentPreset$.next(this.currentPreset);
   }
 }

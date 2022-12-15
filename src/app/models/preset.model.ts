@@ -12,3 +12,15 @@ export interface Row {
   relative: number;
   absolute: number;
 }
+
+export interface dbPreset {
+  name: string;
+  maxWBC: number;
+  rows: dbRow[];
+}
+
+interface dbRow {
+  ignore: boolean;
+  key: string;
+  cell: string;
+}

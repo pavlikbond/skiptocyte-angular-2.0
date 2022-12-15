@@ -1,8 +1,9 @@
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { Preset } from 'src/app/models/preset.model';
+import { Preset, dbPreset } from 'src/app/models/preset.model';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { from, map, Observable, tap, throwError } from 'rxjs';
 import { Injectable } from '@angular/core';
+import { convertPresetsForDb } from '../models/preset-utils';
 
 @Injectable({
   providedIn: 'root',
@@ -30,6 +31,9 @@ export class UserService {
   }
 
   updatePresets(presets: Preset[]) {
-    return from(this.db.doc(`users/${this.uid}`).update({ presets: presets }));
+    let dbPresets = convertPresetsForDb(presets);
+    return from(
+      this.db.doc(`users/${this.uid}`).update({ presets: dbPresets })
+    );
   }
 }

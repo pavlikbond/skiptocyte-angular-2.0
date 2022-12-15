@@ -19,6 +19,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { TableComponent } from './differential/table/table.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { InputNumberModule } from 'primeng/inputnumber';
@@ -86,6 +87,7 @@ import { LoginComponent } from './login/login.component';
     MatToolbarModule,
     MatButtonModule,
     LayoutModule,
+    MatProgressSpinnerModule,
     MatSidenavModule,
     MatListModule,
     MatInputModule,

@@ -1,3 +1,5 @@
+import { PrintSettingsService } from './../../../services/print-settings.service';
+import { UserService } from './../../../services/user.service';
 import { moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { SelectMultipleControlValueAccessor } from '@angular/forms';
@@ -24,7 +26,7 @@ export class PrintDialogComponent {
     showCount: false,
     showRelative: true,
     showAbsolute: true,
-    showUnits: false,
+    showUnits: true,
     showIgnored: false,
     reportTitle: 'Report',
     showWBC: true,
@@ -37,11 +39,22 @@ export class PrintDialogComponent {
       { name: 'Date', value: '' },
     ],
   };
+  saving: boolean = false;
   pageRows: Row[][] = [[...this.presetService.currentPreset.rows]];
-  constructor(private presetService: PresetService) {
+  constructor(
+    private presetService: PresetService,
+    public user: UserService,
+    private printService: PrintSettingsService
+  ) {
     setTimeout(() => {
       this.refactor();
     });
+
+    if (this.user.uid) {
+      this.printService.getPrintSettings().subscribe((data) => {
+        this.allSettings = data;
+      });
+    }
   }
 
   drop(event: any) {
@@ -167,6 +180,16 @@ export class PrintDialogComponent {
           .fill(0)
           .map((x, i) => i);
       }
+    });
+  }
+
+  onSaveSettings() {
+    this.saving = true;
+    this.printService.savePrintSettings(this.allSettings).subscribe({
+      error: (e) => console.error(e),
+      complete: () => {
+        this.saving = false;
+      },
     });
   }
 
