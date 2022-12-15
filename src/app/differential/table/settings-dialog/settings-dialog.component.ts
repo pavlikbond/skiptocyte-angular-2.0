@@ -6,6 +6,18 @@ import { PresetService } from 'src/app/services/preset.service';
   styleUrls: ['./settings-dialog.component.scss'],
 })
 export class SettingsDialogComponent {
+  allSoundSettings = {
+    trackList: [
+      { name: 'Sound 1', filePath: '../assets/Beep_1.wav' },
+      { name: 'Sound 2', filePath: '../assets/Beep_2.mp3' },
+      { name: 'Sound 3', filePath: '../assets/Beep_3.mp3' },
+    ],
+    trackIndexes: { max: 0, change: 1 },
+    soundSettings: {
+      playMaxCount: true,
+      playCountChange: false,
+    },
+  };
   tableSettings = {
     playMaxCount: this.presetService.soundSettings.playMaxCount,
     playCountChange: this.presetService.soundSettings.playCountChange,

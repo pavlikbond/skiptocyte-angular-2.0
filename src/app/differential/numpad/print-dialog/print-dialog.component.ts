@@ -1,4 +1,4 @@
-import { PrintSettingsService } from './../../../services/print-settings.service';
+import { SettingsService } from '../../../services/settings.service';
 import { UserService } from './../../../services/user.service';
 import { moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, ElementRef, ViewChild } from '@angular/core';
@@ -44,7 +44,7 @@ export class PrintDialogComponent {
   constructor(
     private presetService: PresetService,
     public user: UserService,
-    private printService: PrintSettingsService
+    private printService: SettingsService
   ) {
     setTimeout(() => {
       this.refactor();

@@ -6,8 +6,19 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 @Injectable({
   providedIn: 'root',
 })
-export class PrintSettingsService {
-  printSettings$: Observable<object>;
+export class SettingsService {
+  allSoundSettings = {
+    trackList: [
+      { name: 'Sound 1', filePath: '../assets/Beep_1.wav' },
+      { name: 'Sound 2', filePath: '../assets/Beep_2.mp3' },
+      { name: 'Sound 3', filePath: '../assets/Beep_3.mp3' },
+    ],
+    trackIndexes: { max: 0, change: 1 },
+    soundSettings: {
+      playMaxCount: true,
+      playCountChange: false,
+    },
+  };
 
   constructor(private db: AngularFirestore, private user: UserService) {}
 

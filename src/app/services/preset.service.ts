@@ -20,12 +20,12 @@ export class PresetService {
   units = ['10^9/L', '10^6/mL', '10^3/uL'];
   selectedUnit: string = this.units[0];
   trackList: { name: string; filePath: string }[] = [
-    { name: 'Beep 1', filePath: '../assets/Beep_1.wav' },
-    { name: 'Beep 2', filePath: '../assets/Beep_2.mp3' },
-    { name: 'Beep 3', filePath: '../assets/Beep_3.mp3' },
+    { name: 'Sound 1', filePath: '../assets/Beep_1.wav' },
+    { name: 'Sound 2', filePath: '../assets/Beep_2.mp3' },
+    { name: 'Sound 3', filePath: '../assets/Beep_3.mp3' },
   ];
-  currentTrackMax: number = 0;
-  currentTrackChange: number = 1;
+  currentTrackMax = 0;
+  currentTrackChange = 1;
   soundSettings = {
     playMaxCount: true,
     playCountChange: false,
