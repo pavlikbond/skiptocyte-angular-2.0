@@ -82,7 +82,7 @@ export class TableComponent {
   onCheckboxClick(event: any, i: number) {
     let checked = event.target.checked;
     this.currentPreset.rows[i].ignore = checked;
-    this.presetService.updateRelativesAndAbsolutes();
+    this.presetService.updateRelativesAndAbsolutes(true);
   }
 
   getCount(i: number) {

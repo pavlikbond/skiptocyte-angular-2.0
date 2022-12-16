@@ -57,25 +57,27 @@ export class PresetService {
     }
   }
 
-  setCurrentCount() {
+  setCurrentCount(checkboxEvent: boolean = false) {
     let total = 0;
     for (let row of this.currentPreset.rows) {
       total += row.ignore ? 0 : row.count;
     }
     this.currentCount = total;
     if (this.currentCount < this.currentPreset.maxWBC) {
-      this.settings.playSound('change');
+      if (!checkboxEvent) {
+        this.settings.playSound('change');
+      }
     }
   }
 
-  updateRelativesAndAbsolutes() {
+  updateRelativesAndAbsolutes(checkboxEvent: boolean = false) {
     //let fraction = String(this.WbcCount).split('.')[1];
     //let numsAfterDec = fraction ? fraction.length : 0;
     //let exp = 10 ** Math.min(this.maxDecimals, numsAfterDec);
     let exp = 10 ** this.maxDecimals;
     //console.log(typeof num);
 
-    this.setCurrentCount();
+    this.setCurrentCount(checkboxEvent);
     for (let row of this.currentPreset.rows) {
       //or 0 because otherwise it might return NaN
       let num = row.count / this.currentCount || 0;
