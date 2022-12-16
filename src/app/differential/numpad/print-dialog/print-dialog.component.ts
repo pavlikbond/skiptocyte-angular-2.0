@@ -15,61 +15,37 @@ export class PrintDialogComponent {
   pages: number[] = [];
   currentCounts = this.presetService.currentPreset.rows;
   @ViewChild('newFieldInput') newFieldInputRef!: ElementRef;
-  @ViewChild('previewPane') previewPane!: ElementRef;
-  @ViewChild('previewPage') previewPage!: ElementRef;
   adding: boolean = false;
   newFieldValue: string = '';
   count = this.presetService.WbcCount;
-  allSettings = {
-    showLabels: true,
-    showCell: true,
-    showCount: false,
-    showRelative: true,
-    showAbsolute: true,
-    showUnits: true,
-    showIgnored: false,
-    reportTitle: 'Report',
-    showWBC: true,
-    fields: [
-      { name: 'Specimen #', value: '' },
-      { name: 'MRN', value: '' },
-      { name: 'Name', value: '' },
-      { name: 'DOB', value: '' },
-      { name: 'Tech', value: '' },
-      { name: 'Date', value: '' },
-    ],
-  };
   saving: boolean = false;
   pageRows: Row[][] = [[...this.presetService.currentPreset.rows]];
   constructor(
     private presetService: PresetService,
     public user: UserService,
-    private printService: SettingsService
+    public settings: SettingsService
   ) {
     setTimeout(() => {
       this.refactor();
     });
-
-    if (this.user.uid) {
-      this.printService.getPrintSettings().subscribe((data) => {
-        this.allSettings = data;
-      });
-    }
   }
 
   drop(event: any) {
     moveItemInArray(
-      this.allSettings.fields,
+      this.settings.printSettings.fields,
       event.previousIndex,
       event.currentIndex
     );
   }
   deleteFieldRow(i: number) {
-    this.allSettings.fields.splice(i, 1);
+    this.settings.printSettings.fields.splice(i, 1);
   }
 
   addNewField() {
-    this.allSettings.fields.push({ name: this.newFieldValue, value: '' });
+    this.settings.printSettings.fields.push({
+      name: this.newFieldValue,
+      value: '',
+    });
     this.newFieldValue = '';
     this.toggleField();
     //this checks the page and shifts the rows if overflow
@@ -112,10 +88,12 @@ export class PrintDialogComponent {
 
   getTotal(rowSpace = false) {
     let title = 1;
-    let fields = Math.ceil(this.allSettings.fields.length / 2);
-    let count = this.allSettings.showWBC ? 2 : 1;
-    let tableHeader = this.allSettings.showLabels ? 1 : 0;
-    let ignoredRows = this.allSettings.showIgnored ? this.getNumIgnored() : 0;
+    let fields = Math.ceil(this.settings.printSettings.fields.length / 2);
+    let count = this.settings.printSettings.showWBC ? 2 : 1;
+    let tableHeader = this.settings.printSettings.showLabels ? 1 : 0;
+    let ignoredRows = this.settings.printSettings.showIgnored
+      ? this.getNumIgnored()
+      : 0;
     let normalRows =
       this.presetService.currentPreset.rows.length - this.getNumIgnored();
 
@@ -146,7 +124,7 @@ export class PrintDialogComponent {
         let rows: Row[][] = [];
         let pageIndex = 0;
         for (let row of this.presetService.currentPreset.rows) {
-          if (this.allSettings.showIgnored) {
+          if (this.settings.printSettings.showIgnored) {
             rows[pageIndex] = rows[pageIndex]
               ? [...rows[pageIndex], row]
               : [row];
@@ -168,7 +146,8 @@ export class PrintDialogComponent {
           //all other pages have 20 space
           else {
             if (
-              rows[pageIndex].length === (this.allSettings.showLabels ? 19 : 20)
+              rows[pageIndex].length ===
+              (this.settings.printSettings.showLabels ? 19 : 20)
             ) {
               pageIndex++;
             }
@@ -185,7 +164,7 @@ export class PrintDialogComponent {
 
   onSaveSettings() {
     this.saving = true;
-    this.printService.savePrintSettings(this.allSettings).subscribe({
+    this.settings.savePrintSettings().subscribe({
       error: (e) => console.error(e),
       complete: () => {
         this.saving = false;

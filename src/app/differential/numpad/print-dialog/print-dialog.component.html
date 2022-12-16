@@ -8,7 +8,7 @@
         (cdkDropListDropped)="drop($event)"
       >
         <div
-          *ngFor="let field of allSettings.fields; let i = index"
+          *ngFor="let field of settings.printSettings.fields; let i = index"
           cdkDrag
           class="form-field-row shadow-md mb-2"
         >
@@ -19,7 +19,7 @@
           <input
             type="text"
             class="field-value-input"
-            [(ngModel)]="allSettings.fields[i].value"
+            [(ngModel)]="settings.printSettings.fields[i].value"
             maxlength="50"
             placeholder="Type Here"
           />
@@ -34,7 +34,7 @@
           mat-raised-button
           color="accent"
           (click)="toggleField()"
-          disabled="{{ this.allSettings.fields.length >= 12 }}"
+          disabled="{{ this.settings.printSettings.fields.length >= 12 }}"
         >
           Add Field
         </button>
@@ -63,38 +63,42 @@
             matInput
             placeholder="Ex. Report"
             value="Report"
-            [(ngModel)]="allSettings.reportTitle"
+            [(ngModel)]="settings.printSettings.reportTitle"
             maxlength="30"
             autocomplete="off"
           />
         </mat-form-field>
         <div class="checkboxes">
           <mat-checkbox
-            [(ngModel)]="allSettings.showLabels"
+            [(ngModel)]="settings.printSettings.showLabels"
             (click)="refactor()"
             >Show labels</mat-checkbox
           >
-          <mat-checkbox [(ngModel)]="allSettings.showCell"
+          <mat-checkbox [(ngModel)]="settings.printSettings.showCell"
             >Show Cell</mat-checkbox
           >
-          <mat-checkbox [(ngModel)]="allSettings.showCount"
+          <mat-checkbox [(ngModel)]="settings.printSettings.showCount"
             >Show Count</mat-checkbox
           >
-          <mat-checkbox [(ngModel)]="allSettings.showRelative"
+          <mat-checkbox [(ngModel)]="settings.printSettings.showRelative"
             >Show Relative</mat-checkbox
           >
-          <mat-checkbox [(ngModel)]="allSettings.showAbsolute"
+          <mat-checkbox [(ngModel)]="settings.printSettings.showAbsolute"
             >Show Absolute</mat-checkbox
           >
-          <mat-checkbox [(ngModel)]="allSettings.showUnits" (click)="refactor()"
+          <mat-checkbox
+            [(ngModel)]="settings.printSettings.showUnits"
+            (click)="refactor()"
             >Show Units</mat-checkbox
           >
           <mat-checkbox
-            [(ngModel)]="allSettings.showIgnored"
+            [(ngModel)]="settings.printSettings.showIgnored"
             (click)="refactor()"
             >Show Ignored</mat-checkbox
           >
-          <mat-checkbox [(ngModel)]="allSettings.showWBC" (click)="refactor()"
+          <mat-checkbox
+            [(ngModel)]="settings.printSettings.showWBC"
+            (click)="refactor()"
             >Show WBC Count</mat-checkbox
           >
         </div>
@@ -121,20 +125,26 @@
 
     <div id="print-section" class="preview-pane" #previewPane>
       <div class="preview-page" #previewPage>
-        <h2 class="title">{{ allSettings.reportTitle }}</h2>
+        <h2 class="title">{{ settings.printSettings.reportTitle }}</h2>
         <div class="field-container">
-          <div *ngFor="let field of allSettings.fields" class="field">
+          <div
+            *ngFor="let field of settings.printSettings.fields"
+            class="field"
+          >
             <span class="mr-2 field-name"
               >{{ field.name }}{{ field.name ? ":" : "" }}</span
             >
             <span>{{ field.value }}</span>
           </div>
         </div>
-        <div class="wbc-count" *ngIf="allSettings.showWBC; else elseBlock">
+        <div
+          class="wbc-count"
+          *ngIf="settings.printSettings.showWBC; else elseBlock"
+        >
           <span>WBC Count:</span>
           <span class="ml-1">{{ count }}</span>
           <span
-            *ngIf="allSettings.showUnits"
+            *ngIf="settings.printSettings.showUnits"
             [innerHTML]="'x ' + formattedUnit()"
             class="units ml-1"
           ></span>
@@ -144,30 +154,45 @@
         </ng-template>
         <div class="counts-container">
           <table class="data-table">
-            <thead *ngIf="allSettings.showLabels">
+            <thead *ngIf="settings.printSettings.showLabels">
               <tr>
-                <th *ngIf="allSettings.showCell" class="th">Cell</th>
-                <th *ngIf="allSettings.showCount" class="th">Count</th>
-                <th *ngIf="allSettings.showRelative" class="th">Relative</th>
-                <th *ngIf="allSettings.showAbsolute" class="th">Absolute</th>
+                <th *ngIf="settings.printSettings.showCell" class="th">Cell</th>
+                <th *ngIf="settings.printSettings.showCount" class="th">
+                  Count
+                </th>
+                <th *ngIf="settings.printSettings.showRelative" class="th">
+                  Relative
+                </th>
+                <th *ngIf="settings.printSettings.showAbsolute" class="th">
+                  Absolute
+                </th>
               </tr>
             </thead>
             <tbody>
               <ng-container *ngFor="let item of pageRows[0]">
-                <tr *ngIf="!item.ignore || allSettings.showIgnored">
-                  <td *ngIf="allSettings.showCell" class="td">
+                <tr *ngIf="!item.ignore || settings.printSettings.showIgnored">
+                  <td *ngIf="settings.printSettings.showCell" class="td">
                     {{ item.cell }}
                   </td>
-                  <td *ngIf="allSettings.showCount" class="text-right td">
+                  <td
+                    *ngIf="settings.printSettings.showCount"
+                    class="text-right td"
+                  >
                     {{ item.count }}
                   </td>
-                  <td *ngIf="allSettings.showRelative" class="text-right td">
+                  <td
+                    *ngIf="settings.printSettings.showRelative"
+                    class="text-right td"
+                  >
                     {{ item.ignore ? "" : item.relative + " %" }}
                   </td>
-                  <td *ngIf="allSettings.showAbsolute" class="text-right td">
+                  <td
+                    *ngIf="settings.printSettings.showAbsolute"
+                    class="text-right td"
+                  >
                     <span>{{ item.ignore ? "" : item.absolute }}</span>
                     <span
-                      *ngIf="allSettings.showUnits && !item.ignore"
+                      *ngIf="settings.printSettings.showUnits && !item.ignore"
                       class="text-sm pl-2"
                       [innerHTML]="formattedUnit()"
                     ></span>
@@ -182,30 +207,45 @@
         <div class="page-divider"></div>
         <div class="preview-page">
           <table class="data-table">
-            <thead *ngIf="allSettings.showLabels">
+            <thead *ngIf="settings.printSettings.showLabels">
               <tr>
-                <th *ngIf="allSettings.showCell" class="th">Cell</th>
-                <th *ngIf="allSettings.showCount" class="th">Count</th>
-                <th *ngIf="allSettings.showRelative" class="th">Relative</th>
-                <th *ngIf="allSettings.showAbsolute" class="th">Absolute</th>
+                <th *ngIf="settings.printSettings.showCell" class="th">Cell</th>
+                <th *ngIf="settings.printSettings.showCount" class="th">
+                  Count
+                </th>
+                <th *ngIf="settings.printSettings.showRelative" class="th">
+                  Relative
+                </th>
+                <th *ngIf="settings.printSettings.showAbsolute" class="th">
+                  Absolute
+                </th>
               </tr>
             </thead>
             <tbody>
               <ng-container *ngFor="let item of pageRows[i + 1]">
-                <tr *ngIf="!item.ignore || allSettings.showIgnored">
-                  <td *ngIf="allSettings.showCell" class="td">
+                <tr *ngIf="!item.ignore || settings.printSettings.showIgnored">
+                  <td *ngIf="settings.printSettings.showCell" class="td">
                     {{ item.cell }}
                   </td>
-                  <td *ngIf="allSettings.showCount" class="text-right td">
+                  <td
+                    *ngIf="settings.printSettings.showCount"
+                    class="text-right td"
+                  >
                     {{ item.count }}
                   </td>
-                  <td *ngIf="allSettings.showRelative" class="text-right td">
+                  <td
+                    *ngIf="settings.printSettings.showRelative"
+                    class="text-right td"
+                  >
                     {{ item.ignore ? "" : item.relative + " %" }}
                   </td>
-                  <td *ngIf="allSettings.showAbsolute" class="text-right td">
+                  <td
+                    *ngIf="settings.printSettings.showAbsolute"
+                    class="text-right td"
+                  >
                     <span>{{ item.ignore ? "" : item.absolute }}</span>
                     <span
-                      *ngIf="allSettings.showUnits && !item.ignore"
+                      *ngIf="settings.printSettings.showUnits && !item.ignore"
                       class="text-sm pl-2"
                       [innerHTML]="formattedUnit()"
                     ></span>
@@ -224,7 +264,7 @@
         color="accent"
         ngxPrint
         printSectionId="print-section"
-        printTitle="{{ allSettings.reportTitle }}"
+        printTitle="{{ settings.printSettings.reportTitle }}"
         [useExistingCss]="true"
         styleSheetFile="assets/print2.css"
       >
