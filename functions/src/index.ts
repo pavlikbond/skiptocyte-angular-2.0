@@ -1,9 +1,9 @@
-import * as functions from "firebase-functions";
+import * as functions from 'firebase-functions';
+import { db } from './init';
+// Start writing functions
+// https://firebase.google.com/docs/functions/typescript
 
-// // Start writing functions
-// // https://firebase.google.com/docs/functions/typescript
-//
-// export const helloWorld = functions.https.onRequest((request, response) => {
-//   functions.logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
+exports.addIdToFirestore = functions.auth.user().onCreate((user) => {
+  let uid = user.uid;
+  db.doc(`users/${uid}`).set({});
+});
