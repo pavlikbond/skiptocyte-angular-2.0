@@ -16,7 +16,6 @@ import { throwError } from 'rxjs';
 })
 export class TableComponent {
   isLoading = false;
-  presets: Preset[] = this.getAllPresets();
   currentPreset: Preset = this.presetService.currentPreset;
   index: string = '0';
   numRowsError: string = '';
@@ -128,9 +127,11 @@ export class TableComponent {
         event.preventDefault();
         event.target.value = '';
         this.currentPreset.rows[i].key = '';
-        event.target.style.border = '2px solid red';
+        //event.target.style.border = '2px solid red';
+        event.target.classList.toggle('duplicate');
         setTimeout(() => {
-          event.target.style.border = 'none';
+          //event.target.style.border = 'none';
+          event.target.classList.toggle('duplicate');
         }, 2000);
       }
     }
@@ -153,14 +154,14 @@ export class TableComponent {
       let maxWBC: string = presetForm.controls['inputMaxCount'].value;
       let name = presetForm.controls['presetName'].value;
       let newPreset: Preset = this.createPreset(name, maxWBC ? +maxWBC : 100);
-      this.presets = [...this.presets, newPreset];
-      this.changeClient(this.presets.length - 1);
-      this.index = (this.presets.length - 1).toString();
       presetForm.resetForm();
-      this.currentPreset = this.presets[this.presets.length - 1];
 
-      this.presetService.presets = this.presets;
-      this.presetService.currentPreset = this.currentPreset;
+      this.presetService.presets.push(newPreset);
+      this.changeClient(this.presetService.presets.length - 1);
+      this.index = (this.presetService.presets.length - 1).toString();
+
+      this.presetService.currentPreset = newPreset;
+      this.currentPreset = this.presetService.currentPreset;
     }
   }
 
