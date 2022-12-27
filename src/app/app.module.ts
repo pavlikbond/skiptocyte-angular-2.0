@@ -1,5 +1,4 @@
 import { environment } from './../environments/environment';
-import { PresetService } from 'src/app/services/preset.service';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
@@ -14,6 +13,7 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NumpadComponent } from './differential/numpad/numpad.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { TableComponent } from './differential/table/table.component';
@@ -95,6 +95,7 @@ import { LoginComponent } from './login/login.component';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireAuthModule,
+    MatMenuModule,
   ],
   providers: [
     // {

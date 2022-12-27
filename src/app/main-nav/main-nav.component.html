@@ -89,6 +89,7 @@
         >
           <mat-icon class="mr-2">account_circle</mat-icon>Login
         </button>
+        <button mat-button *ngIf="user.isLoggedIn$ | async">Profile</button>
         <button
           mat-raised-button
           color="accent"
