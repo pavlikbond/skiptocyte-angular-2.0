@@ -13,6 +13,7 @@
   height: 770px;
   overflow: auto;
   padding-bottom: 10px;
+  margin-bottom: 10px;
   .additional-settings {
     border: 2px solid lightgrey;
     padding: 10px;
@@ -46,6 +47,7 @@
 }
 
 .print-settings-container {
+  padding: 0;
   .add-field-input {
     border: 1px solid lightgrey;
     padding: 5px;
@@ -140,4 +142,11 @@ th {
   border-top: 1px solid darkgrey;
   margin: 50px 0;
   transform: scaleX(1.1);
+}
+
+.spinner-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

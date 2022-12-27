@@ -1,4 +1,4 @@
-import { PresetService } from 'src/app/services/preset.service';
+import { environment } from './../environments/environment';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
@@ -13,11 +13,13 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NumpadComponent } from './differential/numpad/numpad.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { TableComponent } from './differential/table/table.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { InputNumberModule } from 'primeng/inputnumber';
@@ -33,7 +35,21 @@ import { MatListModule } from '@angular/material/list';
 import { PrintDialogComponent } from './differential/numpad/print-dialog/print-dialog.component';
 import { MatInputModule } from '@angular/material/input';
 import { NgxPrintModule } from 'ngx-print';
-
+import { AngularFireModule } from '@angular/fire/compat';
+import {
+  AngularFireAuthModule,
+  USE_EMULATOR as USE_AUTH_EMULATOR,
+} from '@angular/fire/compat/auth';
+import {
+  AngularFirestoreModule,
+  USE_EMULATOR as USE_FIRESTORE_EMULATOR,
+  SETTINGS as USE_FIRESTORE_SETTINGS,
+} from '@angular/fire/compat/firestore';
+import {
+  AngularFireFunctionsModule,
+  USE_EMULATOR as USE_FUNCTIONS_EMULATOR,
+} from '@angular/fire/compat/functions';
+import { LoginComponent } from './login/login.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,6 +63,7 @@ import { NgxPrintModule } from 'ngx-print';
     MainNavComponent,
     PrintDialogComponent,
     ToolsComponent,
+    LoginComponent,
   ],
   entryComponents: [SettingsDialogComponent],
   imports: [
@@ -70,12 +87,38 @@ import { NgxPrintModule } from 'ngx-print';
     MatToolbarModule,
     MatButtonModule,
     LayoutModule,
+    MatProgressSpinnerModule,
     MatSidenavModule,
     MatListModule,
     MatInputModule,
     NgxPrintModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule,
+    AngularFireAuthModule,
+    MatMenuModule,
   ],
-  providers: [PresetService],
+  providers: [
+    // {
+    //   provide: USE_FIRESTORE_SETTINGS,
+    //   useValue: { experimentalForceLongPolling: true, merge: true },
+    // },
+    {
+      provide: USE_AUTH_EMULATOR,
+      useValue: environment.useEmulators
+        ? ['http://localhost:9099']
+        : undefined,
+    },
+    {
+      provide: USE_FIRESTORE_EMULATOR,
+      useValue: environment.useEmulators
+        ? ['http://localhost:8080']
+        : undefined,
+    },
+    // {
+    //   provide: USE_FUNCTIONS_EMULATOR,
+    //   useValue: environment.useEmulators ? ['localhost', 5001] : undefined,
+    // },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

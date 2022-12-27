@@ -1,3 +1,4 @@
+import { UserService } from './../../services/user.service';
 import { Component } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Preset } from 'src/app/models/preset.model';
@@ -5,6 +6,8 @@ import { NgForm } from '@angular/forms';
 import { PresetService } from 'src/app/services/preset.service';
 import { MatDialog } from '@angular/material/dialog';
 import { SettingsDialogComponent } from './settings-dialog/settings-dialog.component';
+import { catchError, tap } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 
 @Component({
   selector: 'app-table',
@@ -13,13 +16,20 @@ import { SettingsDialogComponent } from './settings-dialog/settings-dialog.compo
 })
 export class TableComponent {
   isLoading = false;
-  presets: Preset[] = this.getAllPresets();
   currentPreset: Preset = this.presetService.currentPreset;
   index: string = '0';
   numRowsError: string = '';
   maxCount!: string;
 
-  constructor(private presetService: PresetService, public dialog: MatDialog) {}
+  constructor(
+    private presetService: PresetService,
+    public dialog: MatDialog,
+    public user: UserService
+  ) {
+    this.presetService.currentPreset$.subscribe((preset) => {
+      this.currentPreset = preset;
+    });
+  }
 
   drop(event: CdkDragDrop<string[]>) {
     moveItemInArray(
@@ -46,10 +56,12 @@ export class TableComponent {
 
   updatePreset() {
     this.isLoading = true;
-    setTimeout(() => {
-      this.isLoading = false;
-    }, 1000);
-    //TODO: save to preset json
+    this.presetService.updatePresets().subscribe({
+      error: (e) => console.error(e),
+      complete: () => {
+        this.isLoading = false;
+      },
+    });
   }
   //fires when presets dropdown is changed
   changeClient(event: any) {
@@ -63,13 +75,13 @@ export class TableComponent {
     let indexToDelete = event.target.dataset.target;
     this.currentPreset.rows.splice(indexToDelete, 1);
     //updates the current count to adjust for the amount that was deleted
-    this.presetService.setCurrentCount();
+    this.presetService.setCurrentCount(true);
   }
 
   onCheckboxClick(event: any, i: number) {
     let checked = event.target.checked;
     this.currentPreset.rows[i].ignore = checked;
-    this.presetService.updateRelativesAndAbsolutes();
+    this.presetService.updateRelativesAndAbsolutes(true);
   }
 
   getCount(i: number) {
@@ -115,9 +127,11 @@ export class TableComponent {
         event.preventDefault();
         event.target.value = '';
         this.currentPreset.rows[i].key = '';
-        event.target.style.border = '2px solid red';
+        //event.target.style.border = '2px solid red';
+        event.target.classList.toggle('duplicate');
         setTimeout(() => {
-          event.target.style.border = 'none';
+          //event.target.style.border = 'none';
+          event.target.classList.toggle('duplicate');
         }, 2000);
       }
     }
@@ -140,14 +154,14 @@ export class TableComponent {
       let maxWBC: string = presetForm.controls['inputMaxCount'].value;
       let name = presetForm.controls['presetName'].value;
       let newPreset: Preset = this.createPreset(name, maxWBC ? +maxWBC : 100);
-      this.presets = [...this.presets, newPreset];
-      this.changeClient(this.presets.length - 1);
-      this.index = (this.presets.length - 1).toString();
       presetForm.resetForm();
-      this.currentPreset = this.presets[this.presets.length - 1];
 
-      this.presetService.presets = this.presets;
-      this.presetService.currentPreset = this.currentPreset;
+      this.presetService.presets.push(newPreset);
+      this.changeClient(this.presetService.presets.length - 1);
+      this.index = (this.presetService.presets.length - 1).toString();
+
+      this.presetService.currentPreset = newPreset;
+      this.currentPreset = this.presetService.currentPreset;
     }
   }
 

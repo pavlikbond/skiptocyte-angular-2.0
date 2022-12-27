@@ -131,7 +131,7 @@ $greyHover: #c2c2c2;
     background-color: #2c3752;
     color: white;
     text-align: center;
-    transition: all 0.3s ease;
+
     padding: 5px 10px;
 
     &:hover {
@@ -183,6 +183,11 @@ a.boxclose {
 
 .show {
   display: none;
+}
+
+.duplicate {
+  border: 2px dashed red;
+  outline: none;
 }
 
 @media (max-width: 640px) {

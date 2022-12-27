@@ -1,35 +1,39 @@
+import { SettingsService } from './settings.service';
+import { UserService } from './user.service';
 import { Injectable } from '@angular/core';
 import * as presets from '../differential/presets.json';
-import { Preset, Row } from '../models/preset.model';
+import { Preset } from '../models/preset.model';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { BehaviorSubject } from 'rxjs';
+import { convertDbPresetsForApp } from '../models/preset-utils';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PresetService {
-  presets: Preset[] = Array.from(presets);
-  currentPreset: Preset = this.presets[0];
-  maxWBC: number = this.currentPreset.maxWBC;
+  presets: Preset[];
+  currentPreset: Preset;
+  currentPreset$: BehaviorSubject<Preset>;
   currentCount: number = 0;
   direction: string = 'increase';
   WbcCount: number = 0;
   maxDecimals: number = 3;
   units = ['10^9/L', '10^6/mL', '10^3/uL'];
   selectedUnit: string = this.units[0];
-  trackList: { name: string; filePath: string }[] = [
-    { name: 'Beep 1', filePath: '../assets/Beep_1.wav' },
-    { name: 'Beep 2', filePath: '../assets/Beep_2.mp3' },
-    { name: 'Beep 3', filePath: '../assets/Beep_3.mp3' },
-  ];
-  currentTrackMax: number = 0;
-  currentTrackChange: number = 1;
-  soundSettings = {
-    playMaxCount: true,
-    playCountChange: false,
-  };
+  constructor(
+    private user: UserService,
+    private db: AngularFirestore,
+    private settings: SettingsService
+  ) {
+    this.getPresetsFromDb();
+    this.presets = [{ name: '', maxWBC: 100, rows: [] }];
+    this.currentPreset = this.presets[0];
+    this.currentPreset$ = new BehaviorSubject(this.presets[0]);
+  }
 
-  //currentTrack: { name: string; filePath: string } = this.trackList[0];
-
-  constructor() {}
+  getMaxWbc() {
+    return this.currentPreset.maxWBC;
+  }
 
   adjustCount(key: string, i: number) {
     //if setting set to increase, increment and row count
@@ -48,34 +52,32 @@ export class PresetService {
     this.updateRelativesAndAbsolutes();
     if (this.direction === 'increase') {
       if (this.currentCount >= this.currentPreset.maxWBC) {
-        if (this.soundSettings.playMaxCount) {
-          this.playDing(this.currentTrackMax);
-        }
+        this.settings.playSound('max');
       }
     }
   }
 
-  setCurrentCount() {
+  setCurrentCount(checkboxEvent: boolean = false) {
     let total = 0;
     for (let row of this.currentPreset.rows) {
       total += row.ignore ? 0 : row.count;
     }
     this.currentCount = total;
     if (this.currentCount < this.currentPreset.maxWBC) {
-      if (this.soundSettings.playCountChange) {
-        this.playDing(this.currentTrackChange);
+      if (!checkboxEvent) {
+        this.settings.playSound('change');
       }
     }
   }
 
-  updateRelativesAndAbsolutes() {
+  updateRelativesAndAbsolutes(checkboxEvent: boolean = false) {
     //let fraction = String(this.WbcCount).split('.')[1];
     //let numsAfterDec = fraction ? fraction.length : 0;
     //let exp = 10 ** Math.min(this.maxDecimals, numsAfterDec);
     let exp = 10 ** this.maxDecimals;
     //console.log(typeof num);
 
-    this.setCurrentCount();
+    this.setCurrentCount(checkboxEvent);
     for (let row of this.currentPreset.rows) {
       //or 0 because otherwise it might return NaN
       let num = row.count / this.currentCount || 0;
@@ -120,46 +122,53 @@ export class PresetService {
     this.currentCount = 0;
   }
 
-  playDing(index: number) {
-    let trackIndex =
-      index === 0 ? this.currentTrackMax : this.currentTrackChange;
-
-    let audio = new Audio();
-    audio.src = this.trackList[trackIndex].filePath;
-
-    audio.load();
-    audio.play();
-  }
   digits(value: Number) {
     return value
       .toExponential()
       .replace(/^([0-9]+)\.?([0-9]+)?e[\+\-0-9]*$/g, '$1$2').length;
   }
 
-  getDisplayTrack(index: number) {
-    return this.trackList[index].name;
+  getPresetsFromDb() {
+    this.user.uid$.subscribe((uid) => {
+      console.log(uid);
+
+      if (uid) {
+        this.db
+          .collection(`users`)
+          .doc(uid)
+          .ref.get()
+          .then((result) => {
+            if (result.exists) {
+              console.log(result.data());
+              let data: any = result.data();
+              if (data.presets) {
+                this.presets = convertDbPresetsForApp(data.presets);
+                this.currentPreset = this.presets[0];
+                this.currentPreset$.next(this.currentPreset);
+              } else {
+                this.loadStandardPresets();
+              }
+            } else {
+              this.loadStandardPresets();
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+            this.loadStandardPresets();
+          });
+      } else {
+        this.loadStandardPresets();
+      }
+    });
   }
 
-  nextTrack(index: number) {
-    if (index === 0) {
-      this.currentTrackMax = ++this.currentTrackMax % this.trackList.length;
-    } else {
-      this.currentTrackChange =
-        ++this.currentTrackChange % this.trackList.length;
-    }
+  updatePresets() {
+    return this.user.updatePresets(this.presets);
   }
 
-  previousTrack(index: number) {
-    if (index === 0) {
-      this.currentTrackMax =
-        --this.currentTrackMax < 0
-          ? this.trackList.length - 1
-          : this.currentTrackMax;
-    } else {
-      this.currentTrackChange =
-        --this.currentTrackChange < 0
-          ? this.trackList.length - 1
-          : this.currentTrackChange;
-    }
+  loadStandardPresets() {
+    this.presets = Array.from(presets);
+    this.currentPreset = this.presets[0];
+    this.currentPreset$.next(this.currentPreset);
   }
 }

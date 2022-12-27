@@ -8,7 +8,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "test-coverage": "ng test --code-coverage"
+    "test-coverage": "ng test --code-coverage",
+    "local-dev": "firebase emulators:start --only firestore,auth --import test-data"
   },
   "private": true,
   "dependencies": {
@@ -17,12 +18,14 @@
     "@angular/common": "^14.1.0",
     "@angular/compiler": "^14.1.0",
     "@angular/core": "^14.1.0",
+    "@angular/fire": "^7.5.0",
     "@angular/forms": "^14.1.0",
     "@angular/material": "^14.1.0",
     "@angular/platform-browser": "^14.1.0",
     "@angular/platform-browser-dynamic": "^14.1.0",
     "@angular/router": "^14.1.0",
     "daisyui": "^2.24.0",
+    "firebaseui": "^6.0.2",
     "ngx-print": "^1.2.1",
     "primeng": "^14.0.2",
     "rxjs": "~7.5.0",

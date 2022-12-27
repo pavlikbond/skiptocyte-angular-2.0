@@ -1,3 +1,5 @@
+import { SettingsService } from '../../../services/settings.service';
+import { UserService } from './../../../services/user.service';
 import { moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { SelectMultipleControlValueAccessor } from '@angular/forms';
@@ -12,47 +14,38 @@ import { PresetService } from 'src/app/services/preset.service';
 export class PrintDialogComponent {
   pages: number[] = [];
   currentCounts = this.presetService.currentPreset.rows;
-  fields: { name: string; value: string }[] = [
-    { name: 'Specimen #', value: '' },
-    { name: 'MRN', value: '' },
-    { name: 'Name', value: '' },
-    { name: 'DOB', value: '' },
-    { name: 'Tech', value: '' },
-    { name: 'Date', value: '' },
-  ];
   @ViewChild('newFieldInput') newFieldInputRef!: ElementRef;
-  @ViewChild('previewPane') previewPane!: ElementRef;
-  @ViewChild('previewPage') previewPage!: ElementRef;
   adding: boolean = false;
   newFieldValue: string = '';
   count = this.presetService.WbcCount;
-  allSettings = {
-    showLabels: true,
-    showCell: true,
-    showCount: false,
-    showRelative: true,
-    showAbsolute: true,
-    showUnits: false,
-    showIgnored: false,
-    reportTitle: 'Report',
-    showWBC: true,
-  };
+  saving: boolean = false;
   pageRows: Row[][] = [[...this.presetService.currentPreset.rows]];
-  constructor(private presetService: PresetService) {
+  constructor(
+    private presetService: PresetService,
+    public user: UserService,
+    public settings: SettingsService
+  ) {
     setTimeout(() => {
       this.refactor();
     });
   }
 
   drop(event: any) {
-    moveItemInArray(this.fields, event.previousIndex, event.currentIndex);
+    moveItemInArray(
+      this.settings.printSettings.fields,
+      event.previousIndex,
+      event.currentIndex
+    );
   }
   deleteFieldRow(i: number) {
-    this.fields.splice(i, 1);
+    this.settings.printSettings.fields.splice(i, 1);
   }
 
   addNewField() {
-    this.fields.push({ name: this.newFieldValue, value: '' });
+    this.settings.printSettings.fields.push({
+      name: this.newFieldValue,
+      value: '',
+    });
     this.newFieldValue = '';
     this.toggleField();
     //this checks the page and shifts the rows if overflow
@@ -95,10 +88,12 @@ export class PrintDialogComponent {
 
   getTotal(rowSpace = false) {
     let title = 1;
-    let fields = Math.ceil(this.fields.length / 2);
-    let count = this.allSettings.showWBC ? 2 : 1;
-    let tableHeader = this.allSettings.showLabels ? 1 : 0;
-    let ignoredRows = this.allSettings.showIgnored ? this.getNumIgnored() : 0;
+    let fields = Math.ceil(this.settings.printSettings.fields.length / 2);
+    let count = this.settings.printSettings.showWBC ? 2 : 1;
+    let tableHeader = this.settings.printSettings.showLabels ? 1 : 0;
+    let ignoredRows = this.settings.printSettings.showIgnored
+      ? this.getNumIgnored()
+      : 0;
     let normalRows =
       this.presetService.currentPreset.rows.length - this.getNumIgnored();
 
@@ -129,7 +124,7 @@ export class PrintDialogComponent {
         let rows: Row[][] = [];
         let pageIndex = 0;
         for (let row of this.presetService.currentPreset.rows) {
-          if (this.allSettings.showIgnored) {
+          if (this.settings.printSettings.showIgnored) {
             rows[pageIndex] = rows[pageIndex]
               ? [...rows[pageIndex], row]
               : [row];
@@ -151,7 +146,8 @@ export class PrintDialogComponent {
           //all other pages have 20 space
           else {
             if (
-              rows[pageIndex].length === (this.allSettings.showLabels ? 19 : 20)
+              rows[pageIndex].length ===
+              (this.settings.printSettings.showLabels ? 19 : 20)
             ) {
               pageIndex++;
             }
@@ -163,6 +159,16 @@ export class PrintDialogComponent {
           .fill(0)
           .map((x, i) => i);
       }
+    });
+  }
+
+  onSaveSettings() {
+    this.saving = true;
+    this.settings.savePrintSettings().subscribe({
+      error: (e) => console.error(e),
+      complete: () => {
+        this.saving = false;
+      },
     });
   }
 

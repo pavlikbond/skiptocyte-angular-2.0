@@ -1,3 +1,4 @@
+import { UserService } from './../services/user.service';
 import { Component, ViewChild } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
@@ -16,11 +17,18 @@ export class MainNavComponent {
       shareReplay()
     );
   @ViewChild('drawer') sidenav: any;
-  opened: any = false;
+  opened: boolean = false;
 
-  constructor(private breakpointObserver: BreakpointObserver) {}
+  constructor(
+    private breakpointObserver: BreakpointObserver,
+    public user: UserService
+  ) {}
 
   onClick() {
-    this.opened = this.sidenav.opened;
+    //this.opened = this.sidenav.opened;
+  }
+
+  logout() {
+    this.user.logout();
   }
 }
