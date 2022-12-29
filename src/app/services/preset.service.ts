@@ -130,7 +130,7 @@ export class PresetService {
 
   getPresetsFromDb() {
     this.user.uid$.subscribe((uid) => {
-      console.log(uid);
+      //console.log(uid);
 
       if (uid) {
         this.db
@@ -139,7 +139,7 @@ export class PresetService {
           .ref.get()
           .then((result) => {
             if (result.exists) {
-              console.log(result.data());
+              //console.log(result.data());
               let data: any = result.data();
               if (data.presets) {
                 this.presets = convertDbPresetsForApp(data.presets);

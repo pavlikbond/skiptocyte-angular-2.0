@@ -54,7 +54,7 @@ export class SettingsService {
         .ref.get()
         .then((result) => {
           if (result.exists) {
-            console.log(result.data());
+            //console.log(result.data());
             let data: any = result.data();
             if (data.printSettings) {
               this.printSettings = data.printSettings;
@@ -97,13 +97,13 @@ export class SettingsService {
       .ref.get()
       .then((result) => {
         if (result.exists) {
-          console.log(result.data());
+          //console.log(result.data());
           let data: any = result.data();
           if (data.tableSettings) {
             this.trackList = data.tableSettings.trackList;
             this.trackIndexes = data.tableSettings.trackIndexes;
             this.soundSettings = data.tableSettings.soundSettings;
-            console.log('got the data', data.tableSettings);
+            //console.log('got the data', data.tableSettings);
           }
         }
       })

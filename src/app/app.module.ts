@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DifferentialComponent } from './differential/differential.component';
-import { ToolsComponent } from './tools/tools.component';
+import { PricingComponent } from './pricing/pricing.component';
 import { ContactComponent } from './contact/contact.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -36,6 +36,7 @@ import { PrintDialogComponent } from './differential/numpad/print-dialog/print-d
 import { MatInputModule } from '@angular/material/input';
 import { NgxPrintModule } from 'ngx-print';
 import { AngularFireModule } from '@angular/fire/compat';
+import { MatCardModule } from '@angular/material/card';
 import {
   AngularFireAuthModule,
   USE_EMULATOR as USE_AUTH_EMULATOR,
@@ -54,7 +55,7 @@ import { LoginComponent } from './login/login.component';
   declarations: [
     AppComponent,
     DifferentialComponent,
-    ToolsComponent,
+    PricingComponent,
     ContactComponent,
     HomePageComponent,
     NumpadComponent,
@@ -62,7 +63,7 @@ import { LoginComponent } from './login/login.component';
     SettingsDialogComponent,
     MainNavComponent,
     PrintDialogComponent,
-    ToolsComponent,
+    PricingComponent,
     LoginComponent,
   ],
   entryComponents: [SettingsDialogComponent],
@@ -96,6 +97,7 @@ import { LoginComponent } from './login/login.component';
     AngularFirestoreModule,
     AngularFireAuthModule,
     MatMenuModule,
+    MatCardModule,
   ],
   providers: [
     // {
