@@ -2,7 +2,6 @@ import { UserService } from '../services/user.service';
 import { Component, OnInit } from '@angular/core';
 import { loadStripe } from '@stripe/stripe-js';
 import { first, map } from 'rxjs/operators';
-import * as firebase from 'firebase/app';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireFunctions } from '@angular/fire/compat/functions';
 interface Item {
@@ -16,11 +15,11 @@ interface Item {
 })
 export class PricingComponent implements OnInit {
   features = [
+    { feature: 'Secure Account', free: true, paid: true },
     { feature: 'Unlimited Presets', free: true, paid: true },
-    { feature: 'Lorem Ipsum', free: true, paid: true },
-    { feature: 'Lorem Ipsum', free: true, paid: true },
-    { feature: 'Customize Sounds', free: false, paid: true },
-    { feature: 'Customize Print Settings', free: false, paid: true },
+    { feature: 'Custom notication sound', free: false, paid: true },
+    { feature: 'Additional settings', free: false, paid: true },
+    { feature: 'Customize report', free: false, paid: true },
   ];
 
   constructor(
@@ -42,10 +41,9 @@ export class PricingComponent implements OnInit {
             .doc(uid)
             .collection('checkout_sessions')
             .add({
-              automatic_tax: true,
               price: 'price_1MK3flE0Hmbzt22hwJvInqE5', // todo price Id from your products price in the Stripe Dashboard
-              success_url: window.location.origin, // return user to this screen on successful purchase
-              cancel_url: window.location.origin, // return user to this screen on failed purchase
+              success_url: window.location.href, // return user to this screen on successful purchase
+              cancel_url: window.location.href, // return user to this screen on failed purchase
             })
             .then((docRef) => {
               // Wait for the checkoutSession to get attached by the extension
@@ -86,5 +84,14 @@ export class PricingComponent implements OnInit {
       window.location.assign(data.url);
       this.isLoading = false;
     });
+  }
+
+  startTrial() {
+    let trial = {
+      status: 'trialing',
+      startDate: new Date(),
+      endDate: new Date(Date.now() + 12096e5),
+    };
+    this.db.collection(`users/${this.user.uid}/subscriptions`).add(trial);
   }
 }

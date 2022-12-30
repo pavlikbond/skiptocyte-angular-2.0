@@ -31,17 +31,19 @@ export class UserService {
       //console.log(uid);
       return this.db
         .collection(`users/${uid}/subscriptions`, (ref) =>
-          ref.where('status', '==', 'active')
+          ref.where('status', 'in', ['active', 'trialing'])
         )
         .get()
         .subscribe((data) => {
           if (!data.empty) {
-            console.log('subbed');
-
             this.isSubbed$ = new BehaviorSubject(true);
+            let sub: any = data.docs.find((sub) => {
+              let data = sub.data() as any;
+              return data?.status === 'trialing';
+            });
+            let timeLeft = Math.abs(sub.data().endDate - Date.now());
+            console.log(timeLeft / (10 * 60 * 60 * 24));
           } else {
-            console.log('not subbed');
-
             this.isNotSubbed$ = new BehaviorSubject(true);
           }
         });
