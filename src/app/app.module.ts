@@ -51,6 +51,7 @@ import {
   USE_EMULATOR as USE_FUNCTIONS_EMULATOR,
 } from '@angular/fire/compat/functions';
 import { LoginComponent } from './login/login.component';
+import { AccountSettingsComponent } from './account-settings/account-settings.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -65,6 +66,7 @@ import { LoginComponent } from './login/login.component';
     PrintDialogComponent,
     PricingComponent,
     LoginComponent,
+    AccountSettingsComponent,
   ],
   entryComponents: [SettingsDialogComponent],
   imports: [

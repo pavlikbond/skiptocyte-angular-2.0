@@ -16,10 +16,12 @@ interface Item {
 export class PricingComponent implements OnInit {
   features = [
     { feature: 'Secure Account', free: true, paid: true },
+    { feature: 'Mobile/Tablet compatible', free: true, paid: true },
     { feature: 'Unlimited Presets', free: true, paid: true },
-    { feature: 'Custom notication sound', free: false, paid: true },
+    { feature: 'Customize notication sounds', free: false, paid: true },
     { feature: 'Additional settings', free: false, paid: true },
     { feature: 'Customize report', free: false, paid: true },
+    { feature: 'Support further development', free: false, paid: true },
   ];
 
   constructor(
@@ -90,7 +92,7 @@ export class PricingComponent implements OnInit {
     let trial = {
       status: 'trialing',
       startDate: new Date(),
-      endDate: new Date(Date.now() + 12096e5),
+      endDate: new Date(Date.now() + 1000 * 60 * 60 * 24 * 14),
     };
     this.db.collection(`users/${this.user.uid}/subscriptions`).add(trial);
   }

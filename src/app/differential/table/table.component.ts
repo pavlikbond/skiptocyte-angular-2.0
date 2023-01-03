@@ -6,8 +6,6 @@ import { NgForm } from '@angular/forms';
 import { PresetService } from 'src/app/services/preset.service';
 import { MatDialog } from '@angular/material/dialog';
 import { SettingsDialogComponent } from './settings-dialog/settings-dialog.component';
-import { catchError, tap } from 'rxjs/operators';
-import { throwError } from 'rxjs';
 
 @Component({
   selector: 'app-table',

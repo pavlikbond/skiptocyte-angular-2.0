@@ -63,6 +63,24 @@ $greyHover: #c2c2c2;
   display: none;
 }
 
+svg {
+  width: 35px;
+  color: white;
+  cursor: pointer;
+}
+
+.logoutBtn {
+  margin: 10px 10px 0 10px;
+  width: calc(100% - 20px);
+}
+
+.userInfo {
+  height: fit-content;
+  width: 100%;
+  padding: 10px 10px 0 10px;
+  text-align: center;
+}
+
 @media (min-width: 768px) {
   .home-btn {
     display: block;
