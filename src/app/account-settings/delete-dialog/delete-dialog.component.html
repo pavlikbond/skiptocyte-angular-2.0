@@ -1,0 +1,23 @@
+<ng-container *ngIf="this.showConfirmation && !this.needsLogin">
+  <h1 mat-dialog-title>Delete Account</h1>
+  <div mat-dialog-content>Are you sure you want to delete your account?</div>
+  <div mat-dialog-actions>
+    <button mat-raised-button cdkFocusInitial color="accent" mat-dialog-close>
+      No
+    </button>
+    <button mat-stroked-button (click)="onDeleteAccount()">Delete</button>
+  </div>
+</ng-container>
+<ng-container *ngIf="!this.showConfirmation">
+  <h1 mat-dialog-title>Acccount Deleted</h1>
+  <button
+    mat-raised-button
+    cdkFocusInitial
+    color="accent"
+    mat-dialog-close
+    (click)="afterDelete()"
+  >
+    Ok
+  </button>
+</ng-container>
+<app-login *ngIf="this.needsLogin"> </app-login>

@@ -19,7 +19,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.afAuth.app.then((app) => {
       const uiConfig = {
         signInOptions: [
-          EmailAuthProvider.PROVIDER_ID,
+          {
+            provider: EmailAuthProvider.PROVIDER_ID,
+            requireDisplayName: false,
+          },
           GoogleAuthProvider.PROVIDER_ID,
         ],
         callbacks: {
@@ -28,7 +31,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       };
       this.ui = new firebaseui.auth.AuthUI(app.auth());
       this.ui.start('#firebaseui-auth-container', uiConfig);
-      this.ui.disableAutoSignIn();
+      //this.ui.disableAutoSignIn();
     });
   }
 

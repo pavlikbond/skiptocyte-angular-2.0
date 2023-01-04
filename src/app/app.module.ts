@@ -52,6 +52,7 @@ import {
 } from '@angular/fire/compat/functions';
 import { LoginComponent } from './login/login.component';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
+import { DeleteDialogComponent } from './account-settings/delete-dialog/delete-dialog.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -67,6 +68,7 @@ import { AccountSettingsComponent } from './account-settings/account-settings.co
     PricingComponent,
     LoginComponent,
     AccountSettingsComponent,
+    DeleteDialogComponent,
   ],
   entryComponents: [SettingsDialogComponent],
   imports: [
