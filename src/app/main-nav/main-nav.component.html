@@ -29,17 +29,31 @@
     </mat-toolbar>
     <mat-nav-list>
       <a mat-list-item routerLink="/">Home</a>
-      <a mat-list-item routerLink="/pricing">Pricing</a>
+      <!-- <a mat-list-item routerLink="/pricing">Pricing</a> -->
       <a mat-list-item routerLink="/differential">Counter</a>
-      <a mat-list-item routerLink="/contact">Contact</a>
+      <!-- <a mat-list-item routerLink="/contact">Contact</a> -->
     </mat-nav-list>
     <div class="flex gap-4 px-4">
-      <button mat-raised-button color="accent">
-        <mat-icon class="mr-2">account_circle</mat-icon>Login
+      <button
+        mat-raised-button
+        routerLink="/login"
+        color="accent"
+        *ngIf="user.isLoggedOut$ | async"
+      >
+        <mat-icon class="mr-2">account_circle</mat-icon>Login/Sign Up
       </button>
-      <button mat-stroked-button>
+      <button
+        mat-raised-button
+        color="accent"
+        routerLink="/"
+        *ngIf="user.isLoggedIn$ | async"
+        (click)="logout()"
+      >
+        <mat-icon class="mr-2">exit_to_app</mat-icon>Log Out
+      </button>
+      <!-- <button mat-stroked-button>
         <mat-icon class="mr-2">person_add</mat-icon>Sign Up
-      </button>
+      </button> -->
     </div>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -68,14 +82,14 @@
         >
           Home
         </button>
-        <button
+        <!-- <button
           mat-button
           routerLink="/pricing"
           routerLinkActive="active-btn"
           *ngIf="user.isNotSubbed$ | async"
         >
           Pricing
-        </button>
+        </button> -->
         <button
           mat-button
           routerLink="/differential"
@@ -83,16 +97,16 @@
         >
           Counter
         </button>
-        <button mat-button routerLink="/contact" routerLinkActive="active-btn">
+        <!-- <button mat-button routerLink="/contact" routerLinkActive="active-btn">
           Contact
-        </button>
+        </button> -->
         <button
           mat-raised-button
           color="accent"
           routerLink="/login"
           *ngIf="user.isLoggedOut$ | async"
         >
-          <mat-icon class="mr-2">account_circle</mat-icon>Login
+          <mat-icon class="mr-2">account_circle</mat-icon>Login / Sign Up
         </button>
         <div [matMenuTriggerFor]="menu" *ngIf="user.isLoggedIn$ | async">
           <svg
@@ -111,13 +125,13 @@
             <div matMenuContent class="userInfo">
               <p class="text-center">{{ user.email$ | async }}</p>
             </div>
-            <button
+            <!-- <button
               class="font-medium text-lg"
               mat-menu-item
               routerLink="account"
             >
               <mat-icon>settings</mat-icon>Account Settings
-            </button>
+            </button> -->
             <button
               class="logoutBtn"
               mat-raised-button
@@ -131,9 +145,9 @@
           </mat-menu>
         </div>
 
-        <button mat-button *ngIf="user.isLoggedOut$ | async">
+        <!-- <button mat-button *ngIf="user.isLoggedOut$ | async">
           <mat-icon class="mr-2 hidden">person_add</mat-icon>Sign Up
-        </button>
+        </button> -->
       </div>
     </mat-toolbar>
   </mat-sidenav-content>

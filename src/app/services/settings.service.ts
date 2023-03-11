@@ -12,7 +12,7 @@ export class SettingsService {
     { name: 'Sound 2', filePath: '../assets/Beep_2.mp3' },
     { name: 'Sound 3', filePath: '../assets/Beep_3.mp3' },
   ];
-  trackIndexes = { max: 0, change: 1 };
+  trackIndexes = { max: 1, change: 1 };
   soundSettings = {
     playMaxCount: true,
     playCountChange: false,

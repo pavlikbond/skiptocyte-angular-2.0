@@ -185,6 +185,13 @@ export class TableComponent {
     this.index = this.presetService.presets
       .indexOf(this.currentPreset)
       .toString();
+
+    this.presetService.updatePresets().subscribe({
+      error: (e) => console.error(e),
+      complete: () => {
+        this.isLoading = false;
+      },
+    });
   }
 
   createPreset(name: string = 'Default', max: number = 100) {
