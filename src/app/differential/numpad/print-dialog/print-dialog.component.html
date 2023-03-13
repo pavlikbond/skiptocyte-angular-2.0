@@ -193,7 +193,7 @@
                     <span>{{ item.ignore ? "" : item.absolute }}</span>
                     <span
                       *ngIf="settings.printSettings.showUnits && !item.ignore"
-                      class="text-sm pl-2"
+                      class="pl-2"
                       [innerHTML]="formattedUnit()"
                     ></span>
                   </td>
@@ -258,7 +258,7 @@
       </ng-container>
     </div>
 
-    <div class="button-container flex justify-end gap-3">
+    <div class="button-container flex justify-end gap-3 mb-2">
       <button
         mat-flat-button
         color="accent"
