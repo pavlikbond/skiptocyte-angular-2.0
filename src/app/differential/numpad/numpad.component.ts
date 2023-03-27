@@ -13,9 +13,7 @@ export class NumpadComponent {
   active = 'increase';
   units = this.presetService.units;
   selectedUnit = this.presetService.selectedUnit;
-  numpadVisible: boolean = true;
   currentKey: string = '';
-  //WbcCount!: number;
   maxLength: number = 8;
   numpadItems = [
     'NumLock',
@@ -39,63 +37,30 @@ export class NumpadComponent {
 
   constructor(private presetService: PresetService, public dialog: MatDialog) {}
 
-  formatInt(int: Number) {
-    const maxLength = this.maxLength;
-
-    let result = String(int).replace(/[^0-9]/g, '');
-    if (result === '0') {
-      result = '';
-    }
-    result = result.slice(0, maxLength);
-    return result.replace(/(?<!\.\d*)(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
-  }
-
   formatFloat(int: Number) {
-    const maxLength = this.maxLength;
-    const maxDecimals = this.presetService.maxDecimals;
-    let result = String(int);
-    //regex that only allows numbers and periods to be inputted
-    result = result.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');
-    //remove leading zeros
-    if (result === '0') {
-      result = '';
-    }
-    //if decimal entered, add zero before it
-    if (result === '.') {
-      result = '0.';
-    }
-    //check for lengths before and after decimal
-    if (result.includes('.')) {
-      let split = result.split('.');
-      if (split[1].length > maxDecimals) {
-        //console.log(split)
-        result = result.slice(0, -1);
-      }
-      if (split[0].length > maxLength) {
-        split[0] = split[0].slice(0, maxLength);
-        result = split.join('.');
-      }
-    } else {
-      result = result.substring(0, maxLength);
-    }
-    //regex to add commas every thousands before decimal
-    return result.replace(/(?<!\.\d*)(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+    return int
+      .toString()
+      .replace(/[^0-9.]/g, '')
+      .replace(/(\..*)\./g, '$1');
   }
 
   //event when chaning the wbc count
   updateMaxWbc(e: any) {
-    let result = this.formatInt(e.target.value);
+    let result = e.target.value.replace(/[^0-9]/g, '');
     e.target.value = result;
-    //update maxwbc with converted number
-    this.presetService.currentPreset.maxWBC = Number(
-      result.split(',').join('')
-    );
+    this.presetService.currentPreset.maxWBC = Number(result);
   }
 
   updateWBCCount(e: any) {
-    let result = this.formatFloat(e.target.value);
+    //regex that only allows numbers and a single period to be inputted
+    let result = e.target.value
+      .replace(/[^0-9.]/g, '')
+      .replace(/(\..*)\./g, '$1');
+    if (result === '.') {
+      result = '0.';
+    }
     e.target.value = result;
-    this.presetService.WbcCount = Number(result.split(',').join(''));
+    this.presetService.WbcCount = Number(result);
     this.presetService.updateRelativesAndAbsolutes();
   }
 
@@ -119,20 +84,15 @@ export class NumpadComponent {
   }
 
   getMaxWbc() {
-    return this.formatInt(this.presetService.currentPreset.maxWBC);
+    return this.presetService.currentPreset.maxWBC;
   }
 
   getWBCCount() {
-    let value = this.formatFloat(this.presetService.WbcCount);
-    return value;
-  }
-  numpadDropdown() {
-    this.numpadVisible = !this.numpadVisible;
+    return this.presetService.WbcCount;
   }
 
   getCurrentCount() {
-    let result = this.formatInt(this.presetService.currentCount);
-    return result === '' ? 0 : result;
+    return this.presetService.currentCount;
   }
 
   keyBindingCheck(key: string) {

@@ -17,6 +17,7 @@
       [value]="getMaxWbc()"
       placeholder="100"
       class="wbc-input"
+      maxlength="8"
     />
     <input
       type="text"
@@ -24,6 +25,7 @@
       (input)="updateWBCCount($event)"
       [value]="getWBCCount()"
       class="wbc-input"
+      maxlength="8"
     />
     <mat-form-field appearance="fill">
       <mat-label>Units</mat-label>
@@ -52,20 +54,8 @@
       </mat-select>
     </mat-form-field>
   </div>
-  <button
-    class="button w-full h-8 mb-3 numpad-dropdown-btn shadow-md hidden sm:block"
-    (click)="numpadDropdown()"
-    [ngClass]="!numpadVisible ? '' : 'active-arrow'"
-  >
-    <span class="arrow"></span>
-  </button>
 
-  <div
-    class="numpad-container numpad-grid"
-    [ngClass]="{
-      'numpad-closed': !numpadVisible
-    }"
-  >
+  <div class="numpad-container numpad-grid">
     <button
       class="numpad-item"
       *ngFor="let item of numpadItems; index as i"
