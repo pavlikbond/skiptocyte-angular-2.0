@@ -1,9 +1,25 @@
-
-  <form class="contact-form" action="https://formsubmit.co/bf8ccb78dcfa78bcf9219843dd68e957" method="POST">
-      <h2>Contact the developer!</h2>
-      <p>If you found some error or bug please let me know about it. I would also love to hear about any suggestions you might have for improvement, or any features you want added.</p>
-      <textarea name="text" class="feedback-input" placeholder="Comment" [(ngModel)]="feedback"></textarea>
-      <input type="hidden" name="_next" value="https://skiptocyte.com">
-      <input type="hidden" name="_captcha" value="true">
-      <button type="submit" (click)="onSubmit()">Submit</button>
+<mat-card class="w-[25vw] max-w-[25rem] min-w-[20rem] m-auto mt-6">
+  <form
+    class="contact-form flex flex-col"
+    action="https://formsubmit.co/bf8ccb78dcfa78bcf9219843dd68e957"
+    method="POST"
+  >
+    <h1 class="text-slate-600">Contact the developer!</h1>
+    <p class="text-slate-500">
+      If you found some error or bug please let me know about it. I would also
+      love to hear about any suggestions you might have for improvement, or any
+      features you want added.
+    </p>
+    <textarea
+      name="text"
+      class="feedback-input border-2 outline-slate-700 w-full p-3 rounded"
+      placeholder="Comment"
+      [(ngModel)]="feedback"
+    ></textarea>
+    <input type="hidden" name="_next" value="https://skiptocyte.com" />
+    <input type="hidden" name="_captcha" value="true" />
+    <button class="my-4" mat-raised-button color="accent" type="submit">
+      Primary
+    </button>
   </form>
+</mat-card>
