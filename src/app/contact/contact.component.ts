@@ -9,27 +9,32 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ContactComponent implements OnInit {
   constructor(private http: HttpClient) {}
-
+  loading: boolean = false;
+  email: string = '';
   feedback: string = '';
-  SERVER_URL: string = 'https://formsubmit.co/bf8ccb78dcfa78bcf9219843dd68e957';
-
+  SERVER_URL: string =
+    'https://formsubmit.co/ajax/bf8ccb78dcfa78bcf9219843dd68e957';
+  //SERVER_URL: string = 'https://formsubmit.co/ajax/pavlik.bond@gmail.com';
   ngOnInit(): void {}
 
-  // onSubmit() {
-  //   if (this.feedback.length < 1 || this.feedback == '')
-  //   {
-  //     alert('cannot have an empty string');
-  //   }
-  //   else
-  //   {
-  //     let body:string = this.feedback;
-  //     console.log('submitting...')
-  //     this.http.post<any>("https://formsubmit.co/b81320abefcf2688218169ae7c36c518", body).subscribe( res => {
-  //         alert('Thank you for your feedback!');
-  //       },
-  //       (err) => console.error('failed to send response')
-  //     );
-
-  //   }
-  // }
+  onSubmit(value: any) {
+    this.loading = true;
+    fetch(this.SERVER_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(value),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        this.loading = false;
+        console.log(data);
+      })
+      .catch((error) => {
+        this.loading = false;
+        console.log(error);
+      });
+  }
 }

@@ -1,0 +1,9 @@
+h1 {
+  font-weight: 700;
+}
+
+p {
+  font-weight: 500;
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  line-height: 1.3rem;
+}
