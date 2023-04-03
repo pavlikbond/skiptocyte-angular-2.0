@@ -23,10 +23,23 @@ export class PrintDialogComponent {
   constructor(
     private presetService: PresetService,
     public user: UserService,
-    public settings: SettingsService
+    public settings: SettingsService,
+    private el: ElementRef
   ) {
     setTimeout(() => {
       this.refactor();
+    });
+
+    var range = 1 / this.el.nativeElement.offsetWidth;
+    var vw = range * this.el.nativeElement.offsetWidth;
+
+    document.documentElement.style.setProperty('--vw-scale', `${vw}`);
+
+    window.addEventListener('resize', () => {
+      document.documentElement.style.setProperty(
+        '--vw-scale',
+        `${range * this.el.nativeElement.offsetWidth}`
+      );
     });
   }
 

@@ -91,6 +91,8 @@
   padding: 7%;
   font-size: clamp(0.5rem, 1.5vw, 1rem);
   aspect-ratio: 8.5/11;
+  transform: scale(var(--vw-scale));
+  transform-origin: left top;
   h2 {
     text-align: center;
     margin: 0;
