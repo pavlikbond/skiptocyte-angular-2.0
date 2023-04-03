@@ -53,6 +53,8 @@ import {
 import { LoginComponent } from './login/login.component';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
 import { DeleteDialogComponent } from './account-settings/delete-dialog/delete-dialog.component';
+import { SignupComponent } from './signup/signup.component';
+import { ErrorComponent } from './error/error.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -69,6 +71,8 @@ import { DeleteDialogComponent } from './account-settings/delete-dialog/delete-d
     LoginComponent,
     AccountSettingsComponent,
     DeleteDialogComponent,
+    SignupComponent,
+    ErrorComponent,
   ],
   entryComponents: [SettingsDialogComponent],
   imports: [

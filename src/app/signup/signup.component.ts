@@ -7,11 +7,11 @@ import EmailAuthProvider = firebase.auth.EmailAuthProvider;
 import GoogleAuthProvider = firebase.auth.GoogleAuthProvider;
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+  selector: 'app-signup',
+  templateUrl: './signup.component.html',
+  styleUrls: ['./signup.component.scss'],
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class SignupComponent implements OnInit {
   ui: firebaseui.auth.AuthUI;
   constructor(private afAuth: AngularFireAuth, private router: Router) {}
 
@@ -43,19 +43,15 @@ export class LoginComponent implements OnInit, OnDestroy {
       );
       for (let i = 0; i < texts.length; ++i) {
         const item = texts.item(i);
-        if (item?.textContent?.includes('Sign up')) {
-          item.textContent = item.textContent.replace('Sign up', 'Sign in');
+        if (item?.textContent?.includes('Sign in')) {
+          item.textContent = item.textContent.replace('Sign in', 'Sign up');
         }
       }
     });
 
     authuiObserver.observe(
-      document.querySelectorAll('.auth-container-login')[0],
-      {
-        attributes: true,
-        childList: true,
-        subtree: true,
-      }
+      document.querySelectorAll('.auth-container-signup')[0],
+      { attributes: true, childList: true, subtree: true }
     );
   }
 

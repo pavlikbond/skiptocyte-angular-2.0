@@ -34,13 +34,12 @@ $greyHover: #c2c2c2;
     font-weight: 500;
   }
   button {
-    padding: 20px;
+    padding: 15px;
     text-decoration: none;
     background: $grey;
     color: $blue;
     font-weight: 500;
     font-size: 1.5em;
-    margin: 20px 0;
     width: 250px;
     border-radius: 5px;
     box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034),
@@ -87,7 +86,7 @@ $greyHover: #c2c2c2;
 
 @media (max-width: 480px) {
   .hero-image {
-    background-position: bottom 15% left 50%;
+    background-position: bottom 10% left 50%;
     background-size: 100%;
   }
   .homepage-btn-container {

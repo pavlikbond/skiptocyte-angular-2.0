@@ -1,5 +1,12 @@
-<div class="login">
-  <h1 class="text-white text-5xl">Log In / Sign Up</h1>
-
-  <div id="firebaseui-auth-container" class="auth-container"></div>
+<div
+  class="login w-[95vw] max-w-[20rem] m-auto mt-6 bg-slate-200 px-4 py-6 rounded flex flex-col gap-4"
+>
+  <div class="text-slate-700 text-center">
+    <h1 class="text-5xl">Sign In</h1>
+  </div>
+  <div id="firebaseui-auth-container" class="auth-container-login"></div>
+  <p class="text-slate-700 text-center block mt-4">
+    Don't have an account?
+    <a routerLink="/signup" class="text-blue-500 hover:underline">Sign Up</a>
+  </p>
 </div>

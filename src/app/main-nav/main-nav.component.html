@@ -35,12 +35,20 @@
     </mat-nav-list>
     <div class="flex gap-4 px-4">
       <button
-        mat-raised-button
-        routerLink="/login"
+        mat-stroked-button
         color="accent"
+        routerLink="/login"
         *ngIf="user.isLoggedOut$ | async"
       >
-        <mat-icon class="mr-2">account_circle</mat-icon>Login/Sign Up
+        <mat-icon class="mr-2">account_circle</mat-icon>Login
+      </button>
+      <button
+        mat-raised-button
+        color="accent"
+        routerLink="/signup"
+        *ngIf="user.isLoggedOut$ | async"
+      >
+        <mat-icon class="mr-2">person_add</mat-icon>Sign Up
       </button>
       <button
         mat-raised-button
@@ -101,12 +109,20 @@
           Contact
         </button>
         <button
-          mat-raised-button
+          mat-stroked-button
           color="accent"
           routerLink="/login"
           *ngIf="user.isLoggedOut$ | async"
         >
-          <mat-icon class="mr-2">account_circle</mat-icon>Login / Sign Up
+          <mat-icon class="mr-2">account_circle</mat-icon>Login
+        </button>
+        <button
+          mat-raised-button
+          color="accent"
+          routerLink="/signup"
+          *ngIf="user.isLoggedOut$ | async"
+        >
+          <mat-icon class="mr-2">person_add</mat-icon>Sign Up
         </button>
         <div [matMenuTriggerFor]="menu" *ngIf="user.isLoggedIn$ | async">
           <svg

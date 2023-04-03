@@ -12,7 +12,7 @@
     </p>
     <textarea
       name="text"
-      class="feedback-input border-2 outline-slate-700 w-full p-3 rounded"
+      class="feedback-input border-2 outline-slate-700 w-full p-3 rounded max-h-36 min-h-16"
       placeholder="Comment"
       [(ngModel)]="feedback"
       required
@@ -23,7 +23,7 @@
       type="email"
       name="email"
       class="feedback-input border-2 outline-slate-700 w-full p-3 rounded"
-      placeholder="Enter email if you want a response"
+      placeholder="Enter your email if you want a response"
       [(ngModel)]="email"
     />
     <input type="hidden" name="_captcha" value="false" />
