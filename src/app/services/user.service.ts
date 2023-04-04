@@ -81,8 +81,6 @@ export class UserService {
 
   updatePresets(presets: Preset[]) {
     let dbPresets = convertPresetsForDb(presets);
-    return from(
-      this.db.doc(`users/${this.uid}`).update({ presets: dbPresets })
-    );
+    return this.db.doc(`users/${this.uid}`).update({ presets: dbPresets });
   }
 }

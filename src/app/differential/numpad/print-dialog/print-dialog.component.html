@@ -123,7 +123,12 @@
     <h2 class="text-center">Preview</h2>
     <!-- <iframe src="/print" frameborder="0" style="width: 100%"></iframe> -->
 
-    <div id="print-section" class="preview-pane" #previewPane>
+    <div
+      id="print-section"
+      class="preview-pane"
+      #previewPane
+      [ngStyle]="{ transform: 'scale(' + scale + ')' }"
+    >
       <div class="preview-page" #previewPage>
         <h2 class="title">{{ settings.printSettings.reportTitle }}</h2>
         <div class="field-container">

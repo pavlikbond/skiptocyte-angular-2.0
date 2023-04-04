@@ -24,7 +24,6 @@
       class="update-preset button"
       (click)="updatePreset()"
       [disabled]="isLoading"
-      *ngIf="user.isLoggedIn$ | async"
     >
       <span class="loader" *ngIf="isLoading"></span>
       <span *ngIf="isLoading" class=""

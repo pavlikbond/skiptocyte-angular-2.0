@@ -54,12 +54,15 @@ export class TableComponent {
 
   updatePreset() {
     this.isLoading = true;
-    this.presetService.updatePresets().subscribe({
-      error: (e) => console.error(e),
-      complete: () => {
+    this.presetService
+      .updatePresets()
+      .then(() => {
         this.isLoading = false;
-      },
-    });
+      })
+      .catch((e) => {
+        console.log(e);
+        this.isLoading = false;
+      });
   }
   //fires when presets dropdown is changed
   changeClient(event: any) {
@@ -186,12 +189,15 @@ export class TableComponent {
       .indexOf(this.currentPreset)
       .toString();
 
-    this.presetService.updatePresets().subscribe({
-      error: (e) => console.error(e),
-      complete: () => {
+    this.presetService
+      .updatePresets()
+      .then(() => {
         this.isLoading = false;
-      },
-    });
+      })
+      .catch((err) => {
+        console.log(err);
+        this.isLoading = false;
+      });
   }
 
   createPreset(name: string = 'Default', max: number = 100) {
