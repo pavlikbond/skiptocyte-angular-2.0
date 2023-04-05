@@ -7,7 +7,7 @@ import { Preset } from '../models/preset.model';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { convertDbPresetsForApp } from '../models/preset-utils';
-
+import { AngularFireAnalytics } from '@angular/fire/compat/analytics';
 @Injectable({
   providedIn: 'root',
 })
@@ -25,7 +25,8 @@ export class PresetService {
   constructor(
     private user: UserService,
     private db: AngularFirestore,
-    private settings: SettingsService
+    private settings: SettingsService,
+    private analytics: AngularFireAnalytics
   ) {
     this.getPresetsFromDb();
     this.presets = [{ name: '', maxWBC: 100, rows: [] }];
@@ -179,13 +180,17 @@ export class PresetService {
     if (this.loggedIn) {
       return this.user.updatePresets(this.presets);
     }
-    //this.sleep(2000);
-    localStorage.setItem('presets', JSON.stringify(this.presets));
-    //return a promise that resolves after 2 seconds
-    return new Promise<void>((resolve) => {
-      setTimeout(() => {
-        resolve();
-      }, 1000);
+    //update local storage and return a promise that resolves after 1 second
+    return new Promise((resolve, reject) => {
+      this.analytics.logEvent('saved local storage');
+      try {
+        localStorage.setItem('presets', JSON.stringify(this.presets));
+        setTimeout(() => {
+          resolve('done updating local storage');
+        }, 1000);
+      } catch (error) {
+        reject('error updating local storage');
+      }
     });
   }
 

@@ -37,6 +37,7 @@ import { MatInputModule } from '@angular/material/input';
 import { NgxPrintModule } from 'ngx-print';
 import { AngularFireModule } from '@angular/fire/compat';
 import { MatCardModule } from '@angular/material/card';
+import { AngularFireAnalyticsModule } from '@angular/fire/compat/analytics';
 import {
   AngularFireAuthModule,
   USE_EMULATOR as USE_AUTH_EMULATOR,
@@ -104,6 +105,7 @@ import { ErrorComponent } from './error/error.component';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireAuthModule,
+    AngularFireAnalyticsModule,
     MatMenuModule,
     MatCardModule,
   ],
