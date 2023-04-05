@@ -228,6 +228,7 @@ export class PresetService {
       localStorage.removeItem('presetList');
       this.currentPreset = this.presets[0];
       this.currentPreset$.next(this.currentPreset);
+      localStorage.setItem('presets', JSON.stringify(this.presets));
     } else if (presets) {
       this.presets = JSON.parse(presets);
       this.currentPreset = this.presets[0];
