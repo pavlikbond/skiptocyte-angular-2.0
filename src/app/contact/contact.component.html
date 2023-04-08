@@ -1,9 +1,57 @@
-
-  <form class="contact-form" action="https://formsubmit.co/bf8ccb78dcfa78bcf9219843dd68e957" method="POST">
-      <h2>Contact the developer!</h2>
-      <p>If you found some error or bug please let me know about it. I would also love to hear about any suggestions you might have for improvement, or any features you want added.</p>
-      <textarea name="text" class="feedback-input" placeholder="Comment" [(ngModel)]="feedback"></textarea>
-      <input type="hidden" name="_next" value="https://skiptocyte.com">
-      <input type="hidden" name="_captcha" value="true">
-      <button type="submit" (click)="onSubmit()">Submit</button>
+<mat-card class="w-[25vw] max-w-[25rem] min-w-[20rem] m-auto mt-6">
+  <form
+    class="contact-form flex flex-col gap-2"
+    #contactForm="ngForm"
+    (ngSubmit)="onSubmit(contactForm.value)"
+    *ngIf="!success"
+  >
+    <h1 class="text-slate-600 text-center">Contact</h1>
+    <p class="text-slate-600">
+      Please report any bugs or issues you may have found. Or any suggestions
+      for new features.
+    </p>
+    <textarea
+      name="text"
+      class="feedback-input border-2 outline-slate-700 w-full p-3 rounded max-h-36 min-h-16"
+      placeholder="Comment"
+      [(ngModel)]="feedback"
+      required
+      #name="ngModel"
+      required
+    ></textarea>
+    <input
+      type="email"
+      name="email"
+      class="feedback-input border-2 outline-slate-700 w-full p-3 rounded"
+      placeholder="Enter your email if you want a response"
+      [(ngModel)]="email"
+    />
+    <input type="hidden" name="_captcha" value="false" />
+    <button
+      class="my-4 relative"
+      mat-raised-button
+      color="accent"
+      type="submit"
+      disabled="{{ !contactForm.valid || loading }}"
+    >
+      <mat-progress-spinner
+        color="primary"
+        mode="indeterminate"
+        diameter="30"
+        *ngIf="loading"
+        class="spinner absolute inset-0 m-auto my-1"
+      ></mat-progress-spinner>
+      <span *ngIf="!loading">Submit</span>
+    </button>
   </form>
+  <div
+    *ngIf="errorMessage"
+    class="my-2 text-red-500 rounded-md shadow-md border-l-4 border-red-500 p-2 flex items-center gap-2"
+  >
+    <mat-icon>error_outline</mat-icon>
+    {{ errorMessage }}
+  </div>
+  <div *ngIf="success" class="text-2xl my-2 font-semibold">
+    Thank you for your feedback!
+  </div>
+</mat-card>

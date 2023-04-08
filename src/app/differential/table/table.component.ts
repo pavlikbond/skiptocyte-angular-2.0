@@ -6,8 +6,6 @@ import { NgForm } from '@angular/forms';
 import { PresetService } from 'src/app/services/preset.service';
 import { MatDialog } from '@angular/material/dialog';
 import { SettingsDialogComponent } from './settings-dialog/settings-dialog.component';
-import { catchError, tap } from 'rxjs/operators';
-import { throwError } from 'rxjs';
 
 @Component({
   selector: 'app-table',
@@ -56,12 +54,15 @@ export class TableComponent {
 
   updatePreset() {
     this.isLoading = true;
-    this.presetService.updatePresets().subscribe({
-      error: (e) => console.error(e),
-      complete: () => {
+    this.presetService
+      .updatePresets()
+      .then(() => {
         this.isLoading = false;
-      },
-    });
+      })
+      .catch((e) => {
+        console.log(e);
+        this.isLoading = false;
+      });
   }
   //fires when presets dropdown is changed
   changeClient(event: any) {
@@ -187,6 +188,16 @@ export class TableComponent {
     this.index = this.presetService.presets
       .indexOf(this.currentPreset)
       .toString();
+
+    this.presetService
+      .updatePresets()
+      .then(() => {
+        this.isLoading = false;
+      })
+      .catch((err) => {
+        console.log(err);
+        this.isLoading = false;
+      });
   }
 
   createPreset(name: string = 'Default', max: number = 100) {

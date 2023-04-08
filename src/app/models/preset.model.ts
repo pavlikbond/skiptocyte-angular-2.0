@@ -24,3 +24,10 @@ interface dbRow {
   key: string;
   cell: string;
 }
+
+export interface legacyPreset {
+  id: number;
+  keyCells: [string, string, string][];
+  maxWBC: number;
+  name: string;
+}

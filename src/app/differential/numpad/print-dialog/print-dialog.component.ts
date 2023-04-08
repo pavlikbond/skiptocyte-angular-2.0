@@ -1,7 +1,7 @@
 import { SettingsService } from '../../../services/settings.service';
 import { UserService } from './../../../services/user.service';
 import { moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { SelectMultipleControlValueAccessor } from '@angular/forms';
 import { Row } from 'src/app/models/preset.model';
 import { PresetService } from 'src/app/services/preset.service';
@@ -11,22 +11,43 @@ import { PresetService } from 'src/app/services/preset.service';
   templateUrl: './print-dialog.component.html',
   styleUrls: ['./print-dialog.component.scss'],
 })
-export class PrintDialogComponent {
+export class PrintDialogComponent implements OnInit {
   pages: number[] = [];
   currentCounts = this.presetService.currentPreset.rows;
   @ViewChild('newFieldInput') newFieldInputRef!: ElementRef;
+  @ViewChild('previewPane') previewPaneRef!: ElementRef;
   adding: boolean = false;
+  scale: number = 1;
   newFieldValue: string = '';
   count = this.presetService.WbcCount;
   saving: boolean = false;
+  paneHeight!: number;
   pageRows: Row[][] = [[...this.presetService.currentPreset.rows]];
+  let;
   constructor(
     private presetService: PresetService,
     public user: UserService,
-    public settings: SettingsService
+    public settings: SettingsService,
+    private el: ElementRef
   ) {
     setTimeout(() => {
       this.refactor();
+    });
+  }
+  ngOnInit(): void {
+    let initWidth, initHeight;
+    setTimeout(() => {
+      initWidth = this.previewPaneRef.nativeElement.offsetWidth;
+      initHeight = this.previewPaneRef.nativeElement.offsetHeight;
+    }, 0);
+    //document.documentElement.style.setProperty('--vw-scale', `1`);
+    window.addEventListener('resize', () => {
+      let scale = Math.min(
+        this.el.nativeElement.offsetWidth / initWidth,
+        this.el.nativeElement.offsetHeight / initHeight
+      );
+      this.scale = scale;
+      //document.documentElement.style.setProperty('--vw-scale', `${scale}`);
     });
   }
 

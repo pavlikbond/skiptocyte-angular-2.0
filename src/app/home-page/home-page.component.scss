@@ -6,89 +6,99 @@ $verydarkblue: #000000;
 $grey: #e5e5e5;
 $greyHover: #c2c2c2;
 .hero-image {
-    /* Use "linear-gradient" to add a darken background effect to the image (photographer.jpg). This will make the text easier to read */
-    background-image: url("../../assets/images/hero-illustration.png");
-  
-    /* Set a specific height */
-    height: calc(100vh - 88px);
-  
-    /* Position and center the image to scale nicely on all screens */
-    background-position: top 10% right 10%;
-    background-repeat: no-repeat;
-    background-size: 60%;
-    position: relative;
-  }
-  
-  .homepage-btn-container {
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    top: 10%;
-    left: 10%;
-    h1 {
-      color: $grey;
-      font-size: 4rem;
-      margin-bottom: 30px;
-      text-shadow: 0px 4px 3px rgba(0, 0, 0, 0.1), 0px 8px 13px rgba(0, 0, 0, 0.1),
-        0px 18px 23px rgba(0, 0, 0, 0.1);
-      font-weight: 500;
-    }
-    button {
-      padding: 20px;
-      text-decoration: none;
-      background: $grey;
-      color: $blue;
-      font-weight: 500;
-      font-size: 1.5em;
-      margin: 20px 0;
-      width: 250px;
-      border-radius: 5px;
-      box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034), 0 6.7px 5.3px rgba(0, 0, 0, 0.048),
-        0 12.5px 10px rgba(0, 0, 0, 0.06), 0 6px 8px rgba(0, 0, 0, 0.1);
-      text-align: center;
-      transition: all 0.3s ease;
-      &:hover {
-        background: white;
-      }
-      &:active{
-        transform: scale(0.95);
-      }
-    }
-  }
+  /* Use "linear-gradient" to add a darken background effect to the image (photographer.jpg). This will make the text easier to read */
+  background-image: url("../../assets/images/hero-illustration.png");
 
-  @media (max-width: 992px) {
-    .hero-image {
-      background-position: top 60% left 90%;
-      background-size: 80%;
+  /* Set a specific height */
+  height: calc(100vh - 88px);
+
+  /* Position and center the image to scale nicely on all screens */
+  background-position: top 10% right 10%;
+  background-repeat: no-repeat;
+  background-size: 60%;
+  position: relative;
+}
+
+.homepage-btn-container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  h1 {
+    color: $grey;
+    font-size: 4rem;
+    margin-bottom: 30px;
+    text-shadow: 0px 4px 3px rgba(0, 0, 0, 0.1), 0px 8px 13px rgba(0, 0, 0, 0.1),
+      0px 18px 23px rgba(0, 0, 0, 0.1);
+    font-weight: 500;
+  }
+  button {
+    padding: 15px;
+    text-decoration: none;
+    background: $grey;
+    color: $blue;
+    font-weight: 500;
+    font-size: 1.5em;
+    width: 250px;
+    border-radius: 5px;
+    box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+      0 6.7px 5.3px rgba(0, 0, 0, 0.048), 0 12.5px 10px rgba(0, 0, 0, 0.06),
+      0 6px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: all 0.3s ease;
+    &:hover {
+      background: white;
     }
-    .homepage-btn-container {
-      margin-left: 30px;
-      h1 {
-        font-size: 2.4rem;
-      }
-      a {
-        font-size: 1.2rem;
-        width: 80%;
-        margin: 20px 0;
-      }
+    &:active {
+      transform: scale(0.95);
     }
   }
-  
-  @media (max-width: 480px) {
-    .hero-image {
-      background-position: bottom 15% left 50%;
-      background-size: 100%;
+  .login-btn {
+    background-color: #2366be;
+    color: white;
+    &:hover {
+      background-color: #1a4e9a;
     }
-    .homepage-btn-container {
-      margin-left: 30px;
-      top: 5%;
-      h1 {
-        font-size: 2.4rem;
-      }
-      a {
-        font-size: 1.2rem;
-        width: 80%;
-        margin: 5px 0;
-      }
+    &:active {
+      transform: scale(0.95);
     }
   }
+}
+
+@media (max-width: 992px) {
+  .hero-image {
+    background-position: top 60% left 90%;
+    background-size: 80%;
+  }
+  .homepage-btn-container {
+    margin-left: 30px;
+    h1 {
+      font-size: 2.4rem;
+    }
+    a {
+      font-size: 1.2rem;
+      width: 80%;
+      margin: 20px 0;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-image {
+    background-position: bottom 10% left 50%;
+    background-size: 100%;
+  }
+  .homepage-btn-container {
+    margin-left: 30px;
+    top: 5%;
+    h1 {
+      font-size: 2.4rem;
+    }
+    a {
+      font-size: 1.2rem;
+      width: 80%;
+      margin: 5px 0;
+    }
+  }
+}

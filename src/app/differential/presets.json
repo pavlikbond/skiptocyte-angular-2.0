@@ -1,7 +1,7 @@
 [
   {
     "name": "5 Part",
-    "maxWBC": 120,
+    "maxWBC": 100,
     "rows": [
       {
         "ignore": false,

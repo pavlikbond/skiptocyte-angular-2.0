@@ -24,7 +24,6 @@
       class="update-preset button"
       (click)="updatePreset()"
       [disabled]="isLoading"
-      *ngIf="user.isLoggedIn$ | async"
     >
       <span class="loader" *ngIf="isLoading"></span>
       <span *ngIf="isLoading" class=""
@@ -35,11 +34,7 @@
         ><span class="hide-md">Save Preset</span></span
       >
     </button>
-    <button
-      class="button"
-      (click)="op.toggle($event)"
-      *ngIf="user.isLoggedIn$ | async"
-    >
+    <button class="button" (click)="op.toggle($event)">
       <span>New Preset</span>
     </button>
     <button class="add-btn button" (click)="addRow()">
@@ -53,7 +48,7 @@
     <button
       class="button settings-btn"
       (click)="openDialog()"
-      *ngIf="user.isLoggedIn$ | async"
+      *ngIf="user.isSubbed$ | async"
     >
       <mat-icon>settings</mat-icon>
     </button>

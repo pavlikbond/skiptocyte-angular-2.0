@@ -9,7 +9,8 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "test-coverage": "ng test --code-coverage",
-    "local-dev": "firebase emulators:start --only firestore,auth --import test-data"
+    "local-dev": "firebase emulators:start --only firestore,auth --import test-data",
+    "deploy": "ng build && firebase deploy --only hosting"
   },
   "private": true,
   "dependencies": {
@@ -24,6 +25,7 @@
     "@angular/platform-browser": "^14.1.0",
     "@angular/platform-browser-dynamic": "^14.1.0",
     "@angular/router": "^14.1.0",
+    "@stripe/stripe-js": "^1.46.0",
     "daisyui": "^2.24.0",
     "firebaseui": "^6.0.2",
     "ngx-print": "^1.2.1",

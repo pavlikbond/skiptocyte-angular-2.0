@@ -1,11 +1,32 @@
 <div class="hero-image">
-  <div class="homepage-btn-container hero-text">
+  <div class="homepage-btn-container hero-text gap-4">
     <h1>Laboratory Tools</h1>
     <button class="homepage-btn diff-btn" routerLink="/differential">
       WBC Counter
     </button>
-    <button class="homepage-btn dilution-btn" routerLink="/tools">
-      Tools
+    <button
+      *ngIf="user.isLoggedOut$ | async"
+      class="homepage-btn login-btn"
+      routerLink="/login"
+    >
+      Login
     </button>
+    <button
+      *ngIf="user.isLoggedOut$ | async"
+      class="homepage-btn login-btn"
+      routerLink="/login"
+    >
+      Sign Up
+    </button>
+    <button
+      *ngIf="user.isLoggedIn$ | async"
+      class="homepage-btn login-btn"
+      (click)="logout()"
+    >
+      Log Out
+    </button>
+    <!-- <button class="homepage-btn dilution-btn" routerLink="/tools">
+      Tools
+    </button> -->
   </div>
 </div>
