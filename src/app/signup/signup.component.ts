@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import firebase from 'firebase/compat/app';
 import EmailAuthProvider = firebase.auth.EmailAuthProvider;
 import GoogleAuthProvider = firebase.auth.GoogleAuthProvider;
+import { PresetService } from '../services/preset.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-signup',
@@ -13,7 +15,12 @@ import GoogleAuthProvider = firebase.auth.GoogleAuthProvider;
 })
 export class SignupComponent implements OnInit {
   ui: firebaseui.auth.AuthUI;
-  constructor(private afAuth: AngularFireAuth, private router: Router) {}
+  constructor(
+    private afAuth: AngularFireAuth,
+    private router: Router,
+    private presetService: PresetService,
+    private user: UserService
+  ) {}
 
   ngOnInit(): void {
     this.afAuth.app.then((app) => {
@@ -59,8 +66,22 @@ export class SignupComponent implements OnInit {
     this.ui.delete();
   }
   onLoginSuccessful(result) {
-    console.log('ui result', result);
-
-    this.router.navigateByUrl('/');
+    //if logged in successfully, wait for is logged in to be true, then update presets
+    //wait for 5 seconds to allow for firebase to update the user
+    if (result.additionalUserInfo.isNewUser) {
+      this.user.isLoggedIn$.subscribe((loggedIn) => {
+        if (loggedIn) {
+          setTimeout(() => {
+            this.presetService
+              .updatePresets()
+              .then(() => {})
+              .catch((e) => {
+                console.log(e);
+              });
+          }, 5000);
+        }
+      });
+    }
+    this.router.navigateByUrl('/differential');
   }
 }
