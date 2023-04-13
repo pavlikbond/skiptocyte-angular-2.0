@@ -4,13 +4,13 @@
 
 export const environment = {
   firebase: {
-    apiKey: 'AIzaSyDLDjRkSF87X_v1TGuxNAEHOzvQqIOFu-w',
-    authDomain: 'skiptocyte.firebaseapp.com',
-    projectId: 'skiptocyte',
-    storageBucket: 'skiptocyte.appspot.com',
-    messagingSenderId: '639494550957',
-    appId: '1:639494550957:web:1f92182cbf7ef913e79d24',
-    measurementId: 'G-V921SHZH3X',
+    apiKey: 'AIzaSyDRqY9biEUdjkiysAu9QYsorvB_rCYKZ4g',
+    authDomain: 'skiptocyte-prod.firebaseapp.com',
+    projectId: 'skiptocyte-prod',
+    storageBucket: 'skiptocyte-prod.appspot.com',
+    messagingSenderId: '137626765379',
+    appId: '1:137626765379:web:9e2ebdfeb6a543d29b2cf6',
+    measurementId: 'G-QQJ58ZVYZ8',
   },
   useEmulators: false,
   production: false,
