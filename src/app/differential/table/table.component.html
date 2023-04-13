@@ -34,11 +34,7 @@
         ><span class="hide-md">Save Presets</span></span
       >
     </button>
-    <button
-      class="button"
-      (click)="op.toggle($event)"
-      *ngIf="user.isLoggedIn$ | async"
-    >
+    <button class="button" (click)="op.toggle($event)">
       <span>New Preset</span>
     </button>
     <button class="add-btn button" (click)="addRow()">
