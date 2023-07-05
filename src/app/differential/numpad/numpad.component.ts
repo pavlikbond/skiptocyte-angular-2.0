@@ -84,7 +84,7 @@ export class NumpadComponent {
   }
 
   getMaxWbc() {
-    return this.presetService.currentPreset.maxWBC;
+    return this.presetService.currentPreset?.maxWBC || 100;
   }
 
   getWBCCount() {
@@ -96,7 +96,7 @@ export class NumpadComponent {
   }
 
   keyBindingCheck(key: string) {
-    const row = this.presetService.currentPreset.rows.find((row) => {
+    const row = this.presetService.currentPreset?.rows.find((row) => {
       return row.key == key;
     });
     if (row) {
@@ -114,7 +114,7 @@ export class NumpadComponent {
   }
 
   updateAllCounts(key: String) {
-    let row = this.presetService.currentPreset.rows.find((row) => {
+    let row = this.presetService.currentPreset?.rows.find((row) => {
       return row.key === key;
     });
     //if keybinding was found in current preset, update count depending on direction
@@ -137,7 +137,10 @@ export class NumpadComponent {
   }
 
   openDialog() {
-    this.dialog.open(PrintDialogComponent);
+    //only open if there is a preset selected
+    if (this.presetService.currentPreset) {
+      this.dialog.open(PrintDialogComponent);
+    }
   }
 
   changeUnit() {

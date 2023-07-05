@@ -38,7 +38,7 @@ export class TableComponent {
   }
 
   addRow() {
-    this.currentPreset.rows.push({
+    this.currentPreset?.rows.push({
       ignore: false,
       key: '',
       cell: '',
@@ -49,7 +49,9 @@ export class TableComponent {
   }
 
   clearAll() {
-    this.currentPreset.rows = [];
+    if (this.currentPreset?.rows.length > 0) {
+      this.currentPreset.rows = [];
+    }
   }
 
   updatePreset() {
