@@ -23,7 +23,7 @@ export class PrintDialogComponent implements OnInit {
   saving: boolean = false;
   paneHeight!: number;
   pageRows: Row[][] = [[...this.presetService.currentPreset.rows]];
-  let;
+
   constructor(
     private presetService: PresetService,
     public user: UserService,
