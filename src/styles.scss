@@ -3,6 +3,13 @@
 @tailwind components;
 @tailwind utilities;
 @import "~firebaseui/dist/firebaseui.css";
+
+@layer components {
+  .custom-row {
+    @apply w-full flex gap-2 md:gap-3 justify-around pl-4 pr-2 bg-[#242d43] text-slate-300 rounded py-1;
+  }
+}
+
 $grey: #e5e5e5;
 
 $darkblue: #161c2f;

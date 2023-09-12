@@ -1,3 +1,4 @@
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { environment } from './../environments/environment';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -38,6 +39,8 @@ import { NgxPrintModule } from 'ngx-print';
 import { AngularFireModule } from '@angular/fire/compat';
 import { MatCardModule } from '@angular/material/card';
 import { AngularFireAnalyticsModule } from '@angular/fire/compat/analytics';
+import { RowComponent } from './differential/table/row/row.component';
+
 import {
   AngularFireAuthModule,
   USE_EMULATOR as USE_AUTH_EMULATOR,
@@ -74,6 +77,7 @@ import { ErrorComponent } from './error/error.component';
     DeleteDialogComponent,
     SignupComponent,
     ErrorComponent,
+    RowComponent,
   ],
   entryComponents: [SettingsDialogComponent],
   imports: [
@@ -108,6 +112,7 @@ import { ErrorComponent } from './error/error.component';
     AngularFireAnalyticsModule,
     MatMenuModule,
     MatCardModule,
+    MatSnackBarModule,
   ],
   providers: [
     // {

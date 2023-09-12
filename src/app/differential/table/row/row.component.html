@@ -1,0 +1,42 @@
+<div class="custom-row">
+  <div class="flex items-center justify-center w-[8%] md:w-[5%]">
+    <mat-checkbox
+      class="larger-checkbox"
+      [(ngModel)]="item.ignore"
+      (ngModelChange)="onCheckboxClick()"
+    ></mat-checkbox>
+  </div>
+
+  <input
+    type="text"
+    class="w-[12%] py-1 shadow-lg text-xs md:text-base rounded bg-slate-700 border-b-2 border-solid border-slate-200 px-2 text-center"
+    [(ngModel)]="item.key"
+    (keydown)="duplicateCheck($event, item)"
+  />
+
+  <input
+    type="text"
+    class="w-[28%] py-1 shadow-lg text-xs md:text-base rounded bg-slate-700 border-b-2 border-solid border-slate-200 px-2 text-center"
+    [ngModel]="item.cell"
+    maxlength="25"
+  />
+
+  <span class="text-center text-xs sm:text-sm md:text-lg w-[12%]">{{
+    this.item.count
+  }}</span>
+  <span class="text-center text-xs sm:text-sm md:text-lg w-[12%]">{{
+    !this.item.ignore ? this.item.relative + "%" : ""
+  }}</span>
+  <span
+    class="text-center text-xs sm:text-sm md:text-lg w-[16%] md:w-[19%] overflow-clip text-ellipsis"
+    >{{ addCommas(this.item.absolute) || "" }}</span
+  >
+  <div
+    class="flex justify-center items-center cursor-pointer"
+    (click)="deleteRow()"
+  >
+    <mat-icon class="hover:font-bold transition-all duration-200">
+      close icon
+    </mat-icon>
+  </div>
+</div>

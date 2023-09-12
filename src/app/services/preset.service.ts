@@ -64,38 +64,28 @@ export class PresetService {
   }
 
   setCurrentCount(checkboxEvent: boolean = false) {
-    let total = 0;
-    for (let row of this.currentPreset.rows) {
-      total += row.ignore ? 0 : row.count;
-    }
-    this.currentCount = total;
-    if (this.currentCount < this.currentPreset.maxWBC) {
-      if (!checkboxEvent) {
-        this.settings.playSound('change');
-      }
+    this.currentCount = this.currentPreset.rows
+      .filter((row) => !row.ignore)
+      .reduce((total, row) => total + row.count, 0);
+
+    if (this.currentCount < this.currentPreset.maxWBC && !checkboxEvent) {
+      this.settings.playSound('change');
     }
   }
 
   updateRelativesAndAbsolutes(checkboxEvent: boolean = false) {
-    //let fraction = String(this.WbcCount).split('.')[1];
-    //let numsAfterDec = fraction ? fraction.length : 0;
-    //let exp = 10 ** Math.min(this.maxDecimals, numsAfterDec);
-    let exp = 10 ** this.maxDecimals;
-    //console.log(typeof num);
+    const exp = 10 ** this.maxDecimals;
 
     this.setCurrentCount(checkboxEvent);
-    for (let row of this.currentPreset.rows) {
-      //or 0 because otherwise it might return NaN
-      let num = row.count / this.currentCount || 0;
-      if (!row.ignore) {
-        row.relative = Math.round((num + Number.EPSILON) * 1000) / 10;
 
-        row.absolute =
-          Math.round((num * this.WbcCount + Number.EPSILON) * exp) / exp;
-      } else {
-        row.relative = 0;
-        row.absolute = 0;
-      }
+    for (const row of this.currentPreset.rows) {
+      let num = (!row.ignore ? row.count / this.currentCount : 0) || 0;
+      row.relative = Math.round((num + Number.EPSILON) * 1000) / 10;
+      row.absolute =
+        Math.round((num * this.WbcCount + Number.EPSILON) * exp) / exp;
+      console.log(row.absolute);
+      console.log(row.relative);
+      console.log(num);
     }
   }
 

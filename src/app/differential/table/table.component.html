@@ -8,9 +8,11 @@
           [(value)]="index"
           panelClass="unit-dropdown"
           (selectionChange)="changeClient($event)"
-          ><mat-select-trigger>{{ currentPreset?.name }}</mat-select-trigger>
+          ><mat-select-trigger>{{
+            presetService.currentPreset?.name
+          }}</mat-select-trigger>
           <mat-option
-            *ngFor="let preset of getAllPresets(); let i = index"
+            *ngFor="let preset of presetService.presets; let i = index"
             value="{{ i }}"
             >{{ preset.name
             }}<mat-icon class="deleteButton" (click)="deletePreset(i)"
@@ -25,25 +27,20 @@
       (click)="updatePreset()"
       [disabled]="isLoading"
     >
-      <span class="loader" *ngIf="isLoading"></span>
-      <span *ngIf="isLoading" class=""
-        ><span class="hide-md">Saving...</span></span
+      <span *ngIf="isLoading" class="flex items-center gap-2"
+        ><mat-spinner diameter="25" color="accent"></mat-spinner
+        ><span class="hidden md:block">Saving...</span></span
       >
       <span *ngIf="!isLoading"
         ><mat-icon class="show">save</mat-icon
-        ><span class="hide-md">Save Presets</span></span
+        ><span class="hidden md:block">Save</span></span
       >
     </button>
     <button class="button" (click)="op.toggle($event)">
-      <span>New Preset</span>
+      <span>New</span>
     </button>
     <button class="add-btn button" (click)="addRow()">
-      <mat-icon>add</mat-icon
-      ><span class="hide">Add <span class="hide-md">Row</span></span>
-    </button>
-    <button class="clear-btn button" (click)="clearAll()">
-      <mat-icon>delete_outline</mat-icon
-      ><span class="hide">Clear <span class="hide-md">All</span></span>
+      <mat-icon>add</mat-icon><span class="hide-md">Row</span>
     </button>
     <button
       class="button settings-btn"
@@ -53,67 +50,29 @@
       <mat-icon>settings</mat-icon>
     </button>
   </div>
-  <div class="table-header-container">
-    <span class="table-header-item">Ignore</span>
-    <span class="table-header-item">Key</span>
-    <span class="table-header-item">Cell</span>
-    <span class="table-header-item">Count</span>
-    <span class="table-header-item">Relative</span>
-    <span class="table-header-item">Absolute</span>
+  <div
+    class="text-slate-50 text-center text-xs md:text-lg md:tracking-wide w-full flex gap-2 md:gap-3 justify-around pl-4 pr-2 py-4"
+  >
+    <span class="w-[8%] md:w-[5%]">Ignore</span>
+    <span class="w-[12%]">Key</span>
+    <span class="w-[28%]">Cell</span>
+    <span class="w-[12%]">Count</span>
+    <span class="w-[12%]">Relative</span>
+    <span class="w-[16%] md:w-[19%]">Absolute</span>
+    <span class="w-[24px]"></span>
   </div>
   <div class="table-rows-container">
     <div
       cdkDropList
-      class="drag-drop-container"
+      class="drag-drop-container grid gap-1"
       (cdkDropListDropped)="drop($event)"
     >
-      <div
-        class="table-row"
-        *ngFor="let item of getCurrentPreset()?.rows; let i = index"
+      <app-row
         cdkDrag
-      >
-        <div class="input-container">
-          <input
-            type="checkbox"
-            [checked]="item.ignore"
-            (click)="onCheckboxClick($event, i)"
-          />
-          <!-- <mat-checkbox class="center" [checked]="item.ignore"></mat-checkbox> -->
-        </div>
-        <!-- <input type="checkbox" [checked]="item.ignore" /> -->
-        <div class="input-container">
-          <input
-            type="text"
-            class="key-input shadow-lg text-xs md:text-base"
-            value="{{ item.key }}"
-            (keydown)="duplicateCheck($event, i)"
-          />
-        </div>
-        <div class="input-container">
-          <input
-            type="text"
-            class="cell-input shadow-lg text-xs md:text-base"
-            value="{{ item.cell }}"
-            (keyup)="updateCurrentPreset($event, i)"
-            maxlength="25"
-          />
-        </div>
-        <span class="text-center text-xs sm:text-sm md:text-lg">{{
-          getCount(i)
-        }}</span>
-        <span class="text-center text-xs sm:text-sm md:text-lg">{{
-          getRelative(i)
-        }}</span>
-        <span class="text-center text-xs sm:text-sm md:text-lg">{{
-          getAbsolute(i)
-        }}</span>
-        <a
-          class="boxclose"
-          id="boxclose"
-          (click)="deleteRow($event)"
-          [attr.data-target]="i"
-        ></a>
-      </div>
+        *ngFor="let item of presetService.currentPreset?.rows; let i = index"
+        [item]="item"
+        [i]="i"
+      ></app-row>
     </div>
   </div>
 </div>
