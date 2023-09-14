@@ -1,6 +1,6 @@
 import { Component, HostListener } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Preset } from 'src/app/models/preset.model';
+import { Preset, Row } from 'src/app/models/preset.model';
 import { PresetService } from 'src/app/services/preset.service';
 import { PrintDialogComponent } from './print-dialog/print-dialog.component';
 
@@ -48,7 +48,7 @@ export class NumpadComponent {
   updateMaxWbc(e: any) {
     let result = e.target.value.replace(/[^0-9]/g, '');
     e.target.value = result;
-    this.presetService.currentPreset.maxWBC = Number(result);
+    this.presetService.currentPreset.maxWBC = +result;
   }
 
   updateWBCCount(e: any) {
@@ -84,7 +84,7 @@ export class NumpadComponent {
   }
 
   getMaxWbc() {
-    return this.presetService.currentPreset?.maxWBC || 100;
+    return this.presetService.currentPreset?.maxWBC ?? 100;
   }
 
   getWBCCount() {
@@ -99,10 +99,7 @@ export class NumpadComponent {
     const row = this.presetService.currentPreset?.rows.find((row) => {
       return row.key == key;
     });
-    if (row) {
-      return row.cell;
-    }
-    return '';
+    return row ? row.cell : '';
   }
   //listenes for key down events, flashes animation
   @HostListener('window:keydown', ['$event'])
@@ -114,9 +111,10 @@ export class NumpadComponent {
   }
 
   updateAllCounts(key: String) {
-    let row = this.presetService.currentPreset?.rows.find((row) => {
+    let row = this.presetService.currentPreset.rows.find((row: Row) => {
       return row.key === key;
     });
+
     //if keybinding was found in current preset, update count depending on direction
     if (row) {
       this.currentKey = row.key;

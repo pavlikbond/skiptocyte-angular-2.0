@@ -6,7 +6,10 @@
 
 @layer components {
   .custom-row {
-    @apply w-full flex gap-2 md:gap-3 justify-around pl-4 pr-2 bg-[#242d43] text-slate-300 rounded py-1;
+    @apply w-full flex gap-2 md:gap-3 justify-around pl-4 pr-2 bg-[#242d43] text-slate-200 rounded py-1;
+  }
+  .custom-button {
+    @apply flex justify-center items-center gap-1 md:gap-2 bg-[#303a5e] active:scale-[0.97] text-slate-200 text-lg tracking-wide md:w-40;
   }
 }
 

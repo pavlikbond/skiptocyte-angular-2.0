@@ -1,0 +1,58 @@
+<form #presetForm="ngForm" (ngSubmit)="onSubmit(presetForm)">
+  <div class="flex flex-col gap-5">
+    <h2 class="text-center text-xl">New Preset</h2>
+    <div>
+      <label class="block mb-2" for="preset_name">Preset name</label>
+      <input
+        maxlength="30"
+        type="text"
+        pInputText
+        placeholder="e.g. Peripheral Blood"
+        name="presetName"
+        ngModel
+        #presetName="ngModel"
+        required
+        [ngClass]="
+          presetName.touched && !presetName.valid ? 'ng-invalid ng-dirty' : ''
+        "
+      />
+      <small
+        *ngIf="presetName.touched && !presetName.valid"
+        class="p-error block"
+        >Preset name cannot be blank</small
+      >
+    </div>
+    <div>
+      <label class="block mb-2">Max Count</label>
+      <p-inputNumber
+        ngModel
+        class="w-full"
+        placeholder="e.g. 100"
+        name="inputMaxCount"
+        [min]="0"
+        [max]="9999"
+        [maxlength]="5"
+      ></p-inputNumber>
+    </div>
+    <div class="flex gap-2">
+      <button
+        mat-stroked-button
+        (click)="op.hide()"
+        color="primary"
+        type="button"
+        class="flex-1"
+      >
+        Cancel
+      </button>
+      <button
+        mat-raised-button
+        (click)="presetForm.valid && op.hide()"
+        color="primary"
+        type="submit"
+        class="flex-1"
+      >
+        Ok
+      </button>
+    </div>
+  </div>
+</form>

@@ -1,46 +1,39 @@
-<div class="table-container rounded-md">
-  <div class="top-level-controls">
-    <div class="preset-select">
-      <mat-form-field appearance="fill">
-        <mat-label>Presets</mat-label>
-        <mat-select
-          #presetSelect
-          [(value)]="index"
-          panelClass="unit-dropdown"
-          (selectionChange)="changeClient($event)"
-          ><mat-select-trigger>{{
-            presetService.currentPreset?.name
-          }}</mat-select-trigger>
-          <mat-option
-            *ngFor="let preset of presetService.presets; let i = index"
-            value="{{ i }}"
-            >{{ preset.name
-            }}<mat-icon class="deleteButton" (click)="deletePreset(i)"
-              >clear</mat-icon
-            ></mat-option
+<div class="p-3 bg-slate-900 rounded-md">
+  <div class="w-full flex gap-1 md:gap-2 lg:gap-4 h-12">
+    <mat-form-field appearance="fill">
+      <mat-label>Presets</mat-label>
+      <mat-select [(value)]="index" (selectionChange)="changeClient($event)">
+        <mat-select-trigger>{{
+          presetService.currentPreset?.name
+        }}</mat-select-trigger>
+        <mat-option
+          *ngFor="let preset of presetService.presets; let i = index"
+          value="{{ i }}"
+          class="relative"
+          >{{ preset.name
+          }}<mat-icon
+            *ngIf="presetService.presets.length"
+            (click)="deletePreset(i)"
+            class="absolute -right-2 top-1/4 hover:font-bold transition-all duration-200"
           >
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <button
-      class="update-preset button"
-      (click)="updatePreset()"
-      [disabled]="isLoading"
-    >
+            close icon
+          </mat-icon></mat-option
+        >
+      </mat-select>
+    </mat-form-field>
+    <button mat-raised-button class="custom-button" (click)="updatePreset()">
       <span *ngIf="isLoading" class="flex items-center gap-2"
         ><mat-spinner diameter="25" color="accent"></mat-spinner
         ><span class="hidden md:block">Saving...</span></span
       >
       <span *ngIf="!isLoading"
-        ><mat-icon class="show">save</mat-icon
+        ><span class="md:hidden flex items-center justify-center"
+          ><mat-icon>save</mat-icon></span
         ><span class="hidden md:block">Save</span></span
       >
     </button>
-    <button class="button" (click)="op.toggle($event)">
+    <button mat-raised-button class="custom-button" (click)="op.toggle($event)">
       <span>New</span>
-    </button>
-    <button class="add-btn button" (click)="addRow()">
-      <mat-icon>add</mat-icon><span class="hide-md">Row</span>
     </button>
     <button
       class="button settings-btn"
@@ -62,24 +55,41 @@
     <span class="w-[24px]"></span>
   </div>
   <div class="table-rows-container">
+    <ng-container *ngIf="!initialLoad">
+      <div
+        *ngFor="let _ of [].constructor(5)"
+        class="w-full h-10 animate-pulse rounded bg-slate-600 mb-1"
+      ></div>
+    </ng-container>
     <div
       cdkDropList
       class="drag-drop-container grid gap-1"
       (cdkDropListDropped)="drop($event)"
     >
       <app-row
+        class="table-row"
         cdkDrag
         *ngFor="let item of presetService.currentPreset?.rows; let i = index"
         [item]="item"
         [i]="i"
+        ><div class="example-custom-placeholder" *cdkDragPlaceholder></div
       ></app-row>
     </div>
+    <button
+      *ngIf="initialLoad"
+      (click)="presetService.addRow()"
+      mat-raised-button
+      class="bg-slate-800 w-full !mt-2 text-slate-200 hover:bg-slate-700 hover:text-slate-50"
+    >
+      Add Cell
+    </button>
   </div>
 </div>
 <!-- dropdown to make new preset -->
-<p-overlayPanel #op [showCloseIcon]="true">
+<p-overlayPanel #op><app-new-preset [op]="op"></app-new-preset></p-overlayPanel>
+<!-- <p-overlayPanel #op>
   <ng-template pTemplate>
-    <form #presetForm="ngForm" (ngSubmit)="onSubmit(presetForm)">
+    <form #presetForm="ngForm">
       <div class="flex flex-col gap-5">
         <h2 class="text-center text-xl">New Preset</h2>
         <div>
@@ -108,7 +118,7 @@
         <div>
           <label class="block mb-2">Max Count</label>
           <p-inputNumber
-            [(ngModel)]="maxCount"
+            ngModel
             class="w-full"
             placeholder="e.g. 100"
             name="inputMaxCount"
@@ -117,14 +127,27 @@
             [maxlength]="5"
           ></p-inputNumber>
         </div>
-        <button
-          (click)="presetForm.valid && op.hide()"
-          class="btn btn-active float-right"
-          type="submit"
-        >
-          Ok
-        </button>
+        <div class="flex gap-2">
+          <button
+            mat-stroked-button
+            (click)="op.hide()"
+            color="primary"
+            type="button"
+            class="flex-1"
+          >
+            Cancel
+          </button>
+          <button
+            mat-raised-button
+            (click)="presetForm.valid && op.hide()"
+            color="primary"
+            type="submit"
+            class="flex-1"
+          >
+            Ok
+          </button>
+        </div>
       </div>
     </form>
   </ng-template>
-</p-overlayPanel>
+</p-overlayPanel> -->

@@ -22,6 +22,14 @@ export class PresetService {
   units = ['10^9/L', '10^6/mL', '10^3/uL'];
   selectedUnit: string = this.units[0];
   loggedIn: boolean = false;
+  emptyRow = {
+    ignore: false,
+    key: '',
+    cell: '',
+    count: 0,
+    relative: 0,
+    absolute: 0,
+  };
   constructor(
     private user: UserService,
     private db: AngularFirestore,
@@ -83,9 +91,6 @@ export class PresetService {
       row.relative = Math.round((num + Number.EPSILON) * 1000) / 10;
       row.absolute =
         Math.round((num * this.WbcCount + Number.EPSILON) * exp) / exp;
-      console.log(row.absolute);
-      console.log(row.relative);
-      console.log(num);
     }
   }
 
@@ -226,5 +231,18 @@ export class PresetService {
     } else {
       this.loadStandardPresets();
     }
+  }
+  createPreset(index: number = 0, name: string = 'Default', max: number = 100) {
+    let newPreset: Preset = {
+      name: name,
+      maxWBC: max,
+      rows: [{ ...this.emptyRow }],
+    };
+    this.presets.push(newPreset);
+    this.currentPreset = this.presets.at(index);
+  }
+
+  addRow() {
+    this.currentPreset?.rows.push({ ...this.emptyRow });
   }
 }

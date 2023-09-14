@@ -7,6 +7,7 @@ import { PresetService } from 'src/app/services/preset.service';
 import { MatDialog } from '@angular/material/dialog';
 import { SettingsDialogComponent } from './settings-dialog/settings-dialog.component';
 import { SnackbarService } from 'src/app/services/snackbar.service';
+import { MatSelectChange } from '@angular/material/select';
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
@@ -16,8 +17,7 @@ export class TableComponent {
   isLoading = false;
   currentPreset: Preset = this.presetService.currentPreset;
   index: string = '0';
-  numRowsError: string = '';
-  maxCount!: string;
+  initialLoad: boolean = false;
 
   constructor(
     public presetService: PresetService,
@@ -26,34 +26,19 @@ export class TableComponent {
     private snackbarService: SnackbarService
   ) {
     this.presetService.currentPreset$.subscribe((preset) => {
-      console.log('current preset changed');
-      this.currentPreset = preset;
+      //this.currentPreset = preset;
+      if (preset.name) {
+        this.initialLoad = true;
+      }
     });
   }
 
   drop(event: CdkDragDrop<string[]>) {
     moveItemInArray(
-      this.currentPreset.rows,
+      this.presetService.currentPreset.rows,
       event.previousIndex,
       event.currentIndex
     );
-  }
-
-  addRow() {
-    this.currentPreset?.rows.push({
-      ignore: false,
-      key: '',
-      cell: '',
-      count: 0,
-      relative: 0,
-      absolute: 0,
-    });
-  }
-
-  clearAll() {
-    if (this.currentPreset?.rows.length > 0) {
-      this.currentPreset.rows = [];
-    }
   }
 
   stopLoading(startTime: number) {
@@ -69,6 +54,7 @@ export class TableComponent {
   }
 
   updatePreset() {
+    if (this.isLoading) return;
     this.isLoading = true;
     let startTime = Date.now();
     this.presetService
@@ -83,81 +69,32 @@ export class TableComponent {
         this.snackbarService.openSnackBar('Error Saving');
       });
   }
-  //fires when presets dropdown is changed
-  changeClient(event: any) {
-    let value = +event.value;
-    this.currentPreset = this.presetService.presets[value];
-    this.presetService.currentPreset = this.presetService.presets[value];
-    this.presetService.clearCounts();
-  }
-
-  //validation for new preset form submit
-  onSubmit(presetForm: NgForm) {
-    //if form is valid create new preset and close modal
-    if (presetForm.valid) {
-      let maxWBC: string = presetForm.controls['inputMaxCount'].value;
-      let name = presetForm.controls['presetName'].value;
-      let newPreset: Preset = this.createPreset(name, maxWBC ? +maxWBC : 100);
-      presetForm.resetForm();
-
-      this.presetService.presets.push(newPreset);
-      this.changeClient(this.presetService.presets.length - 1);
-      this.index = (this.presetService.presets.length - 1).toString();
-
-      this.presetService.currentPreset = newPreset;
-      this.currentPreset = this.presetService.currentPreset;
-    }
-  }
-
   openDialog() {
     this.dialog.open(SettingsDialogComponent);
   }
-
+  //fires when presets dropdown is changed
+  changeClient(event: MatSelectChange) {
+    const value = +event.value;
+    this.presetService.currentPreset = this.presetService.presets[value];
+    this.presetService.clearCounts();
+  }
   deletePreset(i: number) {
-    if (this.currentPreset === this.presetService.presets[i]) {
+    // Check if the preset to delete is the currently selected one
+    if (this.presetService.currentPreset === this.presetService.presets[i]) {
+      // Remove the preset from the array
       this.presetService.presets.splice(i, 1);
+
       if (this.presetService.presets.length === 0) {
-        let preset: Preset = this.createPreset();
-        this.currentPreset = preset;
-        this.presetService.currentPreset = preset;
-      } else {
+        // If there are no presets left, create a new one
+        this.presetService.createPreset();
         this.presetService.currentPreset = this.presetService.presets[0];
-        this.currentPreset = this.presetService.currentPreset;
+      } else {
+        // Select the first preset in the updated array
+        this.presetService.currentPreset = this.presetService.presets[0];
       }
     } else {
+      // If the preset to delete is not the currently selected one, just remove it
       this.presetService.presets.splice(i, 1);
     }
-
-    this.index = this.presetService.presets
-      .indexOf(this.currentPreset)
-      .toString();
-
-    this.presetService
-      .updatePresets()
-      .then(() => {
-        this.isLoading = false;
-      })
-      .catch((err) => {
-        console.log(err);
-        this.isLoading = false;
-      });
-  }
-
-  createPreset(name: string = 'Default', max: number = 100) {
-    let newPreset: Preset = {
-      name: name,
-      maxWBC: max,
-      rows: [
-        {
-          ignore: false,
-          key: '',
-          cell: '',
-          count: 0,
-          relative: 0,
-          absolute: 0,
-        },
-      ],
-    };
-    return newPreset;
   }
 }

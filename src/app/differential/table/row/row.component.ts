@@ -5,7 +5,6 @@ import { PresetService } from 'src/app/services/preset.service';
 @Component({
   selector: 'app-row',
   templateUrl: './row.component.html',
-  styleUrls: ['./row.component.scss'],
 })
 export class RowComponent {
   @Input() item: Row;
@@ -13,9 +12,9 @@ export class RowComponent {
   currentPreset: Preset = this.presetService.currentPreset;
 
   constructor(private presetService: PresetService) {
-    this.presetService.currentPreset$.subscribe((preset) => {
-      this.currentPreset = preset;
-    });
+    // this.presetService.currentPreset$.subscribe((preset) => {
+    //   this.currentPreset = preset;
+    // });
   }
 
   deleteRow() {

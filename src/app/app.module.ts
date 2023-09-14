@@ -59,6 +59,7 @@ import { AccountSettingsComponent } from './account-settings/account-settings.co
 import { DeleteDialogComponent } from './account-settings/delete-dialog/delete-dialog.component';
 import { SignupComponent } from './signup/signup.component';
 import { ErrorComponent } from './error/error.component';
+import { NewPresetComponent } from './differential/table/new-preset/new-preset.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -78,6 +79,7 @@ import { ErrorComponent } from './error/error.component';
     SignupComponent,
     ErrorComponent,
     RowComponent,
+    NewPresetComponent,
   ],
   entryComponents: [SettingsDialogComponent],
   imports: [
