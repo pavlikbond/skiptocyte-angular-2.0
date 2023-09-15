@@ -13,7 +13,6 @@ export class NumpadComponent {
   active = 'increase';
   units = this.presetService.units;
   selectedUnit = this.presetService.selectedUnit;
-  currentKey: string = '';
   maxLength: number = 8;
   numpadItems = [
     'NumLock',
@@ -64,14 +63,8 @@ export class NumpadComponent {
     this.presetService.updateRelativesAndAbsolutes();
   }
 
-  clearBtnHandler(event: any) {
-    this.presetService.currentCount = 0;
+  clearBtnHandler() {
     this.presetService.clearCounts();
-  }
-
-  setActive(event: any) {
-    this.active = event.target.id;
-    this.presetService.direction = this.active;
   }
 
   addUnits(event: any) {
@@ -92,13 +85,17 @@ export class NumpadComponent {
   }
 
   getCurrentCount() {
-    return this.presetService.currentCount;
+    return this.presetService.getCurrentCount();
+  }
+
+  private getRow(key: string) {
+    return this.presetService.currentPreset?.rows.find((row: Row) => {
+      return row.key == key;
+    });
   }
 
   keyBindingCheck(key: string) {
-    const row = this.presetService.currentPreset?.rows.find((row) => {
-      return row.key == key;
-    });
+    const row = this.getRow(key);
     return row ? row.cell : '';
   }
   //listenes for key down events, flashes animation
@@ -110,28 +107,11 @@ export class NumpadComponent {
     this.updateAllCounts(event.key);
   }
 
-  updateAllCounts(key: String) {
-    let row = this.presetService.currentPreset.rows.find((row: Row) => {
-      return row.key === key;
-    });
-
-    //if keybinding was found in current preset, update count depending on direction
+  updateAllCounts(key: string) {
+    let row = this.getRow(key);
     if (row) {
-      this.currentKey = row.key;
-      this.presetService.adjustCount(
-        this.currentKey,
-        this.presetService.currentPreset.rows.indexOf(row)
-      );
-      setTimeout(() => {
-        this.currentKey = '';
-      }, 200);
+      this.presetService.adjustCount(row);
     }
-  }
-
-  onNumpadClick(event: any, i: number) {
-    navigator.vibrate(200);
-    let key = this.numpadItems[i];
-    this.updateAllCounts(key);
   }
 
   openDialog() {
@@ -143,5 +123,8 @@ export class NumpadComponent {
 
   changeUnit() {
     this.presetService.selectedUnit = this.selectedUnit;
+  }
+  onButtonToggle(event: any) {
+    this.presetService.increase = event.value === '+';
   }
 }

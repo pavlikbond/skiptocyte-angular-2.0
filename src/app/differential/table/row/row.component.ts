@@ -19,12 +19,10 @@ export class RowComponent {
 
   deleteRow() {
     this.currentPreset.rows.splice(this.i, 1);
-    //updates the current count to adjust for the amount that was deleted
-    this.presetService.setCurrentCount(true);
   }
 
   onCheckboxClick() {
-    this.presetService.updateRelativesAndAbsolutes(true);
+    this.presetService.updateRelativesAndAbsolutes();
   }
 
   duplicateCheck(event: any, item: Row) {

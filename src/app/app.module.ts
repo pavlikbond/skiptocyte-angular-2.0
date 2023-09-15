@@ -40,7 +40,7 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { MatCardModule } from '@angular/material/card';
 import { AngularFireAnalyticsModule } from '@angular/fire/compat/analytics';
 import { RowComponent } from './differential/table/row/row.component';
-
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import {
   AngularFireAuthModule,
   USE_EMULATOR as USE_AUTH_EMULATOR,
@@ -60,6 +60,8 @@ import { DeleteDialogComponent } from './account-settings/delete-dialog/delete-d
 import { SignupComponent } from './signup/signup.component';
 import { ErrorComponent } from './error/error.component';
 import { NewPresetComponent } from './differential/table/new-preset/new-preset.component';
+import { KeypadComponent } from './differential/numpad/keypad/keypad.component';
+import { KeyboardComponent } from './differential/numpad/keyboard/keyboard.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -80,6 +82,8 @@ import { NewPresetComponent } from './differential/table/new-preset/new-preset.c
     ErrorComponent,
     RowComponent,
     NewPresetComponent,
+    KeypadComponent,
+    KeyboardComponent,
   ],
   entryComponents: [SettingsDialogComponent],
   imports: [
@@ -115,6 +119,7 @@ import { NewPresetComponent } from './differential/table/new-preset/new-preset.c
     MatMenuModule,
     MatCardModule,
     MatSnackBarModule,
+    MatButtonToggleModule,
   ],
   providers: [
     // {

@@ -1,4 +1,4 @@
-import { legacyPreset } from './../models/preset.model';
+import { Row, legacyPreset } from './../models/preset.model';
 import { SettingsService } from './settings.service';
 import { UserService } from './user.service';
 import { Injectable } from '@angular/core';
@@ -15,8 +15,7 @@ export class PresetService {
   presets: Preset[];
   currentPreset: Preset;
   currentPreset$: BehaviorSubject<Preset>;
-  currentCount: number = 0;
-  direction: string = 'increase';
+  increase: boolean = true;
   WbcCount: number = 0;
   maxDecimals: number = 3;
   units = ['10^9/L', '10^6/mL', '10^3/uL'];
@@ -45,71 +44,38 @@ export class PresetService {
     });
   }
 
-  getMaxWbc() {
-    return this.currentPreset.maxWBC;
-  }
-
-  adjustCount(key: string, i: number) {
+  adjustCount(row: Row) {
+    let currentCount = this.getCurrentCount();
     //if setting set to increase, increment and row count
-    if (
-      this.direction === 'increase' &&
-      this.currentCount < this.currentPreset.maxWBC
-    ) {
-      this.currentPreset.rows[i].count++;
+    if (this.increase && currentCount < this.currentPreset.maxWBC) {
+      row.count++;
     }
     //if setting is decrease, decrease row count
-    if (this.direction === 'decrease') {
-      if (this.currentPreset.rows[i].count > 0) {
-        this.currentPreset.rows[i].count--;
-      }
+    if (!this.increase && row.count > 0) {
+      row.count--;
     }
     this.updateRelativesAndAbsolutes();
-    if (this.direction === 'increase') {
-      if (this.currentCount >= this.currentPreset.maxWBC) {
-        this.settings.playSound('max');
-      }
-    }
   }
 
-  setCurrentCount(checkboxEvent: boolean = false) {
-    this.currentCount = this.currentPreset.rows
+  getCurrentCount() {
+    return this.currentPreset.rows
       .filter((row) => !row.ignore)
       .reduce((total, row) => total + row.count, 0);
-
-    if (this.currentCount < this.currentPreset.maxWBC && !checkboxEvent) {
-      this.settings.playSound('change');
-    }
   }
 
-  updateRelativesAndAbsolutes(checkboxEvent: boolean = false) {
+  updateRelativesAndAbsolutes() {
+    const currentCount: number = this.getCurrentCount();
     const exp = 10 ** this.maxDecimals;
-
-    this.setCurrentCount(checkboxEvent);
-
+    if (this.increase && currentCount >= this.currentPreset.maxWBC) {
+      this.settings.playSound('max');
+    }
+    //legit don't know how it works exactly, but it rounds relative and absolute
     for (const row of this.currentPreset.rows) {
-      let num = (!row.ignore ? row.count / this.currentCount : 0) || 0;
+      let num = (!row.ignore ? row.count / currentCount : 0) || 0;
       row.relative = Math.round((num + Number.EPSILON) * 1000) / 10;
       row.absolute =
         Math.round((num * this.WbcCount + Number.EPSILON) * exp) / exp;
     }
-  }
-
-  getCount(i: number) {
-    return this.currentPreset.rows[i].count;
-  }
-
-  getRelative(i: number) {
-    return this.currentPreset.rows[i].relative;
-  }
-
-  getAbsolute(i: number) {
-    //adds commas to digits before the decimal
-    let x = String(this.currentPreset.rows[i].absolute).replace(
-      /(?<!\.\d*)(\d)(?=(?:\d{3})+(?!\d))/g,
-      '$1,'
-    );
-
-    return x;
   }
 
   clearCounts() {
@@ -120,13 +86,6 @@ export class PresetService {
         row.absolute = 0;
       }
     }
-    this.currentCount = 0;
-  }
-
-  digits(value: Number) {
-    return value
-      .toExponential()
-      .replace(/^([0-9]+)\.?([0-9]+)?e[\+\-0-9]*$/g, '$1$2').length;
   }
 
   getPresetsFromDb() {
@@ -244,5 +203,15 @@ export class PresetService {
 
   addRow() {
     this.currentPreset?.rows.push({ ...this.emptyRow });
+  }
+
+  onNumpadClick(key: string) {
+    navigator.vibrate(200);
+    let row = this.currentPreset?.rows.find((row: Row) => {
+      return row.key == key;
+    });
+    if (row) {
+      this.adjustCount(row);
+    }
   }
 }

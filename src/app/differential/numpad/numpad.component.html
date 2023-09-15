@@ -36,17 +36,20 @@
       >
         <mat-select-trigger>{{ selectedUnit }}</mat-select-trigger>
         <ng-container *ngFor="let unit of units; let i = index">
-          <mat-option value="{{ unit }}"
+          <mat-option value="{{ unit }}" class="relative"
             ><span>{{ unit }}</span>
-            <mat-icon (click)="deleteUnitFromList(i)" class="deleteButton"
-              >clear</mat-icon
+            <mat-icon
+              (click)="deleteUnitFromList(i)"
+              class="absolute -right-2 top-1/4 hover:font-bold transition-all duration-200"
             >
+              close icon
+            </mat-icon>
           </mat-option>
         </ng-container>
         <mat-option [ngStyle]="{ display: 'none' }">Filler option</mat-option>
         <input
           type="text"
-          class="p-3 w-[100%] units-input"
+          class="p-3 w-full border-t-2 border-solid border-gray-700"
           (keydown.enter)="addUnits($event)"
           placeholder="Add Units"
           maxlength="15"
@@ -54,43 +57,19 @@
       </mat-select>
     </mat-form-field>
   </div>
-
-  <div class="numpad-container numpad-grid">
-    <button
-      class="numpad-item"
-      *ngFor="let item of numpadItems; index as i"
-      [ngClass]="{
-        plus: i === 7,
-        enter: i === 14,
-        zero: i === 15,
-        'invis-mobile': i === 3 || i === 7 || i === 14,
-        flash: currentKey === item
-      }"
-      (click)="onNumpadClick($event, i)"
-    >
-      <span>{{ item }}</span
-      ><span class="cell-name">{{ keyBindingCheck(item) }}</span>
-    </button>
+  <div>
+    <app-keyboard></app-keyboard>
   </div>
-  <div class="numpad-grid ctrl-btns-container">
-    <button class="ctrl-btns clear" (click)="clearBtnHandler($event)">
+  <div class="mb-2">
+    <app-keypad></app-keypad>
+  </div>
+  <div class="grid grid-cols-2 gap-3">
+    <button mat-flat-button class="text-lg" (click)="clearBtnHandler()">
       Clear
     </button>
-    <button
-      id="increase"
-      class="ctrl-btns increase"
-      (click)="setActive($event)"
-      [ngClass]="active === 'increase' ? 'active' : ''"
-    >
-      +
-    </button>
-    <button
-      id="decrease"
-      class="ctrl-btns decrease"
-      (click)="setActive($event)"
-      [ngClass]="active === 'decrease' ? 'active' : ''"
-    >
-      -
-    </button>
+    <mat-button-toggle-group class="text-4xl" (change)="onButtonToggle($event)">
+      <mat-button-toggle class="w-1/2" value="+" checked>+</mat-button-toggle>
+      <mat-button-toggle class="w-1/2" value="-">-</mat-button-toggle>
+    </mat-button-toggle-group>
   </div>
 </div>

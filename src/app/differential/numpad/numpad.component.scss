@@ -154,129 +154,6 @@ $greyHover: #c2c2c2;
   }
 }
 
-.numpad-item {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  align-items: center;
-  .cell-name {
-    font-weight: 300;
-    font-size: clamp(0.7rem, 1vw, 0.9rem);
-    max-width: 100%;
-    color: #84aee6;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-}
-
-.ctrl-btns {
-  background-color: white;
-  color: black;
-  font-size: 1.8rem;
-}
-
-.plus,
-.enter {
-  grid-row: span 2;
-}
-
-.zero,
-.clear {
-  grid-column: span 2;
-}
-
-.active {
-  background: $darkblue;
-  color: $grey;
-  border: 2px solid $grey;
-}
-
-.units-input {
-  border-top: 1px solid $blue;
-}
-
-.deleteButton:hover {
-  cursor: pointer;
-  color: black;
-  font-weight: bold;
-}
-.deleteButton {
-  position: absolute;
-  top: 50%;
-  right: -5%;
-  transform: translate(-50%, -50%);
-  transition: all 0.3s ease;
-  color: $blue;
-  transition: all 0.3s ease;
-}
-
-.button {
-  border-radius: 5px;
-  background: $blue;
-  padding: 0px 10px;
-  color: $grey;
-  transition: all 0.3s ease;
-  &:active {
-    transform: scaleY(0.98);
-    transform: scaleX(0.99);
-  }
-}
-
-.numpad-dropdown-btn {
-  background: black;
-  &:hover {
-    transform: scale(1.01);
-  }
-  &:active {
-    transform: scale(0.96);
-  }
-}
-
-.arrow {
-  width: 13px;
-  height: 13px;
-  display: inline-block;
-  position: relative;
-  transition: 0.4s ease;
-  text-align: left;
-  &:before,
-  &:after {
-    content: "";
-    background-color: transparent;
-    width: 3px;
-    height: 12px;
-    display: inline-block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    transform: rotate(0);
-    transition: 0.4s ease;
-    background-color: white;
-  }
-
-  &:before {
-    transform: rotate(-45deg);
-  }
-
-  &:after {
-    transform: rotate(45deg);
-    left: 7.5px;
-  }
-}
-
-.active-arrow .arrow {
-  &:before {
-    transform: rotate(-135deg);
-  }
-
-  &:after {
-    transform: rotate(135deg);
-  }
-}
-
-.mat-option .mat-icon {
-  margin: 0;
-}
 @media (max-width: 480px) {
   .numpad-grid {
     grid-template-columns: repeat(3, 1fr);
@@ -302,4 +179,7 @@ $greyHover: #c2c2c2;
   100% {
     border: none;
   }
+}
+.mat-button-toggle-checked {
+  background-color: #94a3b8;
 }
