@@ -14,26 +14,7 @@ export class NumpadComponent {
   units = this.presetService.units;
   selectedUnit = this.presetService.selectedUnit;
   maxLength: number = 8;
-  numpadItems = [
-    'NumLock',
-    '/',
-    '*',
-    '-',
-    '7',
-    '8',
-    '9',
-    '+',
-    '4',
-    '5',
-    '6',
-    '1',
-    '2',
-    '3',
-    'Enter',
-    '0',
-    '.',
-  ];
-
+  display: string = 'numpad';
   constructor(private presetService: PresetService, public dialog: MatDialog) {}
 
   formatFloat(int: Number) {

@@ -1,5 +1,5 @@
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { environment } from './../environments/environment';
+import { environment } from './environments/environment';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
@@ -62,6 +62,7 @@ import { ErrorComponent } from './error/error.component';
 import { NewPresetComponent } from './differential/table/new-preset/new-preset.component';
 import { KeypadComponent } from './differential/numpad/keypad/keypad.component';
 import { KeyboardComponent } from './differential/numpad/keyboard/keyboard.component';
+import { UnitsDropdownComponent } from './differential/numpad/units-dropdown/units-dropdown.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -84,6 +85,7 @@ import { KeyboardComponent } from './differential/numpad/keyboard/keyboard.compo
     NewPresetComponent,
     KeypadComponent,
     KeyboardComponent,
+    UnitsDropdownComponent,
   ],
   entryComponents: [SettingsDialogComponent],
   imports: [

@@ -1,0 +1,29 @@
+<mat-form-field appearance="fill">
+  <mat-label>Units</mat-label>
+  <mat-select
+    [(value)]="selectedUnit"
+    panelClass="unit-dropdown"
+    (selectionChange)="changeUnit()"
+  >
+    <mat-select-trigger>{{ selectedUnit }}</mat-select-trigger>
+    <ng-container *ngFor="let unit of units; let i = index">
+      <mat-option value="{{ unit }}" class="relative"
+        ><span>{{ unit }}</span>
+        <mat-icon
+          (click)="deleteUnitFromList(i)"
+          class="absolute -right-2 top-1/4 hover:font-bold transition-all duration-200"
+        >
+          close icon
+        </mat-icon>
+      </mat-option>
+    </ng-container>
+    <mat-option [ngStyle]="{ display: 'none' }">Filler option</mat-option>
+    <input
+      type="text"
+      class="p-3 w-full border-t-2 border-solid border-gray-700"
+      (keydown.enter)="addUnits($event)"
+      placeholder="Add Units"
+      maxlength="15"
+    />
+  </mat-select>
+</mat-form-field>

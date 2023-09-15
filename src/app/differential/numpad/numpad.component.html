@@ -57,10 +57,19 @@
       </mat-select>
     </mat-form-field>
   </div>
-  <div>
+  <mat-button-toggle-group [(ngModel)]="display" class="text-xs w-full">
+    <mat-button-toggle class="w-1/3" value="numpad" checked
+      >numpad</mat-button-toggle
+    >
+    <mat-button-toggle class="w-1/3" value="keyboard"
+      >keyboard</mat-button-toggle
+    >
+    <mat-button-toggle class="w-1/3" value="none">none</mat-button-toggle>
+  </mat-button-toggle-group>
+  <div *ngIf="display === 'keyboard'">
     <app-keyboard></app-keyboard>
   </div>
-  <div class="mb-2">
+  <div class="mb-2" *ngIf="display === 'numpad'">
     <app-keypad></app-keypad>
   </div>
   <div class="grid grid-cols-2 gap-3">
