@@ -1,7 +1,7 @@
 <div *ngFor="let row of rows">
   <div class="flex justify-center gap-1 my-1 w-full">
     <button
-      class="kbd kbd-lg grid px-1 text-center active:animate-ping"
+      class="kbd kbd-lg grid px-1 text-center max-w-[45px]"
       *ngFor="let key of row"
       (click)="presetService.onNumpadClick(key)"
     >

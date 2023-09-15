@@ -58,7 +58,7 @@ export class PresetService {
   }
 
   getCurrentCount() {
-    return this.currentPreset.rows
+    return this.currentPreset?.rows
       .filter((row) => !row.ignore)
       .reduce((total, row) => total + row.count, 0);
   }
@@ -67,6 +67,8 @@ export class PresetService {
     const currentCount: number = this.getCurrentCount();
     const exp = 10 ** this.maxDecimals;
     if (this.increase && currentCount >= this.currentPreset.maxWBC) {
+      console.log('maxed out');
+
       this.settings.playSound('max');
     }
     //legit don't know how it works exactly, but it rounds relative and absolute
@@ -90,7 +92,7 @@ export class PresetService {
 
   getPresetsFromDb() {
     this.user.uid$.subscribe((uid) => {
-      //console.log(uid);
+      console.log(uid);
 
       if (uid) {
         this.db
@@ -118,6 +120,7 @@ export class PresetService {
           });
       } else {
         this.loadPresets();
+        console.log('no uid');
       }
     });
   }

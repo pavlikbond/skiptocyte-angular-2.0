@@ -1,8 +1,6 @@
 $grey: #e5e5e5;
 
-::ng-deep .mat-form-field {
-  background-color: white;
-  border-radius: 5px;
+::ng-deep .mat-form-field-wrapper {
 }
 .cdk-drag-preview {
   box-sizing: border-box;

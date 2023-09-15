@@ -1,21 +1,33 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Preset, Row } from 'src/app/models/preset.model';
 import { PresetService } from 'src/app/services/preset.service';
 import { PrintDialogComponent } from './print-dialog/print-dialog.component';
-
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 @Component({
   selector: 'app-numpad',
   templateUrl: './numpad.component.html',
   styleUrls: ['./numpad.component.scss'],
 })
-export class NumpadComponent {
+export class NumpadComponent implements OnInit {
+  isMobile: boolean = false;
   active = 'increase';
   units = this.presetService.units;
   selectedUnit = this.presetService.selectedUnit;
   maxLength: number = 8;
   display: string = 'numpad';
-  constructor(private presetService: PresetService, public dialog: MatDialog) {}
+  constructor(
+    private breakpointObserver: BreakpointObserver,
+    private presetService: PresetService,
+    public dialog: MatDialog
+  ) {}
+  ngOnInit(): void {
+    this.breakpointObserver
+      .observe([Breakpoints.Handset])
+      .subscribe((result) => {
+        this.isMobile = result.matches;
+      });
+  }
 
   formatFloat(int: Number) {
     return int

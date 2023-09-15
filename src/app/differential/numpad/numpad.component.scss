@@ -65,54 +65,6 @@ $greyHover: #c2c2c2;
   }
 }
 
-:host ::ng-deep {
-  .wbc-count.p-inputnumber-input {
-    width: 100%;
-  }
-}
-
-.arrow {
-  width: 13px;
-  height: 13px;
-  display: inline-block;
-  position: relative;
-  transition: 0.4s ease;
-  text-align: left;
-  &:before,
-  &:after {
-    content: "";
-    background-color: transparent;
-    width: 3px;
-    height: 12px;
-    display: inline-block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    transform: rotate(0);
-    transition: 0.4s ease;
-    background-color: $blue;
-  }
-
-  &:before {
-    transform: rotate(-45deg);
-  }
-
-  &:after {
-    transform: rotate(45deg);
-    left: 7.5px;
-  }
-}
-
-.active .arrow {
-  &:before {
-    transform: rotate(-135deg);
-  }
-
-  &:after {
-    transform: rotate(135deg);
-  }
-}
-
 .numpad-grid {
   width: 100%;
   display: grid;
@@ -182,4 +134,10 @@ $greyHover: #c2c2c2;
 }
 .mat-button-toggle-checked {
   background-color: #94a3b8;
+}
+::ng-deep .mat-form-field-appearance-fill .mat-form-field-flex {
+  background-color: #fff;
+}
+::ng-deep .mat-form-field-wrapper {
+  margin-bottom: -1.25em;
 }

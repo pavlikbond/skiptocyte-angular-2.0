@@ -63,6 +63,7 @@ import { NewPresetComponent } from './differential/table/new-preset/new-preset.c
 import { KeypadComponent } from './differential/numpad/keypad/keypad.component';
 import { KeyboardComponent } from './differential/numpad/keyboard/keyboard.component';
 import { UnitsDropdownComponent } from './differential/numpad/units-dropdown/units-dropdown.component';
+
 @NgModule({
   declarations: [
     AppComponent,
