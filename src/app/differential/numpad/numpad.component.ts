@@ -11,10 +11,6 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 })
 export class NumpadComponent implements OnInit {
   isMobile: boolean = false;
-  active = 'increase';
-  units = this.presetService.units;
-  selectedUnit = this.presetService.selectedUnit;
-  maxLength: number = 8;
   display: string = 'numpad';
   constructor(
     private breakpointObserver: BreakpointObserver,
@@ -60,15 +56,6 @@ export class NumpadComponent implements OnInit {
     this.presetService.clearCounts();
   }
 
-  addUnits(event: any) {
-    this.presetService.units.push(event.target.value);
-    event.target.value = '';
-  }
-
-  deleteUnitFromList(index: number) {
-    this.presetService.units.splice(index, 1);
-  }
-
   getMaxWbc() {
     return this.presetService.currentPreset?.maxWBC ?? 100;
   }
@@ -87,10 +74,6 @@ export class NumpadComponent implements OnInit {
     });
   }
 
-  keyBindingCheck(key: string) {
-    const row = this.getRow(key);
-    return row ? row.cell : '';
-  }
   //listenes for key down events, flashes animation
   @HostListener('window:keydown', ['$event'])
   async onKeyDown(event: any) {
@@ -114,9 +97,6 @@ export class NumpadComponent implements OnInit {
     }
   }
 
-  changeUnit() {
-    this.presetService.selectedUnit = this.selectedUnit;
-  }
   onButtonToggle(event: any) {
     this.presetService.increase = event.value === '+';
   }

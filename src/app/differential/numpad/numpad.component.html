@@ -57,6 +57,13 @@
 
     <app-units-dropdown class="!flex-1"></app-units-dropdown>
   </div>
+
+  <div *ngIf="display === 'keyboard'">
+    <app-keyboard></app-keyboard>
+  </div>
+  <div class="mb-2" *ngIf="display === 'numpad'">
+    <app-keypad></app-keypad>
+  </div>
   <div class="grid grid-cols-2 gap-2">
     <mat-button-toggle-group
       [(ngModel)]="display"
@@ -74,11 +81,5 @@
       <mat-button-toggle class="w-1/2" value="+" checked>+</mat-button-toggle>
       <mat-button-toggle class="w-1/2" value="-">-</mat-button-toggle>
     </mat-button-toggle-group>
-  </div>
-  <div *ngIf="display === 'keyboard'">
-    <app-keyboard></app-keyboard>
-  </div>
-  <div class="mb-2" *ngIf="display === 'numpad'">
-    <app-keypad></app-keypad>
   </div>
 </div>
