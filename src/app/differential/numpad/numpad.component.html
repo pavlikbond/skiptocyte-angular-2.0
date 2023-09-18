@@ -71,10 +71,10 @@
       *ngIf="!isMobile"
     >
       <mat-button-toggle class="w-1/2" value="numpad" checked
-        >numpad</mat-button-toggle
+        ><mat-icon> dialpad</mat-icon></mat-button-toggle
       >
       <mat-button-toggle class="w-1/2" value="keyboard"
-        >keyboard</mat-button-toggle
+        ><mat-icon>keyboard</mat-icon></mat-button-toggle
       >
     </mat-button-toggle-group>
     <mat-button-toggle-group class="text-4xl" (change)="onButtonToggle($event)">
