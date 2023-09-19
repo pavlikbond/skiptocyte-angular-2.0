@@ -19,6 +19,7 @@ export class RowComponent {
 
   deleteRow() {
     this.currentPreset.rows.splice(this.i, 1);
+    this.presetService.updateRelativesAndAbsolutes();
   }
 
   onCheckboxClick() {
