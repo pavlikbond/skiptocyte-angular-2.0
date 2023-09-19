@@ -2,8 +2,8 @@
   class="flex flex-col gap-3 w-full p-3 bg-slate-900 rounded-md"
   [class.max-w-md]="display === 'numpad' || display === 'none'"
 >
-  <div class="flex gap-2">
-    <div class="flex gap-1 w-2/3">
+  <div class="grid grid-cols-3 gap-2">
+    <div class="col-span-2 flex gap-1">
       <div
         class="bg-slate-800 rounded p-2 overflow-hidden w-2/3 text-xl text-slate-100 text-center"
       >
@@ -16,24 +16,21 @@
     <button
       *ngIf="!isMobile"
       (click)="openDialog()"
-      class="flex justify-center gap-2 items-center bg-white rounded w-1/3 text-slate-900"
+      class="flex justify-center gap-2 items-center bg-white rounded text-slate-900"
     >
       <mat-icon>print</mat-icon><span class="text-xl">Print</span>
     </button>
+    <mat-button-toggle-group
+      class="text-4xl"
+      (change)="onButtonToggle($event)"
+      *ngIf="isMobile"
+    >
+      <mat-button-toggle class="w-1/2" value="+" checked>+</mat-button-toggle>
+      <mat-button-toggle class="w-1/2" value="-">-</mat-button-toggle>
+    </mat-button-toggle-group>
   </div>
   <div class="grid grid-cols-3 gap-2">
-    <!-- <div>
-      <label class="text-slate 100" for="max-wbc">Max Count</label>
-      <input
-        type="text"
-        (input)="updateMaxWbc($event)"
-        [value]="getMaxWbc()"
-        placeholder="100"
-        maxlength="8"
-      />
-    </div> -->
-
-    <mat-form-field appearance="fill" class="w-full">
+    <mat-form-field appearance="fill">
       <mat-label>Max WBC</mat-label>
       <input
         (input)="updateMaxWbc($event)"
@@ -44,7 +41,7 @@
       />
     </mat-form-field>
 
-    <mat-form-field appearance="fill" class="w-full">
+    <mat-form-field appearance="fill">
       <mat-label>WBC Count</mat-label>
       <input
         matInput
@@ -55,7 +52,7 @@
       />
     </mat-form-field>
 
-    <app-units-dropdown class="!flex-1"></app-units-dropdown>
+    <app-units-dropdown></app-units-dropdown>
   </div>
 
   <div *ngIf="display === 'keyboard'">
@@ -64,12 +61,8 @@
   <div class="mb-2" *ngIf="display === 'numpad'">
     <app-keypad></app-keypad>
   </div>
-  <div class="grid grid-cols-2 gap-2">
-    <mat-button-toggle-group
-      [(ngModel)]="display"
-      class="text-xs"
-      *ngIf="!isMobile"
-    >
+  <div class="grid grid-cols-2 gap-2" *ngIf="!isMobile">
+    <mat-button-toggle-group [(ngModel)]="display" class="text-xs">
       <mat-button-toggle class="w-1/2" value="numpad" checked
         ><mat-icon> dialpad</mat-icon></mat-button-toggle
       >

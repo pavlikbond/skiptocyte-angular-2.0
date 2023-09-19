@@ -1,15 +1,20 @@
-<div class="grid grid-cols-4 gap-2">
-  <button
-    *ngFor="let button of buttons"
-    class="text-center grid gap-2 rounded bg-black px-1 py-2 min-h-[5rem] text-white hover:scale-[1.02]"
-    [class.row-span-2]="button === '+' || button === 'Enter'"
-    [class.col-span-2]="button === '0'"
-    (click)="presetService.onNumpadClick(button)"
-  >
-    <span class="font-bold">{{ button }}</span>
-    <span
-      class="cell-name text-xs text-ellipsis overflow-hidden text-blue-300"
-      >{{ keyBindingCheck(button) }}</span
+<div
+  [ngClass]="{ 'grid-cols-4': !isMobile, 'grid-cols-3': isMobile }"
+  class="grid gap-2"
+>
+  <ng-container *ngFor="let button of buttons">
+    <button
+      *ngIf="!isMobile || !mobileInvisible.includes(button)"
+      class="text-center grid gap-2 rounded bg-black px-1 py-2 min-h-[5rem] text-white hover:scale-[1.02]"
+      [class.row-span-2]="button === '+' || button === 'Enter'"
+      [class.col-span-2]="button === '0'"
+      (click)="presetService.onNumpadClick(button)"
     >
-  </button>
+      <span class="font-bold">{{ button }}</span>
+      <span
+        class="cell-name text-xs text-ellipsis overflow-hidden text-blue-300"
+        >{{ keyBindingCheck(button) }}</span
+      >
+    </button>
+  </ng-container>
 </div>

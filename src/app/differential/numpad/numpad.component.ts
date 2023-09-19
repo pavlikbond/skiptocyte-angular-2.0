@@ -22,6 +22,9 @@ export class NumpadComponent implements OnInit {
       .observe([Breakpoints.Handset])
       .subscribe((result) => {
         this.isMobile = result.matches;
+        if (this.isMobile) {
+          this.display = 'numpad';
+        }
       });
   }
 
@@ -68,28 +71,6 @@ export class NumpadComponent implements OnInit {
     return this.presetService.getCurrentCount();
   }
 
-  private getRow(key: string) {
-    return this.presetService.currentPreset?.rows.find((row: Row) => {
-      return row.key == key;
-    });
-  }
-
-  //listenes for key down events, flashes animation
-  @HostListener('window:keydown', ['$event'])
-  async onKeyDown(event: any) {
-    if (event.target.nodeName === 'INPUT') {
-      return;
-    }
-    this.updateAllCounts(event.key);
-  }
-
-  updateAllCounts(key: string) {
-    let row = this.getRow(key);
-    if (row) {
-      this.presetService.adjustCount(row);
-    }
-  }
-
   openDialog() {
     //only open if there is a preset selected
     if (this.presetService.currentPreset) {
@@ -99,5 +80,18 @@ export class NumpadComponent implements OnInit {
 
   onButtonToggle(event: any) {
     this.presetService.increase = event.value === '+';
+  }
+  //listenes for key down events, flashes animation
+  @HostListener('window:keydown', ['$event'])
+  async onKeyDown(event: any) {
+    if (event.target.nodeName === 'INPUT') {
+      return;
+    }
+    let row = this.presetService.currentPreset?.rows.find((row: Row) => {
+      return row.key == event.key;
+    });
+    if (row) {
+      this.presetService.adjustCount(row);
+    }
   }
 }

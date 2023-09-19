@@ -1,12 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PresetService } from 'src/app/services/preset.service';
-
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 @Component({
   selector: 'app-keypad',
   templateUrl: './keypad.component.html',
   styleUrls: ['./keypad.component.scss'],
 })
-export class KeypadComponent {
+export class KeypadComponent implements OnInit {
+  isMobile: boolean = false;
   buttons: string[] = [
     'NumLock',
     '/',
@@ -26,7 +27,18 @@ export class KeypadComponent {
     '0',
     '.',
   ];
-  constructor(public presetService: PresetService) {}
+  mobileInvisible: string[] = ['NumLock', 'Enter', '+'];
+  constructor(
+    public presetService: PresetService,
+    private breakpointObserver: BreakpointObserver
+  ) {}
+  ngOnInit(): void {
+    this.breakpointObserver
+      .observe([Breakpoints.Handset])
+      .subscribe((result) => {
+        this.isMobile = result.matches;
+      });
+  }
 
   keyBindingCheck(key: string) {
     const row = this.presetService.currentPreset?.rows.find((row) => {
