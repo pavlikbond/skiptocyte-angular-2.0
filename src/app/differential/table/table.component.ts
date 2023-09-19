@@ -27,7 +27,7 @@ export class TableComponent {
   ) {
     this.presetService.currentPreset$.subscribe((preset) => {
       //this.currentPreset = preset;
-      if (preset?.name) {
+      if (Object.keys(preset).length > 0) {
         this.initialLoad = true;
       }
     });
