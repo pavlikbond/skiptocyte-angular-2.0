@@ -4,6 +4,7 @@
       class="kbd kbd-lg grid px-1 text-center max-w-[45px] max-h-[45px]"
       *ngFor="let key of row"
       (click)="presetService.onNumpadClick(key)"
+      [class.flash]="key === pressedKey"
     >
       <span>{{ key }}</span
       ><span class="text-xs overflow-hidden whitespace-nowrap">

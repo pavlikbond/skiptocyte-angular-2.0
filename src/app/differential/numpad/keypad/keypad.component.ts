@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { PresetService } from 'src/app/services/preset.service';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 @Component({
@@ -7,6 +7,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
   styleUrls: ['./keypad.component.scss'],
 })
 export class KeypadComponent implements OnInit {
+  @Input() pressedKey: string;
   isMobile: boolean = false;
   buttons: string[] = [
     'NumLock',

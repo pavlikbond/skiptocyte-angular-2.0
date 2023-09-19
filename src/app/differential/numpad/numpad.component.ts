@@ -1,6 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Preset, Row } from 'src/app/models/preset.model';
+import { Row } from 'src/app/models/preset.model';
 import { PresetService } from 'src/app/services/preset.service';
 import { PrintDialogComponent } from './print-dialog/print-dialog.component';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
@@ -12,6 +12,8 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 export class NumpadComponent implements OnInit {
   isMobile: boolean = false;
   display: string = 'numpad';
+  pressedKey: string = '';
+
   constructor(
     private breakpointObserver: BreakpointObserver,
     private presetService: PresetService,
@@ -91,6 +93,10 @@ export class NumpadComponent implements OnInit {
       return row.key == event.key;
     });
     if (row) {
+      this.pressedKey = event.key;
+      setTimeout(() => {
+        this.pressedKey = '';
+      }, 100);
       this.presetService.adjustCount(row);
     }
   }

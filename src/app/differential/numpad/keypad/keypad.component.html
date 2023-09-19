@@ -8,6 +8,7 @@
       class="text-center grid gap-2 rounded bg-black px-1 py-2 min-h-[5rem] text-white hover:scale-[1.02]"
       [class.row-span-2]="button === '+' || button === 'Enter'"
       [class.col-span-2]="button === '0'"
+      [class.flash]="button === pressedKey"
       (click)="presetService.onNumpadClick(button)"
     >
       <span class="font-bold">{{ button }}</span>

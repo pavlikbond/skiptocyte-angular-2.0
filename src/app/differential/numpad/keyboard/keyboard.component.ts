@@ -1,5 +1,5 @@
 import { PresetService } from 'src/app/services/preset.service';
-import { Component } from '@angular/core';
+import { Component,Input } from '@angular/core';
 
 @Component({
   selector: 'app-keyboard',
@@ -7,6 +7,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./keyboard.component.scss'],
 })
 export class KeyboardComponent {
+  @Input() pressedKey: string;
   rows = [
     ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']'],
     ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', "'"],

@@ -1,0 +1,15 @@
+@keyframes flash {
+  0% {
+    background-color: white;
+  }
+  50% {
+    background-color: black;
+  }
+  100% {
+    background-color: white;
+  }
+}
+
+.flash {
+  animation: flash 300ms ease-in-out;
+}

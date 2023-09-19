@@ -1,7 +1,7 @@
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Preset } from 'src/app/models/preset.model';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { from, Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { convertPresetsForDb } from '../models/preset-utils';
 import { map } from 'rxjs/operators';

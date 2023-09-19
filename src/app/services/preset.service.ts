@@ -55,6 +55,10 @@ export class PresetService {
       row.count--;
     }
     this.updateRelativesAndAbsolutes();
+    currentCount = this.getCurrentCount();
+    if (this.increase && currentCount >= this.currentPreset.maxWBC) {
+      this.settings.playSound('max');
+    }
   }
 
   getCurrentCount() {
@@ -66,11 +70,6 @@ export class PresetService {
   updateRelativesAndAbsolutes() {
     const currentCount: number = this.getCurrentCount();
     const exp = 10 ** this.maxDecimals;
-    if (this.increase && currentCount >= this.currentPreset.maxWBC) {
-      console.log('maxed out');
-
-      this.settings.playSound('max');
-    }
     //legit don't know how it works exactly, but it rounds relative and absolute
     for (const row of this.currentPreset.rows) {
       let num = (!row.ignore ? row.count / currentCount : 0) || 0;

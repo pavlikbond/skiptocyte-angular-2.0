@@ -56,10 +56,10 @@
   </div>
 
   <div *ngIf="display === 'keyboard'">
-    <app-keyboard></app-keyboard>
+    <app-keyboard [pressedKey]="pressedKey"></app-keyboard>
   </div>
   <div class="mb-2" *ngIf="display === 'numpad'">
-    <app-keypad></app-keypad>
+    <app-keypad [pressedKey]="pressedKey"></app-keypad>
   </div>
   <div class="grid grid-cols-2 gap-2" *ngIf="!isMobile">
     <mat-button-toggle-group [(ngModel)]="display" class="text-xs">
