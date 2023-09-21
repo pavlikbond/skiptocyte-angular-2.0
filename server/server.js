@@ -1,8 +1,19 @@
-var admin = require("firebase-admin");
+const admin = require("firebase-admin");
 const express = require("express");
-
-var serviceAccount = require("./serviceAccountKey.json");
+const cors = require("cors");
+const { connect } = require("@planetscale/database");
+const serviceAccount = require("./serviceAccountKey.json"); //access to firebase
+const env = require("dotenv").config();
 const app = express();
+app.use(cors());
+
+const connection = connect({
+  host: process.env["DATABASE_URL"],
+  username: process.env["DATABASE_USERNAME"],
+  password: process.env["DATABASE_PASSWORD"],
+});
+
+// Initialize Firebase
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: "https://skiptocyte.firebaseio.com",
