@@ -6,9 +6,8 @@ generator client {
 }
 
 datasource db {
-  provider     = "mysql"
-  url          = env("DATABASE_URL")
-  relationMode = "prisma"
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -16,6 +15,29 @@ model User {
   firebaseId String   @unique
   email      String   @unique
   name       String?
+  stripeId   String?
+  stripeLink String?
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
+  presets    CBC[]
+}
+
+model CBC {
+  id     Int    @id @default(autoincrement())
+  name   String
+  maxWBC Int
+  rows   Row[]
+  userId Int // Add a foreign key to reference the User model
+  user   User   @relation(fields: [userId], references: [id])
+}
+
+model Row {
+  id       Int     @id @default(autoincrement())
+  ignore   Boolean
+  cell     String
+  key      String
+  relative Float?
+  absolute Float?
+  CBC      CBC     @relation(fields: [CBCId], references: [id])
+  CBCId    Int
 }
