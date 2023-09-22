@@ -1,22 +1,29 @@
 const express = require("express");
-const cors = require("cors");
-const { connect } = require("@planetscale/database");
-const dotenv = require("dotenv");
-const userRoutes = require("./routes/userRoutes"); // Import userRoutes module
+const admin = require("firebase-admin"); // Import Firebase Admin from server.ts
 
-const app = express();
-app.use(cors());
+// Create a router instance instead of a new express app
+const router = express.Router();
 
-const connection = connect({
-  host: process.env.DATABASE_URL,
-  username: process.env.DATABASE_USERNAME,
-  password: process.env.DATABASE_PASSWORD,
+// Define a route to fetch a user by user ID
+router.get("/:userId", async (req, res) => {
+  const userId = req.params.userId;
+  console.log(userId);
+  try {
+    const userDoc = await admin
+      .firestore()
+      .collection("users")
+      .doc(userId)
+      .get();
+    if (!userDoc.exists) {
+      res.status(404).json({ error: "User not found" });
+    } else {
+      const userData = userDoc.data();
+      res.json(userData);
+    }
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
 });
 
-// Use the userRoutes for the "/api/user" route
-app.use("/api/user", userRoutes);
-
-const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+module.exports = router;

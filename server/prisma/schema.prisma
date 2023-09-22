@@ -13,7 +13,7 @@ datasource db {
 model User {
   id         Int      @id @default(autoincrement())
   firebaseId String   @unique
-  email      String   @unique
+  email      String?  @unique
   name       String?
   stripeId   String?
   stripeLink String?
