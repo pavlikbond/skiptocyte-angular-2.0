@@ -1,14 +1,15 @@
-const admin = require('firebase-admin');
-const express = require('express');
-const cors = require('cors');
+import admin from 'firebase-admin';
+import express from 'express';
+import cors from 'cors';
 const serviceAccount = require('./serviceAccountKey.json'); // Access to Firebase
-const env = require('dotenv').config();
 const app = express();
+import dotenv from 'dotenv';
+const env = dotenv.config();
 
 // Import userRoutes module
-const userRoutes = require('./routes/userRoutes');
-
-app.use(cors());
+import userRoutes from './routes/userRoutes';
+import stripeRoutes from './routes/stripeRoutes';
+import stripeHooks from './hooks/stripeHooks';
 
 // Initialize Firebase
 admin.initializeApp({
@@ -16,8 +17,14 @@ admin.initializeApp({
   databaseURL: 'https://skiptocyte.firebaseio.com',
 });
 
+app.use(cors());
+
 // Use the userRoutes router for the '/user' endpoint
+app.use('/api/stripehooks', stripeHooks);
+app.use(express.json());
 app.use('/api/user', userRoutes);
+app.use('/api/trial', userRoutes);
+app.use('/api/checkout', stripeRoutes);
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {

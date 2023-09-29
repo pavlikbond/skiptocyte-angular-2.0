@@ -9,7 +9,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { ErrorComponent } from './error/error.component';
-
+import { PricingV2Component } from './pricing-v2/pricing-v2.component';
 const routes: Routes = [
   {
     path: '',
@@ -23,10 +23,10 @@ const routes: Routes = [
     path: 'contact',
     component: ContactComponent,
   },
-  // {
-  //   path: 'pricing',
-  //   component: PricingComponent,
-  // },
+  {
+    path: 'pricing',
+    component: PricingV2Component,
+  },
   {
     path: 'login',
     component: LoginComponent,
