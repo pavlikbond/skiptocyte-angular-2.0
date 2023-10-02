@@ -1,24 +1,36 @@
-import { PrismaClient } from '@prisma/client';
-const prisma = new PrismaClient();
+import admin from 'firebase-admin';
+import dotenv from 'dotenv';
+const env = dotenv.config();
+const serviceAccount = require('./serviceAccountKey.json');
 
-async function main() {
-  //   const user = await prisma.user.create({
-  //     data: {
-  //       name: 'Alice',
-  //       email: 'test@test.com',
-  //       firebaseId: Date.now().toString(),
-  //     },
-  //   });
-  //get all users
-  //const users = await prisma.user.findMany();
-  //create CBC and associate with user
-}
-main()
-  .then(async () => {
-    await prisma.$disconnect();
-  })
-  .catch(async (e) => {
-    console.error(e);
-    await prisma.$disconnect();
-    process.exit(1);
-  });
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: 'https://skiptocyte.firebaseio.com',
+});
+
+const main = async () => {
+  const stripeId = 'cus_OjcaPkCh1kFHlf';
+  const user = await admin
+    .firestore()
+    .collection('users')
+    .where('stripeId', '==', stripeId)
+    .limit(1)
+    .get();
+
+  if (user.empty) return console.log('no user found');
+  const userDoc = user.docs[0];
+  userDoc.ref
+    .update({
+      'subscription.status': 'bippityboppity',
+    })
+    .then(() => {
+      console.log('Subscription status updated successfully.');
+    })
+    .catch((error) => {
+      console.error('Error updating subscription status:', error);
+    });
+
+  //console.log();
+};
+
+main();
