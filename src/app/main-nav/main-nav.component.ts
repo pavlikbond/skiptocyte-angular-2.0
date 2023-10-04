@@ -18,11 +18,28 @@ export class MainNavComponent {
     );
   @ViewChild('drawer') sidenav: any;
   opened: boolean = false;
-
+  trialExpires;
   constructor(
     private breakpointObserver: BreakpointObserver,
     public user: UserService
-  ) {}
+  ) {
+    user.isTrialing$.subscribe((isTrialing) => {
+      if (isTrialing) {
+        let trialStart = user.subscription.trialStart;
+        //figure out date when trial ends
+        let trialEnd = trialStart + 30 * 24 * 60 * 60 * 1000;
+        // figure out how many hours are left in the trial
+        let hoursLeft = (trialEnd - Date.now()) / (60 * 60 * 1000);
+        //if more than 24 hours left, display the number of days left, else dispaly hours
+        if (hoursLeft > 24) {
+          let daysLeft = Math.floor(hoursLeft / 24);
+          this.trialExpires = `${daysLeft} days`;
+        } else {
+          this.trialExpires = ` ${Math.floor(hoursLeft)} hours`;
+        }
+      }
+    });
+  }
 
   onClick() {
     //this.opened = this.sidenav.opened;

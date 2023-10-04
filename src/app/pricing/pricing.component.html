@@ -42,7 +42,7 @@
     </mat-list>
     <mat-card-actions
       class="card-actions"
-      *ngIf="(user.isNotSubbed$ | async) || (user.isLoggedOut$ | async)"
+      *ngIf="!(user.isSubbed$ | async) || (user.isLoggedOut$ | async)"
     >
       <button
         class="tracking-wider"

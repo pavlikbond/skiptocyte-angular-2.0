@@ -138,8 +138,27 @@
             />
           </svg>
           <mat-menu #menu="matMenu">
-            <div matMenuContent class="userInfo">
-              <p class="text-center">{{ user.email$ | async }}</p>
+            <div matMenuContent class="p-4">
+              <p class="text-center font-bold text-xl">
+                {{ user.email$ | async }}
+              </p>
+              <p
+                *ngIf="user.isTrialing$ | async"
+                class="rounded-xl bg-red-100 shadow-inner py-2 px-3 text-red-400"
+              >
+                Trial expires in
+                <span class="font-bold">{{ trialExpires }}</span>
+              </p>
+              <button
+                class="w-full"
+                mat-raised-button
+                color="accent"
+                routerLink="/"
+                *ngIf="user.isLoggedIn$ | async"
+                (click)="logout()"
+              >
+                <mat-icon class="mr-2">exit_to_app</mat-icon>Log Out
+              </button>
             </div>
             <!-- <button
               class="font-medium text-lg"
@@ -148,16 +167,6 @@
             >
               <mat-icon>settings</mat-icon>Account Settings
             </button> -->
-            <button
-              class="logoutBtn"
-              mat-raised-button
-              color="accent"
-              routerLink="/"
-              *ngIf="user.isLoggedIn$ | async"
-              (click)="logout()"
-            >
-              <mat-icon class="mr-2">exit_to_app</mat-icon>Log Out
-            </button>
           </mat-menu>
         </div>
 

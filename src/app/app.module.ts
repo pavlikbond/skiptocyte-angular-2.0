@@ -41,6 +41,7 @@ import { MatCardModule } from '@angular/material/card';
 import { AngularFireAnalyticsModule } from '@angular/fire/compat/analytics';
 import { RowComponent } from './differential/table/row/row.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { SharedModule } from './shared/shared.module';
 import {
   AngularFireAuthModule,
   USE_EMULATOR as USE_AUTH_EMULATOR,
@@ -125,6 +126,7 @@ import { PricingV2Component } from './pricing-v2/pricing-v2.component';
     MatCardModule,
     MatSnackBarModule,
     MatButtonToggleModule,
+    SharedModule,
   ],
   providers: [
     // {
