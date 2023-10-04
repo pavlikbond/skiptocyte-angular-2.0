@@ -1,0 +1,3 @@
+stripe listen --forward-to localhost:4000/api/stripehooks
+stripe trigger customer.subscription.created
+stripe trigger invoice.paid
