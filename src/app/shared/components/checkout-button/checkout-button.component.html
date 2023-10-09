@@ -1,1 +1,10 @@
-<p>checkout-button works!</p>
+<button mat-raised-button class="bg-green-300" (click)="onSubscribe()">
+  <div class="flex gap-2 justify-center items-center">
+    <mat-spinner
+      diameter="25"
+      *ngIf="loadingCheckoutSession"
+      color="accent"
+    ></mat-spinner>
+    <span>{{ text || "checkout" }}</span>
+  </div>
+</button>

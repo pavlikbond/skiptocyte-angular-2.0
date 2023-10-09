@@ -138,7 +138,7 @@
             />
           </svg>
           <mat-menu #menu="matMenu">
-            <div matMenuContent class="p-4">
+            <div matMenuContent class="p-4 grid gap-2">
               <p class="text-center font-bold text-xl">
                 {{ user.email$ | async }}
               </p>
@@ -149,6 +149,7 @@
                 Trial expires in
                 <span class="font-bold">{{ trialExpires }}</span>
               </p>
+              <app-checkout-button text="upgrade"></app-checkout-button>
               <button
                 class="w-full"
                 mat-raised-button
