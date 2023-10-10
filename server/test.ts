@@ -10,14 +10,14 @@ admin.initializeApp({
 
 const main = async () => {
   var currentDate = new Date();
-  var daysAgo = 29.5;
+  var daysAgo = 30;
 
   // Convert days to milliseconds (1 day = 24 hours = 24 * 60 * 60 * 1000 milliseconds)
   var millisecondsAgo = daysAgo * 24 * 60 * 60 * 1000;
-
+  millisecondsAgo -= 1000 * 120;
   // Subtract the milliseconds from the current date
   currentDate.setTime(currentDate.getTime() - millisecondsAgo);
-  const stripeId = 'cus_OjcaPkCh1kFHlf';
+  const stripeId = 'cus_On0MVcUuv6u0kk';
   const user = await admin
     .firestore()
     .collection('users')

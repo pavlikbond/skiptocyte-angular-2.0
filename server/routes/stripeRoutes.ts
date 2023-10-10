@@ -15,6 +15,16 @@ router.post('/', async (req, res) => {
   const user = await admin.auth().getUser(userId);
   if (!user) return res.status(404).send('User not found');
   const { email } = user;
+  //check the user's document to see if their email is already in the database, add if not there
+  const userDoc = await admin.firestore().collection('users').doc(userId);
+  const userData = await userDoc.get();
+  const data = userData.data();
+  if (!data.email) {
+    await userDoc.update({
+      email: email,
+    });
+  }
+
   try {
     // Create Checkout Sessions from body params.
     const session = await stripe.checkout.sessions.create({

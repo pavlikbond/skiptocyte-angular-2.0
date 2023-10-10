@@ -142,14 +142,23 @@
               <p class="text-center font-bold text-xl">
                 {{ user.email$ | async }}
               </p>
-              <p
-                *ngIf="user.isTrialing$ | async"
-                class="rounded-xl bg-red-100 shadow-inner py-2 px-3 text-red-400"
-              >
-                Trial expires in
-                <span class="font-bold">{{ trialExpires }}</span>
-              </p>
-              <app-checkout-button text="upgrade"></app-checkout-button>
+              <div class="flex gap-1">
+                <p
+                  *ngIf="user.isTrialing$ | async"
+                  class="rounded-xl bg-red-100 shadow-inner py-2 px-3 text-red-400 !m-0"
+                >
+                  <span class="">Trial expires in</span>
+                  <span class="font-bold">{{ trialExpires }}</span>
+                </p>
+                <app-checkout-button
+                  buttonClass="w-full bg-green-200"
+                  class="w-full"
+                  *ngIf="
+                    !(user.isSubbed$ | async) || (user.isTrialing$ | async)
+                  "
+                  text="Upgrade"
+                ></app-checkout-button>
+              </div>
               <button
                 class="w-full"
                 mat-raised-button

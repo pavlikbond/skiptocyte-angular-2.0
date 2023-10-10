@@ -24,6 +24,8 @@ export class MainNavComponent {
     public user: UserService
   ) {
     user.isTrialing$.subscribe((isTrialing) => {
+      console.log(user.isSubbed$.value);
+
       if (isTrialing) {
         let trialStart = user.subscription.trialStart;
         //figure out date when trial ends
@@ -35,7 +37,13 @@ export class MainNavComponent {
           let daysLeft = Math.floor(hoursLeft / 24);
           this.trialExpires = `${daysLeft} days`;
         } else {
-          this.trialExpires = ` ${Math.floor(hoursLeft)} hours`;
+          if (hoursLeft > 1) {
+            this.trialExpires = ` ${Math.ceil(hoursLeft)} hours`;
+          } else {
+            //figure out how many minutes are left
+            let minutesLeft = hoursLeft * 60;
+            this.trialExpires = ` ${Math.ceil(minutesLeft)} minutes`;
+          }
         }
       }
     });

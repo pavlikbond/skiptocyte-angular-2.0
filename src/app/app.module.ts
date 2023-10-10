@@ -55,17 +55,17 @@ import {
   AngularFireFunctionsModule,
   USE_EMULATOR as USE_FUNCTIONS_EMULATOR,
 } from '@angular/fire/compat/functions';
-import { LoginComponent } from './login/login.component';
+
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
 import { DeleteDialogComponent } from './account-settings/delete-dialog/delete-dialog.component';
-import { SignupComponent } from './signup/signup.component';
 import { ErrorComponent } from './error/error.component';
 import { NewPresetComponent } from './differential/table/new-preset/new-preset.component';
 import { KeypadComponent } from './differential/numpad/keypad/keypad.component';
 import { KeyboardComponent } from './differential/numpad/keyboard/keyboard.component';
 import { UnitsDropdownComponent } from './differential/numpad/units-dropdown/units-dropdown.component';
 import { PricingV2Component } from './pricing-v2/pricing-v2.component';
-
+import { LoginComponent } from './login/login.component';
+import { SignupComponent } from './signup/signup.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -79,10 +79,8 @@ import { PricingV2Component } from './pricing-v2/pricing-v2.component';
     MainNavComponent,
     PrintDialogComponent,
     PricingComponent,
-    LoginComponent,
     AccountSettingsComponent,
     DeleteDialogComponent,
-    SignupComponent,
     ErrorComponent,
     RowComponent,
     NewPresetComponent,
@@ -90,6 +88,8 @@ import { PricingV2Component } from './pricing-v2/pricing-v2.component';
     KeyboardComponent,
     UnitsDropdownComponent,
     PricingV2Component,
+    SignupComponent,
+    LoginComponent,
   ],
   entryComponents: [SettingsDialogComponent],
   imports: [

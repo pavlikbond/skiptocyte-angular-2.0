@@ -20,7 +20,8 @@ export class PricingV2Component {
   constructor(
     private userService: UserService,
     private httpClient: HttpClient,
-    private snackBarService: SnackbarService
+    private snackBarService: SnackbarService,
+    public user: UserService
   ) {
     this.userService.email$.subscribe((email) => {
       this.email = email;

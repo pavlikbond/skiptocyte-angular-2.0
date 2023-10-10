@@ -53,6 +53,9 @@ body {
   background: rgb(65, 65, 232);
   height: 3px;
 }
+.custom-dialog-container .mat-dialog-container {
+  padding: 0;
+}
 
 .bg-grey {
   background-color: $grey;

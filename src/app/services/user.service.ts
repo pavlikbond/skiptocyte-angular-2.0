@@ -1,14 +1,14 @@
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Preset } from 'src/app/models/preset.model';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { Injectable } from '@angular/core';
+import { Observable, BehaviorSubject, Subscription } from 'rxjs';
+import { Injectable, OnDestroy } from '@angular/core';
 import { convertPresetsForDb } from '../models/preset-utils';
 import { map, switchMap, catchError, filter } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
-export class UserService {
+export class UserService implements OnDestroy {
   isLoggedIn$: Observable<boolean>;
   isLoggedOut$: Observable<boolean>;
   isSubbed$: BehaviorSubject<boolean> = new BehaviorSubject(false);
@@ -16,55 +16,58 @@ export class UserService {
   uid: string;
   uid$: Observable<string>;
   email$: Observable<string>;
-  subscription;
-  constructor(
-    private afAuth: AngularFireAuth,
-    // private presetService: PresetService,
-    private db: AngularFirestore
-  ) {
+  subscription: any;
+  private userSubscription: Subscription;
+  constructor(private afAuth: AngularFireAuth, private db: AngularFirestore) {
     this.isLoggedIn$ = afAuth.authState.pipe(map((user) => !!user));
     this.isLoggedOut$ = this.isLoggedIn$.pipe(map((loggedIn) => !loggedIn));
-    this.uid$ = afAuth.authState.pipe(
-      map((user) => user?.uid || ''),
-      filter((uid) => !!uid)
-    );
+    this.uid$ = afAuth.authState.pipe(map((user) => user?.uid || ''));
     this.email$ = afAuth.authState.pipe(map((user) => user?.email || ''));
     afAuth.authState.subscribe((user) => {
       this.uid = user?.uid;
     });
-
-    this.uid$
+    // Subscribe to user ID changes and set up Firestore listener
+    this.userSubscription = this.uid$
+      .pipe(switchMap((uid) => this.observeUserStatus(uid)))
+      .subscribe();
+  }
+  private observeUserStatus(uid: string): Observable<void> {
+    return this.db
+      .doc(`users/${uid}`)
+      .valueChanges()
       .pipe(
-        switchMap((uid) => this.db.collection('users').doc(uid).get()),
-        filter((data) => data.exists),
-        map((data) => data.data()),
-        catchError((error) => {
-          console.error('Error fetching user data:', error);
-          return [];
-        })
-      )
-      .subscribe((user) => {
-        if (user) {
-          const subscriptionStatus = user.subscription?.status;
-          if (user.subscription) {
-            this.subscription = user.subscription;
-          }
+        filter((userData) => !!userData), // Only proceed if userData is available
+        map((userData: any) => {
+          const subscriptionStatus = userData.subscription?.status;
+          if (userData.subscription) this.subscription = userData.subscription;
           if (subscriptionStatus === 'active') {
             this.isSubbed$.next(true);
             this.isTrialing$.next(false);
           } else if (subscriptionStatus === 'trialing') {
             const currentDate = Date.now();
             const thirtyDays = 30 * 24 * 60 * 60 * 1000;
-            if (currentDate - thirtyDays < user.subscription.trialStart) {
+            if (currentDate - thirtyDays < userData.subscription.trialStart) {
               this.isSubbed$.next(true);
               this.isTrialing$.next(true);
             } else {
               this.isSubbed$.next(false);
               this.isTrialing$.next(false);
             }
+          } else {
+            this.isSubbed$.next(false);
+            this.isTrialing$.next(false);
           }
-        }
-      });
+        }),
+        catchError((error) => {
+          console.error('Error fetching user data:', error);
+          return [];
+        })
+      );
+  }
+
+  ngOnDestroy() {
+    // Unsubscribe from the Firestore listener to prevent memory leaks
+    this.userSubscription.unsubscribe();
   }
 
   logout() {

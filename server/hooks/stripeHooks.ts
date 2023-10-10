@@ -32,7 +32,7 @@ router.post(
         try {
           const db = admin.firestore();
           const customer = event.data?.object || {};
-          const customerEmail = customer.email || 'test7@test.com';
+          const customerEmail = customer.email;
           const customerId = customer.id;
           const { uid } = await admin.auth().getUserByEmail(customerEmail);
           const userRef = db.collection('users').doc(uid);
@@ -103,7 +103,7 @@ router.post(
           console.log('invoicePaid', invoicePaid);
           const stripeId = invoicePaid.customer;
           //find the customer in firebase
-          const userQuerySnapshot = await admin
+          let userQuerySnapshot = await admin
             .firestore()
             .collection('users')
             .where('stripeId', '==', stripeId)
@@ -111,15 +111,33 @@ router.post(
             .get();
 
           if (userQuerySnapshot.empty) {
-            console.log('No matching documents.');
-            return response
-              .status(500)
-              .json({ error: 'Internal server error' });
+            //try to look up the firestore user by email
+            let email = invoicePaid.customer_email;
+            try {
+              userQuerySnapshot = await admin
+                .firestore()
+                .collection('users')
+                .where('email', '==', email)
+                .limit(1)
+                .get();
+            } catch (error) {
+              return response
+                .status(500)
+                .json({ error: 'Internal server error' });
+            }
+            if (userQuerySnapshot.empty) {
+              console.log('No matching documents.');
+              return response
+                .status(500)
+                .json({ error: 'Internal server error' });
+            }
           }
 
           const userDoc = userQuerySnapshot.docs[0];
           await userDoc.ref.update({
             'subscription.status': 'active',
+            'subscription.subId': invoicePaid.subscription,
+            'subscription.start': Date.now(),
           });
           console.log('Subscription status updated successfully.');
         } catch (error) {

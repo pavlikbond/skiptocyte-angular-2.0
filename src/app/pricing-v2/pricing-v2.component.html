@@ -1,5 +1,5 @@
 <div class="mt-12 mx-auto w-fit flex gap-2">
-  <button mat-raised-button (click)="onSubscribe()">
+  <!-- <button mat-raised-button (click)="onSubscribe()">
     <div class="flex gap-2 justify-center items-center">
       <mat-spinner
         diameter="25"
@@ -8,7 +8,12 @@
       ></mat-spinner>
       <span>Checkout</span>
     </div>
-  </button>
+  </button> -->
+  <app-checkout-button
+    buttonClass="bg-green-200"
+    *ngIf="!(user.isSubbed$ | async) || (user.isTrialing$ | async)"
+    text="Upgrade"
+  ></app-checkout-button>
   <button mat-raised-button (click)="onStartTrial()">
     <div class="flex gap-2 justify-center items-center">
       <mat-spinner
