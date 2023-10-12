@@ -13,12 +13,12 @@
         <span class="font-medium">{{ feature.feature }}</span></mat-list-item
       >
     </mat-list>
-    <mat-card-actions class="card-actions" *ngIf="user.isLoggedOut$ | async">
+    <mat-card-actions class="card-actions" *ngIf="!(user.isLoggedIn$ | async)">
       <button
         mat-flat-button
         color="primary"
         routerLink="/login"
-        *ngIf="user.isLoggedOut$ | async"
+        *ngIf="!(user.isLoggedIn$ | async)"
       >
         <mat-icon class="mr-2">person_add</mat-icon>Sign Up
       </button></mat-card-actions
@@ -42,7 +42,7 @@
     </mat-list>
     <mat-card-actions
       class="card-actions"
-      *ngIf="!(user.isSubbed$ | async) || (user.isLoggedOut$ | async)"
+      *ngIf="!(user.isSubbed$ | async) || !(user.isLoggedIn$ | async)"
     >
       <button
         class="tracking-wider"

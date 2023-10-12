@@ -4,8 +4,6 @@ import { HttpClient } from '@angular/common/http';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
-import { MatDialog } from '@angular/material/dialog';
-import { SigninDialogComponent } from '../signin-dialog/signin-dialog.component';
 @Component({
   selector: 'app-checkout-button',
   templateUrl: './checkout-button.component.html',
@@ -25,8 +23,7 @@ export class CheckoutButtonComponent {
   constructor(
     private userService: UserService,
     private httpClient: HttpClient,
-    private snackBarService: SnackbarService,
-    private dialog: MatDialog
+    private snackBarService: SnackbarService
   ) {
     this.userService.email$.subscribe((email) => {
       this.email = email;
@@ -34,23 +31,9 @@ export class CheckoutButtonComponent {
     this.userService.uid$.subscribe((uid) => {
       this.uid = uid;
     });
-    this.userService.isLoggedIn$.subscribe((isLoggedIn) => {
-      this.userLoggedIn = isLoggedIn;
-    });
-  }
-  openSigninDialog(): void {
-    const dialogRef = this.dialog.open(SigninDialogComponent, {
-      panelClass: 'custom-dialog-container',
-    });
   }
 
   onSubscribe() {
-    console.log('this.user.isLoggedIn$', this.userLoggedIn);
-
-    if (!this.userLoggedIn) {
-      this.openSigninDialog();
-      return;
-    }
     this.loadingCheckoutSession = true;
     let data = {
       userId: this.uid,

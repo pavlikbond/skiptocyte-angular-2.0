@@ -35,7 +35,7 @@ export class MainNavComponent {
         //if more than 24 hours left, display the number of days left, else dispaly hours
         if (hoursLeft > 24) {
           let daysLeft = Math.floor(hoursLeft / 24);
-          this.trialExpires = `${daysLeft} days`;
+          this.trialExpires = ` ${daysLeft} days`;
         } else {
           if (hoursLeft > 1) {
             this.trialExpires = ` ${Math.ceil(hoursLeft)} hours`;

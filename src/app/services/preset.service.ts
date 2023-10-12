@@ -8,6 +8,8 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { convertDbPresetsForApp } from '../models/preset-utils';
 import { AngularFireAnalytics } from '@angular/fire/compat/analytics';
+import { filter, take } from 'rxjs/operators';
+import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root',
 })
@@ -33,7 +35,8 @@ export class PresetService {
     private user: UserService,
     private db: AngularFirestore,
     private settings: SettingsService,
-    private analytics: AngularFireAnalytics
+    private analytics: AngularFireAnalytics,
+    private router: Router
   ) {
     this.getPresetsFromDb();
     this.presets = [{ name: '', maxWBC: 100, rows: [] }];
@@ -214,6 +217,27 @@ export class PresetService {
     });
     if (row) {
       this.adjustCount(row);
+    }
+  }
+  handleLoginSuccess(result) {
+    if (result.additionalUserInfo.isNewUser) {
+      this.user.isLoggedIn$.subscribe((loggedIn) => {
+        if (loggedIn) {
+          setTimeout(() => {
+            this.updatePresets()
+              .then(() => {})
+              .catch((e) => {
+                console.log(e);
+              });
+          }, 5000);
+        }
+      });
+    }
+    if (this.user.trialAfterLogin) {
+      this.user.trialAfterLogin = false;
+      this.user.startTrial();
+    } else {
+      this.router.navigateByUrl('/differential');
     }
   }
 }

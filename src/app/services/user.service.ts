@@ -5,6 +5,10 @@ import { Observable, BehaviorSubject, Subscription } from 'rxjs';
 import { Injectable, OnDestroy } from '@angular/core';
 import { convertPresetsForDb } from '../models/preset-utils';
 import { map, switchMap, catchError, filter } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { SnackbarService } from './snackbar.service';
+import { throwError } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
@@ -13,12 +17,26 @@ export class UserService implements OnDestroy {
   isLoggedOut$: Observable<boolean>;
   isSubbed$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   isTrialing$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  trialExpired$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   uid: string;
   uid$: Observable<string>;
   email$: Observable<string>;
   subscription: any;
+  trialAfterLogin: boolean;
+  loadingTrial: boolean;
   private userSubscription: Subscription;
-  constructor(private afAuth: AngularFireAuth, private db: AngularFirestore) {
+  private apiURLs = {
+    checkout: 'http://localhost:4000/api/checkout',
+    trial: 'http://localhost:4000/api/trial',
+  };
+
+  constructor(
+    private httpClient: HttpClient,
+    private afAuth: AngularFireAuth,
+    private db: AngularFirestore,
+    private router: Router,
+    private snackbarService: SnackbarService
+  ) {
     this.isLoggedIn$ = afAuth.authState.pipe(map((user) => !!user));
     this.isLoggedOut$ = this.isLoggedIn$.pipe(map((loggedIn) => !loggedIn));
     this.uid$ = afAuth.authState.pipe(map((user) => user?.uid || ''));
@@ -52,6 +70,7 @@ export class UserService implements OnDestroy {
             } else {
               this.isSubbed$.next(false);
               this.isTrialing$.next(false);
+              this.trialExpired$.next(true);
             }
           } else {
             this.isSubbed$.next(false);
@@ -77,5 +96,33 @@ export class UserService implements OnDestroy {
   updatePresets(presets: Preset[]) {
     let dbPresets = convertPresetsForDb(presets);
     return this.db.doc(`users/${this.uid}`).update({ presets: dbPresets });
+  }
+
+  startTrial() {
+    this.loadingTrial = true; // Set loadingTrial to true when starting the trial.
+
+    // Chain the observables using switchMap
+    this.uid$
+      .pipe(
+        // Filter out undefined or falsy values
+        filter((uid) => !!uid),
+        switchMap((uid) => {
+          const data = { userId: uid };
+          return this.httpClient.put(this.apiURLs.trial, data).pipe(
+            catchError((error) => {
+              this.router.navigate(['/differential']);
+              this.snackbarService.openSnackBar(
+                'An Error Has Occurred',
+                'Close'
+              );
+              return throwError(() => error);
+            })
+          );
+        })
+      )
+      .subscribe(() => {
+        this.router.navigate(['/differential']);
+        this.snackbarService.openSnackBar('Trial Started', 'Close');
+      });
   }
 }

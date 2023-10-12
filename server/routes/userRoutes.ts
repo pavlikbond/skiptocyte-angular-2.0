@@ -3,38 +3,18 @@ import admin from 'firebase-admin'; // Import Firebase Admin from server.ts
 
 // Create a router instance instead of a new express app
 const router = express.Router();
-
-// Define a route to fetch a user by user ID
-router.get('/:userId', async (req, res) => {
-  const userId = req.params.userId;
-  console.log(userId);
-  try {
-    const userDoc = await admin
-      .firestore()
-      .collection('users')
-      .doc(userId)
-      .get();
-    if (!userDoc.exists) {
-      res.status(404).json({ error: 'User not found' });
-    } else {
-      const userData = userDoc.data();
-      res.json(userData);
-    }
-  } catch (error) {
-    console.error('Error fetching user:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
 //router which updates the user's trial status
 router.put('/', async (req, res) => {
   console.log('trying to update trial status');
 
   const { userId } = req.body;
+  if (!userId) return res.status(400).json({ error: 'Missing userId' });
   //verify that user exists
   const user = await admin.auth().getUser(userId);
   if (!user) return res.status(404).send('User not found');
 
   try {
+    console.log('userID', userId);
     const userDoc = await admin.firestore().collection('users').doc(userId);
     //get the data from the user's document and make sure they are not already trialing
     const userData = await userDoc.get();
@@ -43,9 +23,9 @@ router.put('/', async (req, res) => {
     if (data.subscription?.trialed) {
       let message = 'User has already trialed';
       console.log(message);
-      return res.status(200).json({ message: message });
+      return res.status(409).json({ message: message });
     }
-
+    //throw new Error('User has not trialed yet');
     await userDoc.update({
       subscription: {
         status: 'trialing',

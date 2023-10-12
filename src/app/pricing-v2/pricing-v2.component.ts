@@ -18,10 +18,9 @@ export class PricingV2Component {
     trial: 'http://localhost:4000/api/trial',
   };
   constructor(
-    private userService: UserService,
+    public userService: UserService,
     private httpClient: HttpClient,
-    private snackBarService: SnackbarService,
-    public user: UserService
+    private snackBarService: SnackbarService
   ) {
     this.userService.email$.subscribe((email) => {
       this.email = email;

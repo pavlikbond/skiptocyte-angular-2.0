@@ -2,11 +2,9 @@ import { PresetService } from './../services/preset.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import * as firebaseui from 'firebaseui';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { Router } from '@angular/router';
 import firebase from 'firebase/compat/app';
 import EmailAuthProvider = firebase.auth.EmailAuthProvider;
 import GoogleAuthProvider = firebase.auth.GoogleAuthProvider;
-import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -17,9 +15,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   ui: firebaseui.auth.AuthUI;
   constructor(
     private afAuth: AngularFireAuth,
-    private router: Router,
-    private presetService: PresetService,
-    private user: UserService
+    private presetService: PresetService
   ) {}
 
   ngOnInit(): void {
@@ -70,22 +66,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.ui.delete();
   }
   onLoginSuccessful(result) {
-    //if logged in successfully, wait for is logged in to be true, then update presets
-    //wait for 5 seconds to allow for firebase to update the user
-    if (result.additionalUserInfo.isNewUser) {
-      this.user.isLoggedIn$.subscribe((loggedIn) => {
-        if (loggedIn) {
-          setTimeout(() => {
-            this.presetService
-              .updatePresets()
-              .then(() => {})
-              .catch((e) => {
-                console.log(e);
-              });
-          }, 5000);
-        }
-      });
-    }
-    this.router.navigateByUrl('/differential');
+    this.presetService.handleLoginSuccess(result);
   }
 }
