@@ -20,9 +20,9 @@ export class UserService implements OnDestroy {
   trialExpired$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   uid: string;
   uid$: Observable<string>;
-  email$: Observable<string>;
+  email$ = new BehaviorSubject<string>('');
   subscription: any;
-  trialAfterLogin: boolean;
+  trialAfterLogin$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   loadingTrial: boolean;
   private userSubscription: Subscription;
   private apiURLs = {
@@ -40,16 +40,45 @@ export class UserService implements OnDestroy {
     this.isLoggedIn$ = afAuth.authState.pipe(map((user) => !!user));
     this.isLoggedOut$ = this.isLoggedIn$.pipe(map((loggedIn) => !loggedIn));
     this.uid$ = afAuth.authState.pipe(map((user) => user?.uid || ''));
-    this.email$ = afAuth.authState.pipe(map((user) => user?.email || ''));
-    afAuth.authState.subscribe((user) => {
-      this.uid = user?.uid;
+
+    this.initAuthStateListener();
+  }
+
+  private initAuthStateListener() {
+    this.afAuth.authState.subscribe((user) => {
+      if (user) {
+        this.uid = user?.uid;
+        this.email$.next(user?.email || '');
+        this.onUserSignIn(); // Call the method to set up the Firestore listener
+      } else {
+        // User is logged out, handle the logout logic here
+        // For example, clear user-related data or unsubscribe from Firestore listener
+        this.uid = ''; // Clear user's UID
+        this.email$.next(''); // Clear user's email
+        this.unsubscribeFromFirestore(); // Unsubscribe from Firestore listener
+      }
     });
+  }
+  private unsubscribeFromFirestore() {
+    if (this.userSubscription) {
+      this.userSubscription.unsubscribe();
+    }
+  }
+
+  onUserSignIn() {
+    // Implement your logic for user sign-in, e.g., setting up Firestore listeners
+    // Unsubscribe from Firestore listener to avoid duplicates
+    this.unsubscribeFromFirestore();
+
     // Subscribe to user ID changes and set up Firestore listener
     this.userSubscription = this.uid$
       .pipe(switchMap((uid) => this.observeUserStatus(uid)))
       .subscribe();
   }
+
   private observeUserStatus(uid: string): Observable<void> {
+    console.log('Observing user status', uid);
+
     return this.db
       .doc(`users/${uid}`)
       .valueChanges()
@@ -93,9 +122,18 @@ export class UserService implements OnDestroy {
     this.afAuth.signOut();
   }
 
-  updatePresets(presets: Preset[]) {
+  async updatePresets(presets: Preset[], signedUp = false) {
     let dbPresets = convertPresetsForDb(presets);
-    return this.db.doc(`users/${this.uid}`).update({ presets: dbPresets });
+    let updateDoc = {
+      presets: dbPresets,
+    };
+    signedUp ? (updateDoc['email'] = this.email$.value) : null;
+    try {
+      await this.db.doc(`users/${this.uid}`).set(updateDoc, { merge: true });
+      console.log('Document successfully set or updated.');
+    } catch (error) {
+      console.error('Error setting or updating document:', error);
+    }
   }
 
   startTrial() {

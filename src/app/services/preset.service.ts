@@ -136,6 +136,8 @@ export class PresetService {
   }
 
   updatePresets() {
+    console.log('updating presets', this.loggedIn);
+
     if (this.loggedIn) {
       return this.user.updatePresets(this.presets);
     }
@@ -223,18 +225,12 @@ export class PresetService {
     if (result.additionalUserInfo.isNewUser) {
       this.user.isLoggedIn$.subscribe((loggedIn) => {
         if (loggedIn) {
-          setTimeout(() => {
-            this.updatePresets()
-              .then(() => {})
-              .catch((e) => {
-                console.log(e);
-              });
-          }, 5000);
+          this.user.updatePresets(this.presets, true);
         }
       });
     }
-    if (this.user.trialAfterLogin) {
-      this.user.trialAfterLogin = false;
+    if (this.user.trialAfterLogin$.value) {
+      this.user.trialAfterLogin$.next(false);
       this.user.startTrial();
     } else {
       this.router.navigateByUrl('/differential');

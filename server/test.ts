@@ -17,11 +17,11 @@ const main = async () => {
   millisecondsAgo -= 1000 * 120;
   // Subtract the milliseconds from the current date
   currentDate.setTime(currentDate.getTime() - millisecondsAgo);
-  const stripeId = 'cus_On0MVcUuv6u0kk';
+  const stripeId = 'test@test.com';
   const user = await admin
     .firestore()
     .collection('users')
-    .where('stripeId', '==', stripeId)
+    .where('email', '==', stripeId)
     .limit(1)
     .get();
 
