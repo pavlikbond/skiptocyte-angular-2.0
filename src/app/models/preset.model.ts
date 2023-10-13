@@ -25,7 +25,7 @@ interface dbRow {
   cell: string;
 }
 
-export interface legacyPreset {
+export interface LegacyPreset {
   id: number;
   keyCells: [string, string, string][];
   maxWBC: number;

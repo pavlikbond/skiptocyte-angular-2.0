@@ -56,7 +56,7 @@
     <span class="w-[24px]"></span>
   </div>
   <div class="table-rows-container">
-    <ng-container *ngIf="!initialLoad">
+    <ng-container *ngIf="!presetService.initialLoad">
       <div
         *ngFor="let _ of [].constructor(5)"
         class="w-full h-10 animate-pulse rounded bg-slate-600 mb-1"
@@ -77,7 +77,7 @@
       ></app-row>
     </div>
     <button
-      *ngIf="initialLoad"
+      *ngIf="presetService.initialLoad"
       (click)="presetService.addRow()"
       mat-raised-button
       class="bg-slate-800 w-full !mt-2 text-slate-200 hover:bg-slate-700 hover:text-slate-50"

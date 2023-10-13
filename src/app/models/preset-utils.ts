@@ -1,4 +1,4 @@
-import { dbPreset, Preset } from './preset.model';
+import { dbPreset, Preset, LegacyPreset } from './preset.model';
 //bascially just removing count, relative, absolute from each row of each preset
 export function convertPresetsForDb(presets: Preset[]): dbPreset[] {
   return presets.map((preset) => ({
@@ -23,4 +23,23 @@ export function convertDbPresetsForApp(presets: dbPreset[]): Preset[] {
       absolute: 0,
     })),
   }));
+}
+
+export function convertLegacyToNew(legacyPresets: LegacyPreset[]): Preset[] {
+  return legacyPresets.map((legacyPreset) => {
+    return {
+      name: legacyPreset.name,
+      maxWBC: legacyPreset.maxWBC,
+      rows: legacyPreset.keyCells.map((row) => {
+        return {
+          cell: row[1],
+          count: 0,
+          ignore: row[2] === 'ignore' ? true : false,
+          relative: 0,
+          absolute: 0,
+          key: row[0],
+        };
+      }),
+    };
+  });
 }

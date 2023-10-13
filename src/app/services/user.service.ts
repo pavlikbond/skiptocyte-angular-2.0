@@ -120,6 +120,7 @@ export class UserService implements OnDestroy {
 
   logout() {
     this.afAuth.signOut();
+    this.unsubscribeFromFirestore();
   }
 
   async updatePresets(presets: Preset[], signedUp = false) {

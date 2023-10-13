@@ -1,22 +1,24 @@
-import { Row, legacyPreset } from './../models/preset.model';
+import { Row, LegacyPreset } from './../models/preset.model';
 import { SettingsService } from './settings.service';
 import { UserService } from './user.service';
 import { Injectable } from '@angular/core';
 import * as presets from '../differential/presets.json';
 import { Preset } from '../models/preset.model';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { convertDbPresetsForApp } from '../models/preset-utils';
+import {
+  convertDbPresetsForApp,
+  convertLegacyToNew,
+} from '../models/preset-utils';
 import { AngularFireAnalytics } from '@angular/fire/compat/analytics';
-import { filter, take } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { FirestoreService } from './firestore.service';
 @Injectable({
   providedIn: 'root',
 })
 export class PresetService {
+  initialLoad: boolean = false;
   presets: Preset[];
   currentPreset: Preset;
-  currentPreset$: BehaviorSubject<Preset>;
   increase: boolean = true;
   WbcCount: number = 0;
   maxDecimals: number = 3;
@@ -36,12 +38,12 @@ export class PresetService {
     private db: AngularFirestore,
     private settings: SettingsService,
     private analytics: AngularFireAnalytics,
-    private router: Router
+    private router: Router,
+    private fsService: FirestoreService
   ) {
     this.getPresetsFromDb();
     this.presets = [{ name: '', maxWBC: 100, rows: [] }];
     this.currentPreset = this.presets[0];
-    this.currentPreset$ = new BehaviorSubject(this.presets[0]);
     this.user.isLoggedIn$.subscribe((loggedIn) => {
       this.loggedIn = loggedIn;
     });
@@ -108,7 +110,8 @@ export class PresetService {
               if (data.presets) {
                 this.presets = convertDbPresetsForApp(data.presets);
                 this.currentPreset = this.presets[0];
-                this.currentPreset$.next(this.currentPreset);
+                //this.currentPreset$.next(this.currentPreset);
+                this.initialLoad = true;
               } else {
                 this.loadPresets();
               }
@@ -135,68 +138,33 @@ export class PresetService {
     } while (currentDate - date < milliseconds);
   }
 
-  updatePresets() {
-    console.log('updating presets', this.loggedIn);
-
+  async updatePresets() {
     if (this.loggedIn) {
-      return this.user.updatePresets(this.presets);
+      await this.fsService.updatePresets(this.presets, this.user.uid);
+    } else {
+      await this.fsService.updateLocalStorage(this.presets);
     }
-    //update local storage and return a promise that resolves after 1 second
-    return new Promise((resolve, reject) => {
-      this.analytics.logEvent('saved local storage');
-      try {
-        localStorage.setItem('presets', JSON.stringify(this.presets));
-        setTimeout(() => {
-          resolve('done updating local storage');
-        }, 1000);
-      } catch (error) {
-        reject('error updating local storage');
-      }
-    });
-  }
-
-  loadStandardPresets() {
-    this.presets = Array.from(presets);
-    this.currentPreset = this.presets[0];
-    this.currentPreset$.next(this.currentPreset);
   }
 
   //check local storage for preset list and update this.Presets with it
   //if no preset list in local storage, load standard presets
   loadPresets() {
-    let presetList = localStorage.getItem('presetList');
-    let presets = localStorage.getItem('presets');
+    const presetList = localStorage.getItem('presetList');
+    const presetsData = localStorage.getItem('presets');
+
     if (presetList) {
-      let legacyPresets: legacyPreset[] = JSON.parse(presetList);
-      //convert legacy presets to new presets
-      this.presets = legacyPresets.map((preset) => {
-        return {
-          name: preset.name,
-          maxWBC: preset.maxWBC,
-          rows: preset.keyCells.map((row) => {
-            return {
-              cell: row[1],
-              count: 0,
-              ignore: row[2] === 'ignore' ? true : false,
-              relative: 0,
-              absolute: 0,
-              key: row[0],
-            };
-          }),
-        };
-      });
-      //clear local storage
+      const legacyPresets: LegacyPreset[] = JSON.parse(presetList);
+      this.presets = convertLegacyToNew(legacyPresets);
       localStorage.removeItem('presetList');
-      this.currentPreset = this.presets[0];
-      this.currentPreset$.next(this.currentPreset);
-      localStorage.setItem('presets', JSON.stringify(this.presets));
-    } else if (presets) {
-      this.presets = JSON.parse(presets);
-      this.currentPreset = this.presets[0];
-      this.currentPreset$.next(this.currentPreset);
+      this.fsService.updateLocalStorage(this.presets);
+    } else if (presetsData) {
+      this.presets = convertDbPresetsForApp(JSON.parse(presetsData));
     } else {
-      this.loadStandardPresets();
+      this.presets = Array.from(presets);
     }
+
+    this.currentPreset = this.presets[0];
+    this.initialLoad = true;
   }
   createPreset(index: number = 0, name: string = 'Default', max: number = 100) {
     let newPreset: Preset = {

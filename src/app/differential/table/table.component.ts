@@ -2,11 +2,9 @@ import { UserService } from './../../services/user.service';
 import { Component } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Preset } from 'src/app/models/preset.model';
-import { NgForm } from '@angular/forms';
 import { PresetService } from 'src/app/services/preset.service';
 import { MatDialog } from '@angular/material/dialog';
 import { SettingsDialogComponent } from './settings-dialog/settings-dialog.component';
-import { SnackbarService } from 'src/app/services/snackbar.service';
 import { MatSelectChange } from '@angular/material/select';
 @Component({
   selector: 'app-table',
@@ -17,21 +15,12 @@ export class TableComponent {
   isLoading = false;
   currentPreset: Preset = this.presetService.currentPreset;
   index: string = '0';
-  initialLoad: boolean = false;
 
   constructor(
     public presetService: PresetService,
     public dialog: MatDialog,
-    public user: UserService,
-    private snackbarService: SnackbarService
-  ) {
-    this.presetService.currentPreset$.subscribe((preset) => {
-      //this.currentPreset = preset;
-      if (Object.keys(preset).length > 0) {
-        this.initialLoad = true;
-      }
-    });
-  }
+    public user: UserService
+  ) {}
 
   drop(event: CdkDragDrop<string[]>) {
     moveItemInArray(
@@ -57,17 +46,11 @@ export class TableComponent {
     if (this.isLoading) return;
     this.isLoading = true;
     let startTime = Date.now();
-    this.presetService
-      .updatePresets()
-      .then(() => {
+    this.presetService.updatePresets().then(() => {
+      setTimeout(() => {
         this.stopLoading(startTime);
-        this.snackbarService.openSnackBar('Saved Successfully');
-      })
-      .catch((e) => {
-        console.log(e);
-        this.stopLoading(startTime);
-        this.snackbarService.openSnackBar('Error Saving');
-      });
+      }, 1000);
+    });
   }
   openDialog() {
     this.dialog.open(SettingsDialogComponent);
