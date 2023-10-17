@@ -146,4 +146,15 @@ export class SettingsService {
 
     this.playSound(type);
   }
+
+  saveToLocalStorage(currentPreset, selectedUnits, WBCCount) {
+    //store the current preset in session storage
+    sessionStorage.setItem('currentPreset', JSON.stringify(currentPreset));
+    //store the print settings in session storage
+    sessionStorage.setItem('printSettings', JSON.stringify(this.printSettings));
+    //store the selected units in session storage
+    sessionStorage.setItem('selectedUnits', JSON.stringify(selectedUnits));
+    //set WBC Count to session storage
+    sessionStorage.setItem('WbcCount', JSON.stringify(WBCCount));
+  }
 }

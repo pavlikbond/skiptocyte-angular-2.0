@@ -1,29 +1,35 @@
-<div class="print-dialog">
-  <div class="print-settings-container" *ngIf="user.isSubbed$ | async">
+<div class="flex gap-4 flex-col xl:flex-row max-h-[90vh] overflow-y-auto">
+  <div class="w-full min-w-[420px]" *ngIf="user.isSubbed$ | async">
     <h2 class="text-center">Print Settings</h2>
-    <div class="all-settings">
+    <div class="">
       <div
-        class="form-fields-container mb-5"
+        class="mb-5 grid grid-cols-1 gap-2 max-h-96 overflow-y-auto p-3 rounded border-2 border-slate-500"
         cdkDropList
         (cdkDropListDropped)="drop($event)"
+        *ngIf="this.settings.printSettings.fields.length > 0"
       >
         <div
           *ngFor="let field of settings.printSettings.fields; let i = index"
           cdkDrag
-          class="form-field-row shadow-md mb-2"
+          class="h-12 rounded flex justify-between items-center bg-slate-100 border border-slate-300 shadow"
         >
-          <mat-icon cdkDragHandle class="text-gray-400 m-auto cursor-move"
+          <mat-icon cdkDragHandle class="basis-1/12 text-gray-400 cursor-move"
             >drag_indicator</mat-icon
           >
-          <span>{{ field.name }}</span>
+
+          <div
+            class="basis-4/12 truncate font-semibold text-base text-slate-700"
+          >
+            {{ field.name }}
+          </div>
           <input
             type="text"
-            class="field-value-input"
+            class="p-2 border border-slate-300 rounded basis-5/12"
             [(ngModel)]="settings.printSettings.fields[i].value"
-            maxlength="50"
+            maxlength="40"
             placeholder="Type Here"
           />
-          <button mat-button (click)="deleteFieldRow(i)">
+          <button mat-button (click)="deleteFieldRow(i)" class="basis-2/12">
             <mat-icon class="text-center text-gray-600">close</mat-icon>
           </button>
         </div>
@@ -41,8 +47,8 @@
         <div *ngIf="adding" class="flex gap-2 w-full ml-1">
           <input
             type="text"
-            class="add-field-input shadow-md"
-            placeholder="Name"
+            class="shadow border-2 border-slate-400 p-2 rounded"
+            placeholder="Label"
             [(ngModel)]="newFieldValue"
             #newFieldInput
             (keydown.enter)="addNewField()"
@@ -55,9 +61,9 @@
         </div>
       </div>
 
-      <div class="additional-settings shadow-md">
+      <div class="rounded shadow border-2 border-slate-500 p-4 my-4">
         <h2 class="text-center">Additional Settings</h2>
-        <mat-form-field class="example-full-width" appearance="fill">
+        <mat-form-field class="example-full-width" appearance="outline">
           <mat-label>Report Title</mat-label>
           <input
             matInput
@@ -68,10 +74,8 @@
             autocomplete="off"
           />
         </mat-form-field>
-        <div class="checkboxes">
-          <mat-checkbox
-            [(ngModel)]="settings.printSettings.showLabels"
-            (click)="refactor()"
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+          <mat-checkbox [(ngModel)]="settings.printSettings.showLabels"
             >Show labels</mat-checkbox
           >
           <mat-checkbox [(ngModel)]="settings.printSettings.showCell"
@@ -86,19 +90,13 @@
           <mat-checkbox [(ngModel)]="settings.printSettings.showAbsolute"
             >Show Absolute</mat-checkbox
           >
-          <mat-checkbox
-            [(ngModel)]="settings.printSettings.showUnits"
-            (click)="refactor()"
+          <mat-checkbox [(ngModel)]="settings.printSettings.showUnits"
             >Show Units</mat-checkbox
           >
-          <mat-checkbox
-            [(ngModel)]="settings.printSettings.showIgnored"
-            (click)="refactor()"
+          <mat-checkbox [(ngModel)]="settings.printSettings.showIgnored"
             >Show Ignored</mat-checkbox
           >
-          <mat-checkbox
-            [(ngModel)]="settings.printSettings.showWBC"
-            (click)="refactor()"
+          <mat-checkbox [(ngModel)]="settings.printSettings.showWBC"
             >Show WBC Count</mat-checkbox
           >
         </div>
@@ -109,172 +107,32 @@
         mat-flat-button
         color="accent"
         (click)="onSaveSettings()"
-        class="relative"
+        class="flex gap-2"
       >
-        <div class="spinner-container" *ngIf="saving">
-          <mat-spinner diameter="30"></mat-spinner>
-        </div>
-        Save Settings
+        <span *ngIf="saving" class="flex items-center gap-2"
+          ><mat-spinner diameter="25"></mat-spinner><span>Saving...</span></span
+        >
+        <span *ngIf="!saving" class="flex items-center gap-2"
+          >Save Settings</span
+        >
       </button>
     </div>
   </div>
 
-  <div class="preview-container">
+  <div class="w-full">
     <h2 class="text-center">Preview</h2>
     <!-- <iframe src="/print" frameborder="0" style="width: 100%"></iframe> -->
 
     <div
-      id="print-section"
-      class="preview-pane"
-      #previewPane
-      [ngStyle]="{ transform: 'scale(' + scale + ')' }"
+      class="border-2 border-slate-500 rounded shadow w-[550px] aspect-[8.5/11] p-6 overflow-hidden"
     >
-      <div class="preview-page" #previewPage>
-        <h2 class="title">{{ settings.printSettings.reportTitle }}</h2>
-        <div class="field-container">
-          <div
-            *ngFor="let field of settings.printSettings.fields"
-            class="field"
-          >
-            <span class="mr-2 field-name"
-              >{{ field.name }}{{ field.name ? ":" : "" }}</span
-            >
-            <span>{{ field.value }}</span>
-          </div>
-        </div>
-        <div
-          class="wbc-count"
-          *ngIf="settings.printSettings.showWBC; else elseBlock"
-        >
-          <span>WBC Count:</span>
-          <span class="ml-1">{{ count }}</span>
-          <span
-            *ngIf="settings.printSettings.showUnits"
-            [innerHTML]="'x ' + formattedUnit()"
-            class="units ml-1"
-          ></span>
-        </div>
-        <ng-template #elseBlock>
-          <div class="spacer"></div>
-        </ng-template>
-        <div class="counts-container">
-          <table class="data-table">
-            <thead *ngIf="settings.printSettings.showLabels">
-              <tr>
-                <th *ngIf="settings.printSettings.showCell" class="th">Cell</th>
-                <th *ngIf="settings.printSettings.showCount" class="th">
-                  Count
-                </th>
-                <th *ngIf="settings.printSettings.showRelative" class="th">
-                  Relative
-                </th>
-                <th *ngIf="settings.printSettings.showAbsolute" class="th">
-                  Absolute
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <ng-container *ngFor="let item of pageRows[0]">
-                <tr *ngIf="!item.ignore || settings.printSettings.showIgnored">
-                  <td *ngIf="settings.printSettings.showCell" class="td">
-                    {{ item.cell }}
-                  </td>
-                  <td
-                    *ngIf="settings.printSettings.showCount"
-                    class="text-right td"
-                  >
-                    {{ item.count }}
-                  </td>
-                  <td
-                    *ngIf="settings.printSettings.showRelative"
-                    class="text-right td"
-                  >
-                    {{ item.ignore ? "" : item.relative + " %" }}
-                  </td>
-                  <td
-                    *ngIf="settings.printSettings.showAbsolute"
-                    class="text-right td"
-                  >
-                    <span>{{ item.ignore ? "" : item.absolute }}</span>
-                    <span
-                      *ngIf="settings.printSettings.showUnits && !item.ignore"
-                      class="pl-2"
-                      [innerHTML]="formattedUnit()"
-                    ></span>
-                  </td>
-                </tr>
-              </ng-container>
-            </tbody>
-          </table>
-        </div>
+      <div class="scale-[0.6] origin-top-left">
+        <app-printable [preview]="preview"></app-printable>
       </div>
-      <ng-container *ngFor="let page of pages; let i = index">
-        <div class="page-divider"></div>
-        <div class="preview-page">
-          <table class="data-table">
-            <thead *ngIf="settings.printSettings.showLabels">
-              <tr>
-                <th *ngIf="settings.printSettings.showCell" class="th">Cell</th>
-                <th *ngIf="settings.printSettings.showCount" class="th">
-                  Count
-                </th>
-                <th *ngIf="settings.printSettings.showRelative" class="th">
-                  Relative
-                </th>
-                <th *ngIf="settings.printSettings.showAbsolute" class="th">
-                  Absolute
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <ng-container *ngFor="let item of pageRows[i + 1]">
-                <tr *ngIf="!item.ignore || settings.printSettings.showIgnored">
-                  <td *ngIf="settings.printSettings.showCell" class="td">
-                    {{ item.cell }}
-                  </td>
-                  <td
-                    *ngIf="settings.printSettings.showCount"
-                    class="text-right td"
-                  >
-                    {{ item.count }}
-                  </td>
-                  <td
-                    *ngIf="settings.printSettings.showRelative"
-                    class="text-right td"
-                  >
-                    {{ item.ignore ? "" : item.relative + " %" }}
-                  </td>
-                  <td
-                    *ngIf="settings.printSettings.showAbsolute"
-                    class="text-right td"
-                  >
-                    <span>{{ item.ignore ? "" : item.absolute }}</span>
-                    <span
-                      *ngIf="settings.printSettings.showUnits && !item.ignore"
-                      class="text-sm pl-2"
-                      [innerHTML]="formattedUnit()"
-                    ></span>
-                  </td>
-                </tr>
-              </ng-container>
-            </tbody>
-          </table>
-        </div>
-      </ng-container>
     </div>
 
-    <div class="button-container flex justify-end gap-3 mb-2">
-      <button
-        mat-flat-button
-        color="accent"
-        ngxPrint
-        printSectionId="print-section"
-        printTitle="{{ settings.printSettings.reportTitle }}"
-        [useExistingCss]="true"
-        styleSheetFile="assets/print2.css"
-      >
-        Print
-      </button>
+    <div class="button-container flex justify-end gap-3 my-2">
+      <button mat-flat-button color="accent" (click)="onPrint()">Print</button>
       <button mat-stroked-button [mat-dialog-close]="true">Cancel</button>
     </div>
   </div>

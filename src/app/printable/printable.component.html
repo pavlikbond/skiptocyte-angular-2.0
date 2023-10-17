@@ -1,0 +1,60 @@
+<div class="{{ preview ? 'w-[8.5in]' : 'max-w-[8.5in]' }} mx-auto grid gap-10">
+  <h1 class="text-center">{{ settings.reportTitle }}</h1>
+  <div class="grid grid-cols-2 gap-4" *ngIf="settings.fields.length > 0">
+    <div
+      *ngFor="let field of settings.fields"
+      class="border-b-2 border-black flex items-center gap-2 h-6"
+    >
+      <span class="font-bold w-fit inline-block whitespace-nowrap"
+        >{{ field.name }}{{ field.name ? ":" : " " }}</span
+      >
+      <span
+        class="inline-block whitespace-nowrap overflow-hidden overflow-ellipsis max-w-80"
+        >{{ field.value }}</span
+      >
+    </div>
+  </div>
+  <div *ngIf="settings.showWBC">
+    <span class="font-bold text-lg">WBC Count: </span>
+    <span class="text-xl mr-2">{{ this.WbcCount }}</span>
+    <span *ngIf="settings.showUnits" [innerHTML]="formattedUnit()"></span>
+  </div>
+
+  <table class="w-full border-collapse border border-slate-400">
+    <thead *ngIf="settings.showLabels">
+      <tr>
+        <th *ngIf="settings.showCell" class="{{ thClass }}">Cell</th>
+        <th *ngIf="settings.showCount" class="{{ thClass }}">Count</th>
+        <th *ngIf="settings.showRelative" class="{{ thClass }}">
+          <span>Relative</span>
+          <span *ngIf="settings.showUnits"> ( % )</span>
+        </th>
+        <th *ngIf="settings.showAbsolute" class="{{ thClass }}">
+          <span>Absolute</span>
+          <span
+            *ngIf="settings.showUnits"
+            [innerHTML]="formattedUnit(false)"
+          ></span>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="text-center" *ngFor="let row of preset.rows">
+        <ng-container *ngIf="!row.ignore || settings.showIgnored">
+          <td *ngIf="settings.showCell" class="{{ tdClass }}">
+            {{ row.cell }}
+          </td>
+          <td *ngIf="settings.showCount" class="{{ tdClass }}">
+            {{ row.count }}
+          </td>
+          <td *ngIf="settings.showRelative" class="{{ tdClass }}">
+            <span *ngIf="!row.ignore">{{ row.relative }}</span>
+          </td>
+          <td *ngIf="settings.showAbsolute" class="{{ tdClass }}">
+            <span *ngIf="!row.ignore">{{ row.absolute }}</span>
+          </td></ng-container
+        >
+      </tr>
+    </tbody>
+  </table>
+</div>

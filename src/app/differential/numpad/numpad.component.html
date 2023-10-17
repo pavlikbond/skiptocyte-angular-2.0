@@ -2,24 +2,33 @@
   class="flex flex-col gap-3 w-full p-3 bg-slate-900 rounded-md"
   [class.max-w-md]="display === 'numpad' || display === 'none'"
 >
-  <div class="grid grid-cols-3 gap-2">
-    <div class="col-span-2 flex gap-1">
+  <div class="grid grid-cols-2 gap-2">
+    <div class="flex gap-1">
       <div
-        class="bg-slate-800 rounded p-2 overflow-hidden w-2/3 text-xl text-slate-100 text-center"
+        class="bg-slate-800 rounded p-2 overflow-hidden w-full text-xl text-slate-100 text-center"
       >
         {{ getCurrentCount() }} / {{ getMaxWbc() }}
       </div>
-      <button mat-flat-button class="text-lg w-1/3" (click)="clearBtnHandler()">
+      <button mat-flat-button class="text-lg" (click)="clearBtnHandler()">
         <mat-icon> close icon </mat-icon>
       </button>
     </div>
-    <button
-      *ngIf="!isMobile"
-      (click)="openDialog()"
-      class="flex justify-center gap-2 items-center bg-white rounded text-slate-900"
-    >
-      <mat-icon>print</mat-icon><span class="text-xl">Print</span>
-    </button>
+    <div *ngIf="!isMobile" class="flex gap-2">
+      <button
+        (click)="onPrint()"
+        class="w-full flex justify-center gap-2 items-center bg-white rounded text-slate-900"
+      >
+        <mat-icon>print</mat-icon><span class="text-xl">Print</span>
+      </button>
+      <button
+        mat-raised-button
+        *ngIf="userService.isSubbed$ | async"
+        (click)="openDialog()"
+      >
+        <mat-icon>settings</mat-icon>
+      </button>
+    </div>
+
     <mat-button-toggle-group
       class="text-4xl"
       (change)="onButtonToggle($event)"

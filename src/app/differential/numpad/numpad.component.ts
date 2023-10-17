@@ -4,6 +4,8 @@ import { Row } from 'src/app/models/preset.model';
 import { PresetService } from 'src/app/services/preset.service';
 import { PrintDialogComponent } from './print-dialog/print-dialog.component';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { UserService } from 'src/app/services/user.service';
+import { SettingsService } from 'src/app/services/settings.service';
 @Component({
   selector: 'app-numpad',
   templateUrl: './numpad.component.html',
@@ -15,9 +17,11 @@ export class NumpadComponent implements OnInit {
   pressedKey: string = '';
 
   constructor(
+    public userService: UserService,
     private breakpointObserver: BreakpointObserver,
     private presetService: PresetService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private settingsService: SettingsService
   ) {}
   ngOnInit(): void {
     this.breakpointObserver
@@ -99,5 +103,16 @@ export class NumpadComponent implements OnInit {
       }, 100);
       this.presetService.adjustCount(row);
     }
+  }
+  onPrint() {
+    let currentPreset = this.presetService.currentPreset;
+    let selectedUnits = this.presetService.selectedUnit;
+    let WBCCount = this.presetService.WbcCount;
+    this.settingsService.saveToLocalStorage(
+      currentPreset,
+      selectedUnits,
+      WBCCount
+    );
+    window.open('/printable', '_blank');
   }
 }

@@ -10,7 +10,7 @@ admin.initializeApp({
 
 const main = async () => {
   var currentDate = new Date();
-  var daysAgo = 30;
+  var daysAgo = 28;
 
   // Convert days to milliseconds (1 day = 24 hours = 24 * 60 * 60 * 1000 milliseconds)
   var millisecondsAgo = daysAgo * 24 * 60 * 60 * 1000;
