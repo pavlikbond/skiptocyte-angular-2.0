@@ -29,7 +29,6 @@
     "@stripe/stripe-js": "^1.46.0",
     "daisyui": "^2.24.0",
     "firebaseui": "^6.0.2",
-    "ngx-print": "^1.2.1",
     "primeng": "^14.0.2",
     "rxjs": "~7.5.0",
     "tslib": "^2.4.0",

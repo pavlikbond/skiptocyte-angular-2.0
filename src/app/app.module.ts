@@ -35,7 +35,6 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { PrintDialogComponent } from './differential/numpad/print-dialog/print-dialog.component';
 import { MatInputModule } from '@angular/material/input';
-import { NgxPrintModule } from 'ngx-print';
 import { AngularFireModule } from '@angular/fire/compat';
 import { MatCardModule } from '@angular/material/card';
 import { AngularFireAnalyticsModule } from '@angular/fire/compat/analytics';
@@ -66,6 +65,9 @@ import { UnitsDropdownComponent } from './differential/numpad/units-dropdown/uni
 import { PricingV2Component } from './pricing-v2/pricing-v2.component';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
+import { AppLayoutComponent } from './app-layout/app-layout.component';
+import { PrintableLayoutComponent } from './printable-layout/printable-layout.component';
+import { PrintableComponent } from './printable/printable.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -90,6 +92,9 @@ import { SignupComponent } from './signup/signup.component';
     PricingV2Component,
     SignupComponent,
     LoginComponent,
+    AppLayoutComponent,
+    PrintableLayoutComponent,
+    PrintableComponent,
   ],
   entryComponents: [SettingsDialogComponent],
   imports: [
@@ -117,7 +122,6 @@ import { SignupComponent } from './signup/signup.component';
     MatSidenavModule,
     MatListModule,
     MatInputModule,
-    NgxPrintModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireAuthModule,
