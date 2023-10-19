@@ -17,6 +17,7 @@ export class TrialButtonComponent {
   }
 
   onStartTrial() {
+    if (this.userService.loadingTrial) return;
     if (!this.userLoggedIn) {
       //route to login
       this.userService.trialAfterLogin$.next(true);

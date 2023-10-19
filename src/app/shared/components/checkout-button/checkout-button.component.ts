@@ -34,6 +34,7 @@ export class CheckoutButtonComponent {
   }
 
   onSubscribe() {
+    if (this.loadingCheckoutSession) return;
     this.loadingCheckoutSession = true;
     let data = {
       userId: this.uid,
