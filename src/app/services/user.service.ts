@@ -1,14 +1,15 @@
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Preset } from 'src/app/models/preset.model';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { Observable, BehaviorSubject, Subscription } from 'rxjs';
+import { Observable, BehaviorSubject, Subscription, Subject } from 'rxjs';
 import { Injectable, OnDestroy } from '@angular/core';
 import { convertPresetsForDb } from '../models/preset-utils';
 import { map, switchMap, catchError, filter } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { SnackbarService } from './snackbar.service';
-import { throwError } from 'rxjs';
+import { throwError, combineLatest } from 'rxjs';
+import { ServerService } from './server.service';
 @Injectable({
   providedIn: 'root',
 })
@@ -17,7 +18,14 @@ export class UserService implements OnDestroy {
   isLoggedOut$: Observable<boolean>;
   isSubbed$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   isTrialing$: BehaviorSubject<boolean> = new BehaviorSubject(false);
-  trialExpired$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  isTrialingOrSubbed$: Observable<boolean> = combineLatest([
+    this.isSubbed$,
+    this.isTrialing$,
+  ]).pipe(map(([isSubbed, isTrialing]) => isSubbed || isTrialing));
+  showTrialBtn$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  showUpgradeBtn$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
+    false
+  );
   uid: string;
   uid$: Observable<string>;
   email$ = new BehaviorSubject<string>('');
@@ -35,11 +43,15 @@ export class UserService implements OnDestroy {
     private afAuth: AngularFireAuth,
     private db: AngularFirestore,
     private router: Router,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    private serverService: ServerService
   ) {
     this.isLoggedIn$ = afAuth.authState.pipe(map((user) => !!user));
     this.isLoggedOut$ = this.isLoggedIn$.pipe(map((loggedIn) => !loggedIn));
     this.uid$ = afAuth.authState.pipe(map((user) => user?.uid || ''));
+    this.isLoggedOut$.subscribe((value) => {
+      this.showTrialBtn$.next(value);
+    });
 
     this.initAuthStateListener();
   }
@@ -87,23 +99,25 @@ export class UserService implements OnDestroy {
         map((userData: any) => {
           const subscriptionStatus = userData.subscription?.status;
           if (userData.subscription) this.subscription = userData.subscription;
+          if (!userData.subscription?.trialed) {
+            this.showTrialBtn$.next(true);
+          }
           if (subscriptionStatus === 'active') {
             this.isSubbed$.next(true);
-            this.isTrialing$.next(false);
+          } else if (subscriptionStatus === 'expired') {
+            this.showUpgradeBtn$.next(true);
           } else if (subscriptionStatus === 'trialing') {
+            this.showUpgradeBtn$.next(true);
             const currentDate = Date.now();
             const thirtyDays = 30 * 24 * 60 * 60 * 1000;
             if (currentDate - thirtyDays < userData.subscription.trialStart) {
-              this.isSubbed$.next(true);
               this.isTrialing$.next(true);
             } else {
-              this.isSubbed$.next(false);
-              this.isTrialing$.next(false);
-              this.trialExpired$.next(true);
+              this.serverService.updateSubscriptionStatus('expired', uid);
             }
           } else {
-            this.isSubbed$.next(false);
-            this.isTrialing$.next(false);
+            //handle inactive later, but for now, just log it
+            console.log('subscription status is', subscriptionStatus);
           }
         }),
         catchError((error) => {

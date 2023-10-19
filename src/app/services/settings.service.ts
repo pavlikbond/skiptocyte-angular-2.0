@@ -2,21 +2,24 @@ import { from } from 'rxjs';
 import { UserService } from './user.service';
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { SnackbarService } from './snackbar.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SettingsService {
   trackList = [
-    { name: 'Sound 1', filePath: '../assets/Beep_1.wav' },
-    { name: 'Sound 2', filePath: '../assets/Beep_2.mp3' },
-    { name: 'Sound 3', filePath: '../assets/Beep_3.mp3' },
+    { name: 'Sound 1', filePath: 'assets/Beep_1.wav' },
+    { name: 'Sound 2', filePath: 'assets/Beep_2.mp3' },
+    { name: 'Sound 3', filePath: 'assets/Beep_3.mp3' },
   ];
   trackIndexes = { max: 1, change: 1 };
   soundSettings = {
     playMaxCount: true,
     playCountChange: false,
   };
+
+  ogSettings = {};
 
   printSettings = {
     showLabels: true,
@@ -37,7 +40,11 @@ export class SettingsService {
       { name: 'Date', value: '' },
     ],
   };
-  constructor(private db: AngularFirestore, private user: UserService) {
+  constructor(
+    private db: AngularFirestore,
+    private user: UserService,
+    private snackBar: SnackbarService
+  ) {
     this.user.uid$.subscribe((uid) => {
       if (uid) {
         this.getTableSettings();
@@ -73,6 +80,14 @@ export class SettingsService {
   }
 
   saveTableSettings() {
+    let currentSettings = {
+      soundSettings: this.soundSettings,
+      trackIndexes: this.trackIndexes,
+      trackList: this.trackList,
+    };
+    if (this.deepEqual(this.ogSettings, currentSettings)) {
+      return;
+    }
     this.db
       .doc(`users/${this.user.uid}`)
       .update({
@@ -83,7 +98,8 @@ export class SettingsService {
         },
       })
       .then(() => {
-        console.log('saved successfully');
+        this.ogSettings = structuredClone(currentSettings);
+        this.snackBar.openSnackBar('Settings saved successfully');
       })
       .catch((err) => {
         console.log(err);
@@ -104,6 +120,7 @@ export class SettingsService {
             this.trackIndexes = data.tableSettings.trackIndexes;
             this.soundSettings = data.tableSettings.soundSettings;
             //console.log('got the data', data.tableSettings);
+            this.ogSettings = structuredClone(data.tableSettings);
           }
         }
       })
@@ -111,7 +128,13 @@ export class SettingsService {
         console.log(err);
       });
   }
-
+  preloadSounds() {
+    for (const track of this.trackList) {
+      const audio = new Audio();
+      audio.src = track.filePath;
+      audio.load();
+    }
+  }
   getTrack(type: string) {
     if (type === 'max') {
       return this.trackList[this.trackIndexes.max].name;
@@ -129,8 +152,13 @@ export class SettingsService {
     let audio = new Audio();
     audio.src = this.trackList[trackIndex].filePath;
 
-    audio.load();
-    audio.play();
+    audio.addEventListener('canplaythrough', () => {
+      audio.play();
+    });
+
+    audio.addEventListener('ended', () => {
+      // Do something when audio has finished playing.
+    });
   }
 
   nextTrack(type: string) {
@@ -156,5 +184,35 @@ export class SettingsService {
     sessionStorage.setItem('selectedUnits', JSON.stringify(selectedUnits));
     //set WBC Count to session storage
     sessionStorage.setItem('WbcCount', JSON.stringify(WBCCount));
+  }
+
+  deepEqual(obj1, obj2) {
+    if (obj1 === obj2) {
+      return true;
+    }
+
+    if (
+      typeof obj1 !== 'object' ||
+      typeof obj2 !== 'object' ||
+      obj1 === null ||
+      obj2 === null
+    ) {
+      return obj1 === obj2;
+    }
+
+    const keys1 = Object.keys(obj1);
+    const keys2 = Object.keys(obj2);
+
+    if (keys1.length !== keys2.length) {
+      return false;
+    }
+
+    for (const key of keys1) {
+      if (!keys2.includes(key) || !this.deepEqual(obj1[key], obj2[key])) {
+        return false;
+      }
+    }
+
+    return true;
   }
 }

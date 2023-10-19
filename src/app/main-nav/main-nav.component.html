@@ -38,7 +38,7 @@
         mat-stroked-button
         color="accent"
         routerLink="/login"
-        *ngIf="user.isLoggedOut$ | async"
+        *ngIf="userService.isLoggedOut$ | async"
       >
         <mat-icon class="mr-2">account_circle</mat-icon>Login
       </button>
@@ -46,7 +46,7 @@
         mat-raised-button
         color="accent"
         routerLink="/signup"
-        *ngIf="user.isLoggedOut$ | async"
+        *ngIf="userService.isLoggedOut$ | async"
       >
         <mat-icon class="mr-2">person_add</mat-icon>Sign Up
       </button>
@@ -54,7 +54,7 @@
         mat-raised-button
         color="accent"
         routerLink="/"
-        *ngIf="user.isLoggedIn$ | async"
+        *ngIf="userService.isLoggedIn$ | async"
         (click)="logout()"
       >
         <mat-icon class="mr-2">exit_to_app</mat-icon>Log Out
@@ -94,7 +94,7 @@
           mat-button
           routerLink="/pricing"
           routerLinkActive="active-btn"
-          *ngIf="user.isNotSubbed$ | async"
+          *ngIf="userService.isNotSubbed$ | async"
         >
           Pricing
         </button> -->
@@ -112,7 +112,7 @@
           mat-stroked-button
           color="accent"
           routerLink="/login"
-          *ngIf="user.isLoggedOut$ | async"
+          *ngIf="userService.isLoggedOut$ | async"
         >
           <mat-icon class="mr-2">account_circle</mat-icon>Login
         </button>
@@ -120,11 +120,11 @@
           mat-raised-button
           color="accent"
           routerLink="/signup"
-          *ngIf="user.isLoggedOut$ | async"
+          *ngIf="userService.isLoggedOut$ | async"
         >
           <mat-icon class="mr-2">person_add</mat-icon>Sign Up
         </button>
-        <div [matMenuTriggerFor]="menu" *ngIf="user.isLoggedIn$ | async">
+        <div [matMenuTriggerFor]="menu" *ngIf="userService.isLoggedIn$ | async">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="currentColor"
@@ -140,11 +140,11 @@
           <mat-menu #menu="matMenu">
             <div matMenuContent class="p-4 grid gap-2">
               <p class="text-center font-bold text-xl">
-                {{ user.email$ | async }}
+                {{ userService.email$ | async }}
               </p>
               <div class="flex gap-1">
                 <p
-                  *ngIf="user.isTrialing$ | async"
+                  *ngIf="userService.isTrialing$ | async"
                   class="rounded-xl bg-red-100 shadow-inner py-2 px-3 text-red-400 !m-0"
                 >
                   <span class="">Trial expires in</span>
@@ -153,9 +153,7 @@
                 <app-checkout-button
                   buttonClass="w-full bg-green-200"
                   class="w-full"
-                  *ngIf="
-                    !(user.isSubbed$ | async) || (user.isTrialing$ | async)
-                  "
+                  *ngIf="userService.showUpgradeBtn$ | async"
                   text="Upgrade"
                 ></app-checkout-button>
               </div>
@@ -164,7 +162,7 @@
                 mat-raised-button
                 color="accent"
                 routerLink="/"
-                *ngIf="user.isLoggedIn$ | async"
+                *ngIf="userService.isLoggedIn$ | async"
                 (click)="logout()"
               >
                 <mat-icon class="mr-2">exit_to_app</mat-icon>Log Out
@@ -180,7 +178,7 @@
           </mat-menu>
         </div>
 
-        <!-- <button mat-button *ngIf="user.isLoggedOut$ | async">
+        <!-- <button mat-button *ngIf="userService.isLoggedOut$ | async">
           <mat-icon class="mr-2 hidden">person_add</mat-icon>Sign Up
         </button> -->
       </div>

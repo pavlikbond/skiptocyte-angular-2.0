@@ -15,14 +15,23 @@ export class NumpadComponent implements OnInit {
   isMobile: boolean = false;
   display: string = 'numpad';
   pressedKey: string = '';
-
+  shake: boolean = false;
   constructor(
     public userService: UserService,
     private breakpointObserver: BreakpointObserver,
-    private presetService: PresetService,
+    public presetService: PresetService,
     public dialog: MatDialog,
     private settingsService: SettingsService
-  ) {}
+  ) {
+    this.presetService.maxCountReached.subscribe((maxCountReached) => {
+      if (maxCountReached) {
+        this.shake = true;
+        setTimeout(() => {
+          this.shake = false;
+        }, 100);
+      }
+    });
+  }
   ngOnInit(): void {
     this.breakpointObserver
       .observe([Breakpoints.Handset])

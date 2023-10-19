@@ -21,7 +21,7 @@ export class CheckoutButtonComponent {
   };
 
   constructor(
-    private userService: UserService,
+    public userService: UserService,
     private httpClient: HttpClient,
     private snackBarService: SnackbarService
   ) {

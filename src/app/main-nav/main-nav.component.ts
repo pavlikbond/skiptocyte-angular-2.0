@@ -21,13 +21,11 @@ export class MainNavComponent {
   trialExpires;
   constructor(
     private breakpointObserver: BreakpointObserver,
-    public user: UserService
+    public userService: UserService
   ) {
-    user.isTrialing$.subscribe((isTrialing) => {
-      console.log(user.isSubbed$.value);
-
+    userService.isTrialing$.subscribe((isTrialing) => {
       if (isTrialing) {
-        let trialStart = user.subscription.trialStart;
+        let trialStart = userService.subscription.trialStart;
         //figure out date when trial ends
         let trialEnd = trialStart + 30 * 24 * 60 * 60 * 1000;
         // figure out how many hours are left in the trial
@@ -54,6 +52,6 @@ export class MainNavComponent {
   }
 
   logout() {
-    this.user.logout();
+    this.userService.logout();
   }
 }

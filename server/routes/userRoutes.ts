@@ -1,10 +1,10 @@
 import express from 'express';
 import admin from 'firebase-admin'; // Import Firebase Admin from server.ts
-
+import { updateSubscriptionStatus } from '../utils/databaseUtils'; // Import the updateSubscriptionStatus function from databaseUtils.ts
 // Create a router instance instead of a new express app
 const router = express.Router();
 //router which updates the user's trial status
-router.put('/', async (req, res) => {
+router.put('/trial', async (req, res) => {
   console.log('trying to update trial status');
 
   const { userId } = req.body;
@@ -41,6 +41,17 @@ router.put('/', async (req, res) => {
     console.error('Error updating user:', error);
     return res.status(500).json({ error: 'Internal server error' });
   }
+});
+
+router.put('/updateSubscriptionStatus', async (req, res) => {
+  updateSubscriptionStatus(req.body)
+    .then(() => {
+      res.status(200).send({ message: 'Subscription status updated' });
+    })
+    .catch((error) => {
+      console.error('Error updating subscription status:', error);
+      res.status(500).send(error.message);
+    });
 });
 
 export default router;

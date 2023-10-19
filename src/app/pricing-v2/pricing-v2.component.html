@@ -1,14 +1,71 @@
-<div class="mt-12 mx-auto w-fit flex gap-2">
-  <app-checkout-button
-    buttonClass="bg-green-200"
-    *ngIf="
-      (userService.trialExpired$ | async) || (userService.isTrialing$ | async)
-    "
-    text="Upgrade"
-  ></app-checkout-button>
-  <app-trial-button
-    *ngIf="
-      !(userService.isTrialing$ | async) && !(userService.trialExpired$ | async)
-    "
-  ></app-trial-button>
+<div class="container mx-auto mt-4 md:mt-12 p-4">
+  <h1 class="!text-5xl text-slate-100 font-bold !mb-8 text-center">
+    Pricing Plans
+  </h1>
+  <div class="flex gap-4 flex-col sm:flex-row justify-center">
+    <!-- Free Plan -->
+    <div class="md:w-1/2 max-w-sm bg-white rounded-lg p-8 shadow">
+      <h2 class="!text-lg font-semibold mb-2 text-slate-600 text-center">
+        Free Plan
+      </h2>
+      <h3 class="!text-6xl text-blue-500 uppercase text-center">Free</h3>
+      <ul>
+        <li
+          *ngFor="let feature of freeFeatures"
+          class="mb-2 flex items-center gap-3"
+        >
+          <mat-icon class="text-green-400">check</mat-icon>
+          <p class="tracking-wide text-slate-600 text-lg !m-0">
+            {{ feature.feature }}
+          </p>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Premium Plan -->
+    <div
+      class="md:w-1/2 max-w-sm bg-blue-400 text-white rounded-lg p-6 md:p-8 shadow text-center"
+    >
+      <h2 class="!text-lg font-semibold mb-2 text-slate-700">
+        {{ fireStore.product.name }}
+      </h2>
+      <h3 class="text-slate-200 flex gap-1 items-end justify-center">
+        <span class="text-xl self-start">$</span>
+        <span class="!text-6xl text-slate-50">{{
+          fireStore.product.price
+        }}</span>
+        <span class="text-xl">/month</span>
+      </h3>
+      <ul>
+        <li
+          *ngFor="let feature of premiumFeatures"
+          class="mb-2 flex items-center gap-3"
+        >
+          <mat-icon class="text-green-300">check</mat-icon>
+          <p class="tracking-wide text-lg text-slate-100 !m-0">
+            {{ feature.feature }}
+          </p>
+        </li>
+      </ul>
+      <p class="!my-6 text-slate-100" *ngIf="userService.showTrialBtn$ | async">
+        <span class="block text-lg text-left">Start your free trial</span>
+        <span class="italic flex items-center gap-2"
+          ><mat-icon>info</mat-icon>No payment info required</span
+        >
+      </p>
+      <div class="mx-auto w-full flex gap-2 mt-4">
+        <app-checkout-button
+          *ngIf="userService.showUpgradeBtn$ | async"
+          class="flex-1"
+          buttonClass="bg-green-200 w-full"
+          text="Upgrade"
+        ></app-checkout-button>
+        <app-trial-button
+          class="flex-1"
+          *ngIf="userService.showTrialBtn$ | async"
+        >
+        </app-trial-button>
+      </div>
+    </div>
+  </div>
 </div>

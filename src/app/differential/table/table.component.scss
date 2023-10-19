@@ -1,7 +1,5 @@
 $grey: #e5e5e5;
 
-::ng-deep .mat-form-field-wrapper {
-}
 .cdk-drag-preview {
   box-sizing: border-box;
   border-radius: 4px;
@@ -19,4 +17,11 @@ $grey: #e5e5e5;
   border: 2px dashed $grey;
   border-radius: 5px;
   height: 42px;
+}
+.grid-container {
+  display: grid;
+  grid-template-columns: 3fr 1fr 2fr 2fr;
+}
+::ng-deep .mat-checkbox-frame {
+  border-color: lightgray;
 }

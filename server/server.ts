@@ -22,8 +22,7 @@ app.use(cors());
 // Use the userRoutes router for the '/user' endpoint
 app.use('/api/stripehooks', stripeHooks);
 app.use(express.json());
-app.use('/api/user', userRoutes);
-app.use('/api/trial', userRoutes);
+app.use('/api', userRoutes);
 app.use('/api/checkout', stripeRoutes);
 
 const PORT = process.env.PORT || 4000;

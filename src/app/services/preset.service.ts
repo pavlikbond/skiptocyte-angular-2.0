@@ -12,6 +12,7 @@ import {
 import { AngularFireAnalytics } from '@angular/fire/compat/analytics';
 import { Router } from '@angular/router';
 import { FirestoreService } from './firestore.service';
+import { BehaviorSubject } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
@@ -25,6 +26,9 @@ export class PresetService {
   units = ['10^9/L', '10^6/mL', '10^3/uL'];
   selectedUnit: string = this.units[0];
   loggedIn: boolean = false;
+  maxCountReached: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
+    false
+  );
   emptyRow = {
     ignore: false,
     key: '',
@@ -51,18 +55,24 @@ export class PresetService {
 
   adjustCount(row: Row) {
     let currentCount = this.getCurrentCount();
+    let countChanged = false;
     //if setting set to increase, increment and row count
     if (this.increase && currentCount < this.currentPreset.maxWBC) {
       row.count++;
+      countChanged = true;
     }
     //if setting is decrease, decrease row count
     if (!this.increase && row.count > 0) {
       row.count--;
+      countChanged = true;
     }
     this.updateRelativesAndAbsolutes();
     currentCount = this.getCurrentCount();
     if (this.increase && currentCount >= this.currentPreset.maxWBC) {
       this.settings.playSound('max');
+      this.maxCountReached.next(true);
+    } else if (countChanged) {
+      this.settings.playSound('change');
     }
   }
 
